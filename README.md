@@ -7,6 +7,6 @@ including model/map-FSC as well as local FSC are being calculated.
 
 # Current State
 
-This repository provides currently only the submmission templates for the review and test.
+This repository provides currently only the submission templates for the review and test.
 
 The source code will be provided here soon and the plugin will be available over the **ChimeraX Toolshed** in the future.
