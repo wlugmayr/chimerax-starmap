@@ -9,4 +9,7 @@ including model/map-FSC as well as local FSC are being calculated.
 
 This repository provides currently only the submission templates for the review and test.
 
+Examples for the Rosetta environment are in the *examples* directory.
+
 The source code will be provided here soon and the plugin will be available over the **ChimeraX Toolshed** in the future.
+

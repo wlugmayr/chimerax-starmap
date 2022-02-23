@@ -1,0 +1,31 @@
+#%Module1.0#####################################################################
+##
+## rosetta settings for environment modules
+##
+## usage:
+##   adapt and copy this file to ~/privatemodules/rosetta
+##   load it as: module load rosetta
+##
+proc ModulesHelp { } {
+        puts stderr "\tROSETTA software suite\n"
+        puts stderr "\tHomepage: https://www.rosettacommons.org/\n"
+}
+
+module-whatis	"a software suite for predicting and designing protein structures, protein folding mechanisms, and protein-protein interactions"
+
+set this_home       "/beegfs/cssb/software/rosetta/3.13"
+
+if {![file isdirectory $this_home]} {
+        puts stderr "Error: package $tool $ver is not available on this node!"
+        exit
+}
+
+setenv          ROSETTA_HOME            $this_home
+setenv          ROSETTA3                $this_home/main
+prepend-path    ROSETTA3_DB             $this_home/main/database
+setenv          ROSETTA_BIN             $this_home/main/source/bin
+
+prepend-path    PATH                    $this_home/main/source/scripts/python/public
+prepend-path    PATH                    $this_home/main/source/src/apps/public/symmetry
+prepend-path    PATH                    $env(ROSETTA_BIN)
+
