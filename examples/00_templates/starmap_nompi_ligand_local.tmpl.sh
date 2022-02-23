@@ -5,9 +5,9 @@ echo "### start: " $(date)
 echo "### node : " $(hostname)
 
 @@ROSETTA_SCRIPT_EXE@@ \
-    -parser:protocol @@ROSETTA_SCRIPT_FILE@@ \
-    -edensity:mapfile @@DENSITY_FILE@@ \
-    -s @@INPUT_PDB_FILE@@ \
+    -parser:protocol "@@ROSETTA_SCRIPT_FILE@@" \
+    -edensity:mapfile "@@DENSITY_FILE@@" \
+    -s "@@INPUT_PDB_FILE@@" \
     -in::file::centroid_input \
     -mapreso @@HIRES@@ \
     -nstruct @@NSTRUCT@@ \

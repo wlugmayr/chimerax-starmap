@@ -15,10 +15,11 @@ unset LD_PRELOAD
 echo "### start: " $(date)
 echo "### node : " $(hostname)
 
-mpirun -np @@CORES@@ @@ROSETTA_SCRIPT_EXE@@ \
-  -parser:protocol @@ROSETTA_SCRIPT_FILE@@ \
-  -edensity:mapfile @@DENSITY_FILE@@ \
-  -s @@INPUT_PDB_FILE@@ \
+mpirun -np @@CORES@@ --mca opal_warn_on_missing_libcuda 0 \
+  @@ROSETTA_SCRIPT_EXE@@ \
+  -parser:protocol "@@ROSETTA_SCRIPT_FILE@@" \
+  -edensity:mapfile "@@DENSITY_FILE@@" \
+  -s "@@INPUT_PDB_FILE@@" \
   -in::file::centroid_input \
   -mapreso @@HIRES@@ \
   -nstruct @@NSTRUCT@@ \
