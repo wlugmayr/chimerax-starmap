@@ -95,7 +95,7 @@ clean:
 distclean: clean
 	rm -rf ./build
 	rm -rf ./docs
-	rm -rf ./dist
+	#rm -rf ./dist
 	rm -rf ./sphinx/_static
 	rm -f MANIFEST
 	(cd sphinx; make clean)
