@@ -23,20 +23,28 @@ If you use *StarMap* please **read** and **cite**:
 
 The *ChimeraX 1.4+ (Qt6)* version of the plugin will be available via the **ChimeraX Toolshed** in the near future.
 
+Meanwhile you can install it from the **dist** folder of this site.
+```
+  chimerax -m pip install --user ChimeraX_StarMap-1.1.68-py3-none-any.whl
+```
+
 Installations using *ChimeraX 1.3 (Qt5)* are available in the **dist** folder of this site.
+```
+  chimerax -m pip install --user ChimeraX_StarMapQt5-1.1.68-py3-none-any.whl
+```
 
 # Development notes
 
 Here are some starting notes on how this tool is developed.
 
-Since *StarMap* was mainly ported from *Chimera 1.x* to *ChimeraX 0.3* in 2017, some things might work not as now described in the *ChimeraX* development guidelines.
+Since *StarMap* was mainly ported from *Chimera 1.x* to *ChimeraX 0.3* in 2017, some development things might not be as now described in the *ChimeraX* development guidelines.
 
 First have a look at the file *dev_functions.source* for example development environment settings. 
 These functions are compatible with *BASH* and *ZSH*.
 
 The user interface is done with the QtCreator of Qt5 and the script **qt5_to_qt6.sh** will replace some code statements.
 
-Since we currently build the Qt5 and the Qt6 version of *StarMap*, **make sure you commited your changes before making the distribution wheels as decribted below**!
+Since we currently build the Qt5 and the Qt6 version of *StarMap*, **make sure you commited your changes before making the distribution wheels as described below**!
 
 ## Create a development environment
 
