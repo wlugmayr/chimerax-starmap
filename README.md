@@ -57,7 +57,7 @@ Install and setup *Rosetta*.
 
 ## Set your development environment
 
-Here we use the shell statments in the *starmap_dev_chimerax_centos9* function by calling the following statements in your terminal:
+Here we use the shell statements in the *starmap_dev_chimerax_centos9* function by calling the following statements in your terminal:
 ```
   source dev_functions.source
   starmap_dev_chimerax_centos9
@@ -86,7 +86,8 @@ will create the installable wheel file and install it into your developent *Chim
   make qtcreator
   make test_gui
 ```
-will open *QtCreator* if you want to change the user interface. The second target will show the user interface as pop-up window.
+will open *QtCreator* if you want to change the user interface.
+The second test target will show the user interface as pop-up window as it would appear in *ChimeraX*.
 
 
 
