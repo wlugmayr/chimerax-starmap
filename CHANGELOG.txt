@@ -5,7 +5,7 @@ Version 1.1.67
 - added scripts for qt6 wheel generation
 - renamed ChimeraX with Qt5 StarMap to ChimeraX-StarMapQt5
 - removed obsolete cluster templates in examples
-- added citation info to Log tab
+- added citation info button to main tab
 
 Version 1.1.66
 - moved anisotropic pixel to map correction groupbox with its own help button
