@@ -1,4 +1,5 @@
-![StarMap Logo](file://sphinx/_images/starmap_logo.png){width=400px}
+<!-- ![StarMap Logo](file://sphinx/_images/starmap_logo.png){width=400px} -->
+![StarMap Logo](sphinx/_images/starmap_logo.png){width=400px}
 
 
 *StarMap* is an easy-to-be-used mediator between the popular structural display program *ChimeraX* and the refinement program *Rosetta*.
