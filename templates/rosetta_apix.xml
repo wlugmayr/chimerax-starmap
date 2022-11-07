@@ -1,0 +1,17 @@
+<ROSETTASCRIPTS>
+	<SCOREFXNS>
+	</SCOREFXNS>
+	<TASKOPERATIONS>
+	</TASKOPERATIONS>
+	<MOVERS>
+		<VoxelSpacingRefinement name="apix" mapout="@@APIX_MAP@@" aniso="@@ANISO@@"/>
+		<BfactorFitting name="bs_f" max_iter="100" wt_adp="0.0005" init="1" exact="1"/>
+		<ReportFSC name="report"/>
+	</MOVERS>
+	<PROTOCOLS>
+		<Add mover="apix"/>
+		<Add mover="bs_f"/>
+		<Add mover="report"/>
+	</PROTOCOLS>
+</ROSETTASCRIPTS>
+

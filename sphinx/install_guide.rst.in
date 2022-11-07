@@ -1,0 +1,174 @@
+.. _installation_guide:
+
+******************
+Installation Guide
+******************
+
+.. index:: Installation
+
+This plugin software has been developed and tested on *CentOS 7* and all features are available on Unix-based platforms.
+
+Technically *StarMap* is pure Python-based and executed inside *ChimeraX*.
+
+*Rosetta* is only available on Unix-based platforms like Linux and MacOSX.
+
+On platforms where *Rosetta* is not available or installed only the execution scripts can be generated.
+These must be copied to the execution platform, edited to the dedicated environment setup and can be called directly
+or sent to a computing cluster using a job submission system. The analysis part of *StarMap* interacts with the Unix
+shell and can therefore only be used on Unix-style systems.
+
+
+.. _requirements:
+
+Requirements
+============
+
+.. index:: ChimeraX
+
+1. Install **ChimeraX 1.3** or newer for your operating system (:ref:`references`).
+
+.. index:: Rosetta
+
+2. Install the **Rosetta 3.8** or newer software for your operating system (:ref:`references`).
+   The plugin has been re-tested with **Rosetta 3.13**.
+   The section  :ref:`rosetta_install_help` helps in setting the correct environment for *Rosetta*.
+
+.. index:: Perl (Optional)
+
+3. Check if the **Perl** package of the operating system distribution is installed.
+   If not use the official package installer to do it.
+
+.. index:: PyParsing
+
+4. The third-party **PyParsing** library is used to parse and modify the Rosetta scripts.
+   This library is provided by ChimeraX.
+
+.. index:: PyQtGraph
+
+5. The third-party **PyQtGraph** library is used to generate and plot the result analysis graphs.
+   This library is automatically installed by ChimeraX via *pip* as a dependency when you install *StarMap*.
+
+
+
+.. _toolshed_install:
+
+Toolshed installation
+=====================
+
+.. index:: Toolshed
+
+1. Make sure all depency steps 1-3 in the :ref:`requirements` section are fullfilled.
+
+2. Download *StarMap* using the *ChimeraX Toolshed*.
+   In *ChimeraX* open **Tools -> More Tools...** and search the *ChimeraX* toolshed for StarMap.
+
+
+.. _development_install:
+
+Development version installation
+================================
+
+.. _linux_install:
+
+Linux development installation
+------------------------------
+
+1.
+Make sure all depency steps 1-3 in the :ref:`requirements` section are fullfilled.
+
+2.
+Make sure you use *bash* and the environment variable **CHIMERAX** is set
+and the executable *ChimeraX* is in the **$PATH**
+(Replace *some_dirs* with your actual directory tree) e.g.::
+
+  export CHIMERAX=/some_dirs/ChimeraX-1.3/libexec/UCSF-ChimeraX
+  export PATH=${CHIMERAX}/bin:${PATH}
+
+3.
+Install the *StarMap* distribution with one of the following lines e.g.::
+
+  chimerax -m pip install --user ChimeraX_StarMap-@@VERSION@@-py3-none-any.whl
+
+You can uninstall it the same way e.g.::
+
+  chimerax -m pip uninstall ChimeraX-StarMap
+
+
+.. _windows_install:
+
+Windows native development installation
+---------------------------------------
+
+When installing *StarMap* on Windows you may have problems with spaces in directory names.
+
+1.
+Make sure the depency steps 1 and maybe 3 in the :ref:`requirements` section are fullfilled.
+
+2.
+Install the *StarMap* development version:
+
+Go to the directory where the *StarMap* wheel file is located and call in *cmd.exe*::
+
+  "\Program Files\ChimeraX 1.3\bin\ChimeraX-console.exe" -m pip install --user ChimeraX_StarMap-@@VERSION@@-py3-none-any.whl
+
+You can uninstall it the same way e.g.::
+
+  "\Program Files\ChimeraX 1.3\bin\ChimeraX-console.exe" -m pip uninstall ChimeraX_StarMap
+
+
+Windows Subsystem for Linux (WSL) development installation
+----------------------------------------------------------
+
+On *Windows 10+* you can run *ChimeraX* in the *Windows Subsystem for Linux (WSL)*.
+
+This installation is only recommended to users with deeper knowledge of Linux.
+Some hints are provided in the :ref:`bash_win_howto` section.
+
+Once the WSL setup is successful you can follow the steps in the :ref:`linux_install`.
+
+
+.. _macos_install:
+
+MacOS development installation
+------------------------------
+
+1.
+Make sure the depency steps 1 and maybe 3 in the :ref:`requirements` section are fullfilled.
+
+2.
+Install the *StarMap* development version:
+
+Go to the directory where the *StarMap* wheel file is located and call::
+
+  /Applications/ChimeraX-1.3.app/Contents/bin/ChimeraX -m pip install --user ChimeraX_StarMap-@@VERSION@@-py3-none-any.whl
+
+You can uninstall it the same way e.g.::
+
+  /Applications/ChimeraX-1.3.app/Contents/bin/ChimeraX -m pip uninstall ChimeraX_StarMap
+
+
+
+.. _test_install:
+
+Testing the installation
+========================
+
+1.
+*(Optional)* You can test the detected environment and the location of e.g. the *Rosetta* executables from the Linux *Bash* commandline like::
+
+  chimerax -m starmap.config
+
+This should print you the current configuration with the full path to the Rosetta executables in the terminal window.
+
+2.
+Start *ChimeraX* and go to the menu **Tools -> Volume Data -> StarMap**. The *StarMap* user interface should appear.
+
+In the *ChimeraX* commandline type::
+
+  stmconfig
+
+This should print you the current configuration with the full path to the *Rosetta* executables in the *ChimeraX* log window.
+Otherwise the default GNU/Linux binary naming convention of the *Rosetta* executables will be used.
+*StarMap* tries to detect the location of the executables in the **system path** using the Unix *which* command.
+
+

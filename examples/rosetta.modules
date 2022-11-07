@@ -20,12 +20,11 @@ if {![file isdirectory $this_home]} {
         exit
 }
 
-setenv          ROSETTA_HOME            $this_home
 setenv          ROSETTA3                $this_home/main
 prepend-path    ROSETTA3_DB             $this_home/main/database
-setenv          ROSETTA_BIN             $this_home/main/source/bin
 
+prepend-path    PATH                    $this_home/main/tools/protein_tools/scripts
 prepend-path    PATH                    $this_home/main/source/scripts/python/public
 prepend-path    PATH                    $this_home/main/source/src/apps/public/symmetry
-prepend-path    PATH                    $env(ROSETTA_BIN)
+prepend-path    PATH                    $this_home/main/source/bin
 

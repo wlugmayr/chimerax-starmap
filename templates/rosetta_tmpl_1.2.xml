@@ -1,0 +1,83 @@
+<ROSETTASCRIPTS>
+	<TASKOPERATIONS>
+	</TASKOPERATIONS>
+	<SCOREFXNS>
+		<ScoreFunction name="cen" weights="score4_smooth" symmetric="@@USE_SYMMETRY@@">
+			<Reweight scoretype="elec_dens_fast" weight="25.6"/>
+			<Reweight scoretype="hbond_sr_bb" weight="1.0"/>
+			<Set scale_sc_dens_byres="R:0.66,K:0.66,E:0.66,D:0.66,M:0.66,C:0.71,Q:0.71,H:0.71,N:0.71,T:0.71,S:0.71,Y:0.78,W:0.78,A:0.78,F:0.78,P:0.78,I:0.78,L:0.78,V:0.78"/>
+		</ScoreFunction>
+		<ScoreFunction name="dens" weights="@@DENSITY_WEIGHT@@" symmetric="@@USE_SYMMETRY@@">
+			<Reweight scoretype="cart_bonded_length" weight="0.5"/>
+			<Reweight scoretype="cart_bonded_torsion" weight="0.5"/>
+			<Reweight scoretype="cart_bonded_angle" weight="1.0"/>
+			<Reweight scoretype="pro_close" weight="0.0"/>
+			<Reweight scoretype="elec_dens_fast" weight="40"/>
+			<Reweight scoretype="atom_pair_constraint" weight="@@CONSTRAINT_APW@@"/>
+			<Set scale_sc_dens_byres="R:0.66,K:0.66,E:0.66,D:0.66,M:0.66,C:0.71,Q:0.71,H:0.71,N:0.71,T:0.71,S:0.71,Y:0.78,W:0.78,A:0.78,F:0.78,P:0.78,I:0.78,L:0.78,V:0.78"/>
+		</ScoreFunction>		
+		<ScoreFunction name="fasampler" weights="soft_rep" symmetric="@@USE_SYMMETRY@@">
+			<Reweight scoretype="cart_bonded_length" weight="0.5"/>
+			<Reweight scoretype="cart_bonded_torsion" weight="0.5"/>
+			<Reweight scoretype="cart_bonded_angle" weight="1.0"/>
+			<Reweight scoretype="elec_dens_fast" weight="40"/>
+			<Set scale_sc_dens_byres="R:0.66,K:0.66,E:0.66,D:0.66,M:0.66,C:0.71,Q:0.71,H:0.71,N:0.71,T:0.71,S:0.71,Y:0.78,W:0.78,A:0.78,F:0.78,P:0.78,I:0.78,L:0.78,V:0.78"/>
+		</ScoreFunction>
+		<ScoreFunction name="censampler" weights="score4_smooth" symmetric="@@USE_SYMMETRY@@">
+			<Reweight scoretype="cart_bonded_length" weight="0.1"/>
+			<Reweight scoretype="cart_bonded_torsion" weight="0.1"/>
+			<Reweight scoretype="cart_bonded_angle" weight="0.2"/>
+			<Reweight scoretype="elec_dens_fast" weight="20.0"/>
+			<Reweight scoretype="hbond_sr_bb" weight="1.0"/>
+			<Set scale_sc_dens_byres="R:0.66,K:0.66,E:0.66,D:0.66,M:0.66,C:0.71,Q:0.71,H:0.71,N:0.71,T:0.71,S:0.71,Y:0.78,W:0.78,A:0.78,F:0.78,P:0.78,I:0.78,L:0.78,V:0.78"/>
+		</ScoreFunction>
+	</SCOREFXNS>
+	<MOVERS>
+		<SetupForSymmetry name="setupsymm" definition="@@SYMMETRY_FILE@@"/>
+		<SetupForDensityScoring name="setupdens"/>
+		<ConstraintSetMover name="load_csts" cst_file="@@CONSTRAINT_SET_FILE@@"/>
+		<MinMover name="cenmin" scorefxn="cen" type="lbfgs_armijo_nonmonotone" max_iter="200" tolerance="0.00001" bb="1" chi="1" jump="ALL"/>
+		<SymMinMover name="cenmin_symm" scorefxn="cen" type="lbfgs_armijo_nonmonotone" max_iter="200" tolerance="0.00001" bb="1" chi="1" jump="ALL"/>
+		<CartesianSampler name="cen5_50" automode_scorecut="-0.5" rsd_wdw_to_refine="3" scorefxn="censampler" mcscorefxn="censampler" fascorefxn="fasampler" strategy="@@STRATEGY@@" fragbias="density" rms="2.0" ncycles="200" fullatom="0" bbmove="1" nminsteps="25" temp="4" fraglens="5"/>
+		<CartesianSampler name="cen5_60" automode_scorecut="-0.3" rsd_wdw_to_refine="5" scorefxn="censampler" mcscorefxn="censampler" fascorefxn="fasampler" strategy="@@STRATEGY@@" fragbias="density" rms="2.0" ncycles="200" fullatom="0" bbmove="1" nminsteps="25" temp="4" fraglens="5"/>
+		<CartesianSampler name="cen5_70" automode_scorecut="-0.1" rsd_wdw_to_refine="5" scorefxn="censampler" mcscorefxn="censampler" fascorefxn="fasampler" strategy="@@STRATEGY@@" fragbias="density" rms="1.5" ncycles="200" fullatom="0" bbmove="1" nminsteps="25" temp="4" fraglens="5"/>
+		<CartesianSampler name="cen5_80" automode_scorecut="0.0" rsd_wdw_to_refine="5" scorefxn="censampler" mcscorefxn="censampler" fascorefxn="fasampler" strategy="@@STRATEGY@@" fragbias="density" rms="1.5" ncycles="200" fullatom="0" bbmove="1" nminsteps="25" temp="4" fraglens="5"/>
+		<CartesianSampler name="cen5_rama" scorefxn="censampler" rsd_wdw_to_refine="5" mcscorefxn="censampler" fascorefxn="fasampler" strategy="rama" fragbias="density" rms="2.0" ncycles="200" fullatom="0" bbmove="1" nminsteps="25" temp="4" fraglens="5"/>
+		<FastRelax name="relax" scorefxn="dens" repeats="1" cartesian="0" bondangle="1"/>
+		<FastRelax name="relaxcart" scorefxn="dens" repeats="1" cartesian="1"/>
+		<LocalRelax name="relaxcart_local" scorefxn="dens" max_iter="100" ncyc="1" ramp_cart="0" K="16" nexp="2"/>
+		<BfactorFitting name="bs_f" max_iter="100" wt_adp="0.0005" init="1" exact="1"/>
+		<ReportFSC name="reportFSC" res_low="15" res_high="@@HIRES@@" nresbins="20"/>
+		<ReportFSC name="reportFSC_withtest" res_low="15" res_high="@@HIRES@@" nresbins="20" testmap="@@VALIDATION_HALF2_FILE@@"/>
+	</MOVERS>
+	<PROTOCOLS>
+		<Add mover="setupsymm"/>
+		<Add mover="setupdens"/>		
+		<Add mover="load_csts"/>
+		<Add mover="cenmin"/>
+		<Add mover="cenmin_symm"/>
+		<Add mover="relaxcart"/>
+		<Add mover="relaxcart_local"/>
+		<Add mover="cen5_50"/>
+		<Add mover="relaxcart"/>
+		<Add mover="relaxcart_local"/>
+		<Add mover="cen5_60"/>
+		<Add mover="relaxcart"/>
+		<Add mover="relaxcart_local"/>
+		<Add mover="cen5_70"/>
+		<Add mover="relaxcart"/>
+		<Add mover="relaxcart_local"/>
+		<Add mover="cen5_80"/>
+		<Add mover="cen5_rama"/>
+		<Add mover="relaxcart"/>
+		<Add mover="relaxcart_local"/>
+		<Add mover="relaxcart"/>
+		<Add mover="relaxcart_local"/>
+		<Add mover="bs_f"/>
+		<Add mover="reportFSC"/>
+		<Add mover="reportFSC_withtest"/>
+	</PROTOCOLS>
+	<OUTPUT scorefxn="dens"/>
+
+
+</ROSETTASCRIPTS>

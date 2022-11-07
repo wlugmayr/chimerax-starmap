@@ -5,12 +5,10 @@
 #   Adapt and add this content to ~/.bashrc or ~/.zshrc
 # 
 
-export ROSETTA_HOME="/beegfs/cssb/software/bio/rosetta/3.13"
-export ROSETTA3=$ROSETTA_HOME/main
+export ROSETTA3=/beegfs/cssb/software/bio/rosetta/3.13/main
 export ROSETTA3_DB=$ROSETTA3/database
-export ROSETTA_BIN=$ROSETTA3/source/bin
 
-export PATH=$ROSETTA_BIN:$PATH
+export PATH=$ROSETTA3/source/bin:$PATH
 
 # if you want to run make_symmdef_file.pl in a terminal
 #export PATH=$ROSETTA3/source/src/apps/public/symmetry:$PATH

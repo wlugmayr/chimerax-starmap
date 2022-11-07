@@ -1,0 +1,136 @@
+Version 1.1.68
+- Updated README.md for GitHub
+
+Version 1.1.67
+- added scripts for qt6 wheel generation
+- renamed ChimeraX with Qt5 StarMap to ChimeraX-StarMapQt5
+- removed obsolete cluster templates in examples
+- added citation info to Log tab
+
+Version 1.1.66
+- moved anisotropic pixel to map correction groupbox with its own help button
+
+Version 1.1.65
+- added _apix_bfactor to the name of the apix output pdb
+- added anisotropic pixel checkbox in the apix tab
+- rosetta apix xml script has now the same prefix as the corresponding bash script
+ 
+Version 1.1.64
+- added try except statement to LCC cxc file generation
+
+Version 1.1.63
+- preset half2 to analysis densisty map for consistent FSC calculation
+- conda development environment renamed to pyqt5-dev
+
+Version 1.1.62
+- set build dependency to Chimerax-1.3 and Qt5
+
+Version 1.1.61
+- improved documentation
+
+Version 1.1.60
+- added -ignore_unrecognized_res to FSC calculation
+
+Version 1.1.59
+- save the complex Rosetta symmetry check flags in the settings.cxc
+- save user defined labels only if a corresponding value is given
+- save Rosetta template checkbox as usrtplr instead of usrtpl
+- MacOS/Darwin local cores are set to 1 since only static Rosetta executables are available
+
+Version 1.1.58
+- fixes for calling the symmetry scripts on MacOS/Darwin
+
+Version 1.1.57
+- removed atom-pair weight from gui
+- moved model evaluation to advanced tab
+
+Version 1.1.56
+- added HELIX checkbox to advanced symmetry section
+- when the Rosetta MPI commands are not found it will use the default value
+
+Version 1.1.55
+- the map resolution and cores edit fields have a int/double validator
+- analysis sorting results use mv instead of cp -s
+- ligand user values are now default but can be overriden from the user environment
+
+Version 1.1.54
+- fixed bug in Rosetta executables location search
+- fixed bug in multiple -perres lines
+
+Version 1.1.53
+- added quick start help for installing the Rosetta binaries
+- renamed x-axis of FSC preview to 1/res
+- apix location is handled by quotes
+
+Version 1.1.52
+- development and build changes
+- moved from subversion to git
+- moved tests and additional tools to second repository
+
+Version 1.1.51
+- fixed path for /usr/lib as data location on Ubuntu
+
+Version 1.1.50
+- removed @CA in setattr zscore coloring
+- added -out:level 200 to templates for shorter Rosetta logs
+- Rosetta symmetry check sets _INPUT.pdb as selected file for the Rosetta run
+
+Version 1.1.49
+- fixed full or no path to chimerax pdb, mrc open
+- added example 10
+
+Version 1.1.48
+- changed symmetry GUI lables for easier understanding
+
+Version 1.1.47
+- fixed bug in full path script generation
+
+Version 1.1.46
+- fixed MacOS local directory template access
+
+Version 1.1.45
+- added clang for MacOS to executebale search pattern
+- changed template location to data directory when the environment variable is not set
+- fixed bug with StarMap symmetry script execution on Windows Bash via a CMD file
+
+Version 1.1.44
+- fixed user location of StarMap data files for Windows 10
+
+Version 1.1.43
+- fixed user/global location of StarMap data files for Linux
+- Rosetta tests done now with version 3.13
+
+Version 1.1.42
+- adapted documentation for ChimeraX 1.2
+
+Version 1.1.41
+- added contrib/starmap_* scripts
+- removed Chimera 1.x com files generation
+
+Version 1.1.40
+- needs ChimeraX 1.2 due the changed libexec/UCSF-ChimeraX starmap files location
+
+Version 1.1.39
+- fixed residues/chain attributes
+- now color settings for zscores
+
+Version 1.1.36
+- support for ChimeraX 1.0 coloring
+- named attributes as zscore, zrama, ...
+ 
+Version 1.1.25
+ - support of the Chimera 1.x Z-score coloring of
+   Z_density Z_neighborhood_density Z_rama Z_bondstrain
+ 
+Version 1.1.19
+ - fixes to support the official ChimeraX 1.0 release
+ 
+Version 1.1.14
+ - static rosetta executables detection fixed
+
+Version 1.1.13
+ - FSC nresbin parameter set from 25 to 200 data points to get smoother curves
+ 
+Version 1.1.5
+ - save a _fsc.cxc script for easier fsc/lcc command execution from the commandline
+ - lcc chimera 1.x colorfile has now the same color settings between lcc and zscore .com

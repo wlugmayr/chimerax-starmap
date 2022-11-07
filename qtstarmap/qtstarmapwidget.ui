@@ -1,0 +1,3172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>qtStarMapWidget</class>
+ <widget class="QWidget" name="qtStarMapWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>599</width>
+    <height>736</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>QtStarMapWidget</string>
+  </property>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>581</width>
+     <height>631</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="symmTab">
+    <property name="toolTip">
+     <string>Check symmetry of structure</string>
+    </property>
+    <attribute name="title">
+     <string>Symm</string>
+    </attribute>
+    <widget class="QGroupBox" name="symmSetupBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>521</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Input file</string>
+     </property>
+     <widget class="QLabel" name="symmPdbLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>361</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
+      <property name="text">
+       <string>Original PDB file with symmetry:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="symmSelectButton">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>30</y>
+        <width>82</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Select the PDB file with symmetry</string>
+      </property>
+      <property name="text">
+       <string>Select</string>
+      </property>
+      <property name="shortcut">
+       <string>Ctrl+S</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="symmSelectHelp">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>30</y>
+        <width>31</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Show help</string>
+      </property>
+      <property name="text">
+       <string>?</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="symmPdbDisplayLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>441</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Sans Serif</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Selected file name</string>
+      </property>
+      <property name="text">
+       <string>No file</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="symmCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>170</y>
+       <width>521</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>StarMap provided symmetry check and SYMM file generation</string>
+     </property>
+     <widget class="QLabel" name="symmOptionsLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>211</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Additional script options:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="symmOptionsEdit">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>30</y>
+        <width>141</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Default chain id and distance</string>
+      </property>
+      <property name="text">
+       <string>-a A -r 999</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="symmCheckButton">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>30</y>
+        <width>82</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Execute the symmetry check</string>
+      </property>
+      <property name="text">
+       <string>Execute</string>
+      </property>
+      <property name="shortcut">
+       <string>Ctrl+C</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="symmResultLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>441</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Sans Serif</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Displays short result of the check</string>
+      </property>
+      <property name="text">
+       <string>No result</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="symmCheckHelp">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>30</y>
+        <width>31</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Show help</string>
+      </property>
+      <property name="text">
+       <string>?</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="symmRosettaCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>330</y>
+       <width>521</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Rosetta provided symmetry check and SYMM file generation</string>
+     </property>
+     <widget class="QLabel" name="symmRosettaOptionsLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>211</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Additional script options:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="symmRosettaOptionsEdit">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>30</y>
+        <width>311</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Default chain id and distance</string>
+      </property>
+      <property name="text">
+       <string>-m HELIX -a A -b B -i G -r 999</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="symmRosettaCheckButton">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>60</y>
+        <width>82</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Execute the symmetry check</string>
+      </property>
+      <property name="text">
+       <string>Execute</string>
+      </property>
+      <property name="shortcut">
+       <string>Ctrl+C</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="symmRosettaResultLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>441</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Sans Serif</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Displays short result of the check</string>
+      </property>
+      <property name="text">
+       <string>No result</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="symmRosettaCheckHelp">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>60</y>
+        <width>31</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Show help</string>
+      </property>
+      <property name="text">
+       <string>?</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="symmCheckLabelQuick">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>134</y>
+       <width>511</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Alternative 1 (Quick) - make_NCS.pl</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="symmCheckLabelAdvanced">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>290</y>
+       <width>511</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Alternative 2 (Advanced) - make_symmdef_file.pl</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="rosettaTab">
+    <property name="toolTip">
+     <string>Set the Rosetta runtime parameters</string>
+    </property>
+    <attribute name="title">
+     <string>Rosetta</string>
+    </attribute>
+    <widget class="QGroupBox" name="rosettaChimeraxBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>521</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>ChimeraX</string>
+     </property>
+     <widget class="QLabel" name="rosettaCxPdbTextLabel">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>341</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PDB file (selected atoms only):</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="rosettaCxSelectButton">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>30</y>
+        <width>82</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Choose a file with selected atoms saved in ChimeraX</string>
+      </property>
+      <property name="text">
+       <string>Select</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="rosettaCxHelpButton">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>30</y>
+        <width>31</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Show help</string>
+      </property>
+      <property name="text">
+       <string>?</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="rosettaCxPdbFileLabel">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>60</y>
+        <width>431</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Sans Serif</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Selected file name</string>
+      </property>
+      <property name="text">
+       <string>No file</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="rosettaCxSaveButton">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>30</y>
+        <width>82</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Save the selected atoms in ChimeraX</string>
+      </property>
+      <property name="text">
+       <string>Save</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="rosettaBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>110</y>
+       <width>521</width>
+       <height>381</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Rosetta</string>
+     </property>
+     <widget class="QGroupBox" name="rosettaResolutionBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>241</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Resolution</string>
+      </property>
+      <widget class="QLabel" name="rosettaResolutionLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Map resolution:</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="rosettaResolutionEdit">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>30</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="inputMask">
+        <string/>
+       </property>
+       <property name="text">
+        <string>3.5</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rosettaResolutionHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="rosettaResultsBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>130</y>
+        <width>311</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Results</string>
+      </property>
+      <widget class="QLabel" name="rosettaResultsLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>201</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of output models:</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="rosettaResultsEdit">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Rosetta calculates this number of models</string>
+       </property>
+       <property name="text">
+        <string>20</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rosettaResultsHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="rosettaStrategyBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>501</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Strategy</string>
+      </property>
+      <widget class="QComboBox" name="rosettaStrategyTaskBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>161</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="currentText">
+        <string/>
+       </property>
+       <property name="currentIndex">
+        <number>-1</number>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="rosettaStrategyValueBox">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>30</y>
+         <width>101</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="currentText">
+        <string/>
+       </property>
+       <property name="currentIndex">
+        <number>-1</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rosettaStrategyLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Residues in selection:</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="rosettaStrategyResiduesEdit">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>60</y>
+         <width>311</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>22A-36A,56B-77B</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rosettaStrategyHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="rosettaDensityBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>270</y>
+        <width>501</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Density</string>
+      </property>
+      <widget class="QPushButton" name="rosettaDensityMapSelectButton">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>30</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Select the density map</string>
+       </property>
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rosettaDensityLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>341</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Density map (full or half1):</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rosettaDensityMapHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rosettaDensityMapFileLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>441</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Selected file name</string>
+       </property>
+       <property name="text">
+        <string>No file</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="howtoCiteButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>540</y>
+       <width>521</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>How to cite StarMap</string>
+     </property>
+     <property name="text">
+      <string>How to cite StarMap</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="advancedTab">
+    <attribute name="title">
+     <string>Advanced</string>
+    </attribute>
+    <widget class="QGroupBox" name="advancedRosettaBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>521</width>
+       <height>451</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Rosetta</string>
+     </property>
+     <widget class="QGroupBox" name="advancedConstraintsBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>240</y>
+        <width>501</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Constraints</string>
+      </property>
+      <widget class="QPushButton" name="advancedConstraintsSetsHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="advancedConstraintsSetsFileLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>441</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Selected file name</string>
+       </property>
+       <property name="text">
+        <string>No file</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="advancedConstraintsSetsSelectButton">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>30</y>
+         <width>81</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Select the constraints file</string>
+       </property>
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="advancedConstraintsSetsFileCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>321</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Use constraint set from file</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="advancedSymmBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>501</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Symmetry</string>
+      </property>
+      <widget class="QCheckBox" name="advancedSymmCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Use the selected file for Rosetta analysis</string>
+       </property>
+       <property name="text">
+        <string>Use SYMM file</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="advancedSymmHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="advancedSymmSelectButton">
+       <property name="geometry">
+        <rect>
+         <x>371</x>
+         <y>30</y>
+         <width>81</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Select a symmetry configuration file</string>
+       </property>
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="advancedSymmFileLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>441</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Selected file name</string>
+       </property>
+       <property name="text">
+        <string>No file</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="advancedSymmHelixCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>30</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Use the selected file for Rosetta analysis</string>
+       </property>
+       <property name="text">
+        <string>HELIX</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="advancedRosettaVersionBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>360</y>
+        <width>501</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Version</string>
+      </property>
+      <widget class="QLabel" name="advancedDensityWeightsLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>151</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Density weights: </string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="advancedDensityWeightsValueBox">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>30</y>
+         <width>231</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="currentText">
+        <string/>
+       </property>
+       <property name="currentIndex">
+        <number>-1</number>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="advancedDensityWeightsHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="rosettaModelEvalBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>140</y>
+        <width>501</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Model evaluation</string>
+      </property>
+      <widget class="QCheckBox" name="rosettaModelCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>30</y>
+         <width>351</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Use the selected file for Rosetta analysis</string>
+       </property>
+       <property name="text">
+        <string>Use independent map for validation (half2)</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rosettaModelHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>459</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rosettaModelFileLabel">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>60</y>
+         <width>441</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Selected file name</string>
+       </property>
+       <property name="text">
+        <string>No file</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rosettaModelSelectButton">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>30</y>
+         <width>81</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Select a model evaluation file</string>
+       </property>
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="userTab">
+    <attribute name="title">
+     <string>User</string>
+    </attribute>
+    <widget class="QGroupBox" name="userDefinedScriptsTab">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>521</width>
+       <height>581</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>User-defined Scripts</string>
+     </property>
+     <widget class="QGroupBox" name="userRosettaScriptBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>501</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Rosetta</string>
+      </property>
+      <widget class="QPushButton" name="userRosettaScriptsSelectButton">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>30</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Select the Rosetta XML script template</string>
+       </property>
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userRosettaScriptsLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>341</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Rosetta Script Template:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="userRosettaScriptsHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userRosettaScriptFileLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>441</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Selected file name</string>
+       </property>
+       <property name="text">
+        <string>No file</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="userRosettaTemplatesCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>90</y>
+         <width>461</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Replace default Rosetta script template</string>
+       </property>
+       <property name="text">
+        <string>Replace default Rosetta script template</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="userShellScriptBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>170</y>
+        <width>501</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Shell</string>
+      </property>
+      <widget class="QPushButton" name="userShellScriptsSelectButton">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>30</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Select the shell script template</string>
+       </property>
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userShellScriptsLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>341</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Shell Script Template:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="userShellScriptsHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userShellScriptFileLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>441</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Selected file name</string>
+       </property>
+       <property name="text">
+        <string>No file</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="userDefinedReplaceGroupBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>270</y>
+        <width>501</width>
+        <height>301</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>User-defined Replacement Values</string>
+      </property>
+      <widget class="QLineEdit" name="userReplaceEdit_1">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>60</y>
+         <width>311</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER1@@</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userReplaceLabel_1">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER1@@</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="userReplaceEdit_2">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>90</y>
+         <width>311</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER2@@</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userReplaceLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>90</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER2@@</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="userReplaceEdit_3">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>120</y>
+         <width>311</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER3@@</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userReplaceLabel_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>120</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER3@@</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="userReplaceEdit_4">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>150</y>
+         <width>311</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER4@@</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userReplaceLabel_4">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>150</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER4@@</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="userReplaceEdit_5">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>180</y>
+         <width>311</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER5@@</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userReplaceLabel_5">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>180</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER5@@</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="userReplaceEdit_6">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>210</y>
+         <width>311</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER6@@</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userReplaceLabel_6">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>210</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER6@@</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="userReplaceEdit_7">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>240</y>
+         <width>311</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER7@@</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userReplaceLabel_7">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>240</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER7@@</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="userReplaceEdit_8">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>270</y>
+         <width>311</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER8@@</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="userReplaceLabel_8">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>270</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>@@USER8@@</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="userReplacementValuesScriptsHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="executeTab">
+    <attribute name="title">
+     <string>Save / Run</string>
+    </attribute>
+    <widget class="QTextEdit" name="executionTextEdit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>340</y>
+       <width>521</width>
+       <height>241</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QTabWidget" name="executionTabWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>521</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="saveTab">
+      <property name="accessibleName">
+       <string/>
+      </property>
+      <attribute name="title">
+       <string>Save</string>
+      </attribute>
+      <widget class="QPushButton" name="executionSaveHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>40</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="executionSaveLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>351</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Save ChimeraX and Rosetta script:</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="executionFullPathBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>461</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Save just filename or full path with filename</string>
+       </property>
+       <property name="text">
+        <string>Generate scripts using the full path to the working directory</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionSaveButton">
+       <property name="geometry">
+        <rect>
+         <x>390</x>
+         <y>40</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Save scripts</string>
+       </property>
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="localTab">
+      <attribute name="title">
+       <string>Run Locally</string>
+      </attribute>
+      <widget class="QLineEdit" name="executionLocalCoresEdit">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>10</y>
+         <width>51</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>4</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="executionLocalCoresLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>141</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Use local cores:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionLocalHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>120</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionLocalRunScript">
+       <property name="geometry">
+        <rect>
+         <x>390</x>
+         <y>120</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Run script</string>
+       </property>
+       <property name="text">
+        <string>Execute</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="executionLocalSaveLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>261</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Save shell script:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionLocalSaveHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>70</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionLocalSaveButton">
+       <property name="geometry">
+        <rect>
+         <x>390</x>
+         <y>70</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Save script</string>
+       </property>
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+      <widget class="Line" name="line">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>501</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionLocalCoresHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>250</x>
+         <y>10</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="executionLocalTemplateComboBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>461</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Choose template</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionLocalTemplateHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>40</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionLocalEditButton">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>70</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Edit bash script</string>
+       </property>
+       <property name="text">
+        <string>Edit</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="remoteTab">
+      <attribute name="title">
+       <string>Submit Job</string>
+      </attribute>
+      <widget class="QPushButton" name="executionRemoteSaveHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>70</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="executionRemoteCoresLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>231</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Use cores (max. 1 per model + 1):</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionRemoteSaveButton">
+       <property name="geometry">
+        <rect>
+         <x>390</x>
+         <y>70</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Save script</string>
+       </property>
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+      <widget class="Line" name="line_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>501</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="executionRemoteSaveLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>271</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Save shell script:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionRemoteExecuteHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>120</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionRemoteExecuteButton">
+       <property name="geometry">
+        <rect>
+         <x>390</x>
+         <y>120</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Submit job</string>
+       </property>
+       <property name="text">
+        <string>Submit</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="executionRemoteCoresEdit">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>10</y>
+         <width>51</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>21</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="executionRemoteTemplateComboBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>461</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Choose template</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionRemoteEditButton">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>70</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Edit bash script</string>
+       </property>
+       <property name="text">
+        <string>Edit</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="executionRemoteSubmitComboBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>120</y>
+         <width>181</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Choose submission command</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionRemoteTemplateHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>40</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionRemoteSubmitHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>120</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="executionRemoteCoresHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>320</x>
+         <y>10</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>200</y>
+       <width>521</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Verify</string>
+     </property>
+     <widget class="QPushButton" name="executionViewCxcHelpButton">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>30</y>
+        <width>31</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Show help</string>
+      </property>
+      <property name="text">
+       <string>?</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="executionSaveFileXmlLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>361</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Sans Serif</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Selected file name</string>
+      </property>
+      <property name="text">
+       <string>No file</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="executionViewXmlHelpButton">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>60</y>
+        <width>31</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Show help</string>
+      </property>
+      <property name="text">
+       <string>?</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="executionSaveFileCxcLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>361</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Sans Serif</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Selected file name</string>
+      </property>
+      <property name="text">
+       <string>No file</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="executionSaveFileShLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>361</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Sans Serif</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Selected file name</string>
+      </property>
+      <property name="text">
+       <string>No file</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="executionViewShScript">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>90</y>
+        <width>82</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>View saved bash script</string>
+      </property>
+      <property name="text">
+       <string>View</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="executionViewXmlScript">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>60</y>
+        <width>82</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>View saved Rosetta script</string>
+      </property>
+      <property name="text">
+       <string>View</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="executionViewShHelpButton">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>90</y>
+        <width>31</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Show help</string>
+      </property>
+      <property name="text">
+       <string>?</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="executionViewCxcScript">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>30</y>
+        <width>82</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>View saved CXC script</string>
+      </property>
+      <property name="text">
+       <string>View</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="analysisTab">
+    <attribute name="title">
+     <string>Analysis</string>
+    </attribute>
+    <widget class="QGroupBox" name="analysisRosettaScriptsResults">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>521</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Rosetta Results</string>
+     </property>
+     <widget class="QPushButton" name="analysisRosettaResultsExecuteButton">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>30</y>
+        <width>82</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Execute sort</string>
+      </property>
+      <property name="text">
+       <string>Execute</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="analysisRosettaResultsHelpButton">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>30</y>
+        <width>31</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Show help</string>
+      </property>
+      <property name="text">
+       <string>?</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="analysisRosettaScriptsLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>321</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Sort Rosetta Result-PDBs based on FSC value</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>521</width>
+       <height>501</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Analysis</string>
+     </property>
+     <widget class="QGroupBox" name="rosettaDensityBox_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>100</y>
+        <width>501</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Density</string>
+      </property>
+      <widget class="QLabel" name="analysisDensityMapFileLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>441</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Selected file name</string>
+       </property>
+       <property name="text">
+        <string>No file</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rosettaDensityMapHelpButton_2">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rosettaDensityMapSelectButton_2">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>30</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Select the density map</string>
+       </property>
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rosettaDensityLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>341</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Density map:</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="analysisFscExecutionBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>300</y>
+        <width>501</width>
+        <height>191</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Graphs</string>
+      </property>
+      <widget class="QCheckBox" name="analysisFscLccCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>281</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>LCC per residue</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="analysisFscModelMapCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>301</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>FSC between selected model and map</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="analysisFscExecuteButton">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>40</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Execute calculation</string>
+       </property>
+       <property name="text">
+        <string>Execute</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="analysisFscExecuteHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>40</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="analysisFscShowButton">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>90</y>
+         <width>81</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Display graphs</string>
+       </property>
+       <property name="text">
+        <string>Preview</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="analysisFscShowHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>90</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="analysisCleanupButton">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>150</y>
+         <width>81</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Cleanup temporary files</string>
+       </property>
+       <property name="text">
+        <string>Cleanup</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="analysisCleanupHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>150</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="Line" name="line_5">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>130</y>
+         <width>481</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="analysisCleanupLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>150</y>
+         <width>301</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Cleanup temporary files</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="analysisFscLccZscoreCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>90</y>
+         <width>281</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>LCC zscore</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="analysisResultPdbBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>501</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Rosetta Result-PDB</string>
+      </property>
+      <widget class="QPushButton" name="analysisResultPdbSelectButton">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>30</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Select a Rosetta result file</string>
+       </property>
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="analysisResultPdbLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>341</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>PDB file:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rosettaPdbResultHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="analysisResultPdbFileLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>441</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Selected file name</string>
+       </property>
+       <property name="text">
+        <string>starmap_result_0001.pdb</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="rosettaResolutionBox_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>241</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Resolution</string>
+      </property>
+      <widget class="QLabel" name="rosettaResolutionLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Map resolution:</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="analysisResolutionEdit">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>30</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="inputMask">
+        <string/>
+       </property>
+       <property name="text">
+        <string>3.5</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rosettaResolutionHelpButton_2">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>Apix</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>521</width>
+       <height>321</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Input Data</string>
+     </property>
+     <widget class="QGroupBox" name="rosettaApixResolutionBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>241</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Resolution</string>
+      </property>
+      <widget class="QLabel" name="apixResolutionLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Map resolution:</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="apixResolutionEdit">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>30</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="inputMask">
+        <string/>
+       </property>
+       <property name="text">
+        <string>3.5</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="apixResolutionHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="rosettaApixDensityBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>100</y>
+        <width>501</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Density</string>
+      </property>
+      <widget class="QLabel" name="apixDensityMapFileLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>441</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Selected file name</string>
+       </property>
+       <property name="text">
+        <string>No file</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="apixDensityMapHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="apixDensityMapSelectButton">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>30</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Select the density map</string>
+       </property>
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="apixDensityLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>341</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Density map:</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="analysisApixResultPdbBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>210</y>
+        <width>501</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Rosetta Result-PDB</string>
+      </property>
+      <widget class="QPushButton" name="apixResultPdbSelectButton">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>30</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Select the StarMap result file</string>
+       </property>
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="apixResultPdbLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>341</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>PDB file:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="apixPdbResultHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="apixResultPdbFileLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>441</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Selected file name</string>
+       </property>
+       <property name="text">
+        <string>starmap_result_0001.pdb</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="rosettaApixAnisoGroupBox">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>30</y>
+        <width>241</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Map correction</string>
+      </property>
+      <widget class="QCheckBox" name="apixAnisoCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>151</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Anisotropic pixel</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="apixAnisoHelpButton">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>30</y>
+         <width>31</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Show help</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>350</y>
+       <width>521</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Run Locally</string>
+     </property>
+     <widget class="QLabel" name="apixSaveLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>351</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Save shell script:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="apixSaveButton">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>30</y>
+        <width>82</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Save bash script</string>
+      </property>
+      <property name="text">
+       <string>Save</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="apixSaveHelpButton">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>30</y>
+        <width>31</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Show help</string>
+      </property>
+      <property name="text">
+       <string>?</string>
+      </property>
+     </widget>
+     <widget class="Line" name="line_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>501</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="apixHelpButton">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>110</y>
+        <width>31</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Show help</string>
+      </property>
+      <property name="text">
+       <string>?</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="apixExecuteButton">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>110</y>
+        <width>82</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Execute apix bash script</string>
+      </property>
+      <property name="text">
+       <string>Execute</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="apixBashFileLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>441</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Sans Serif</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Selected file name</string>
+      </property>
+      <property name="text">
+       <string>No file</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="logTab">
+    <attribute name="title">
+     <string>Log</string>
+    </attribute>
+    <widget class="QPushButton" name="logStdoutButton">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>10</y>
+       <width>82</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>stdout</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="logStderrButton">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>10</y>
+       <width>82</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>stderr</string>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="logViewEdit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>521</width>
+       <height>461</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="logHelpButton">
+     <property name="geometry">
+      <rect>
+       <x>500</x>
+       <y>10</y>
+       <width>31</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Show help</string>
+     </property>
+     <property name="text">
+      <string>?</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="logTextLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>291</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Press button to refresh log</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

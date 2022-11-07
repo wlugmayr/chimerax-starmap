@@ -1,5 +1,6 @@
 #!/bin/sh
 # This StarMap template uses GNU parallel to compute multiple models on available CPUs
+# Used on MacOS via HomeBrew installation
 
 echo "### start: " $(date)
 echo "### node : " $(hostname)
