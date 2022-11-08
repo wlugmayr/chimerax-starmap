@@ -1,0 +1,16 @@
+
+StarMap is an easy-to-be-used mediator between the popular structural display program ChimeraX and the refinement program Rosetta.
+StarMap provides a graphical interface within ChimeraX to control and execute Rosetta-based refinements. It includes options for symmetry,
+local refinements, as well as independent map validation.
+
+A series of analytical outputs, including precise magnification calibration (pixel size calibration) and Fourier shell correlations (FSC)
+to assess the overall quality of the refinement and resolution (map versus model FSC) are being calculated.
+Furthermore, per-residue Z-scores provide a fast guide to evaluate and improve local refinements as well as to identify flexible and
+potentially functional sites in large macromolecular complexes.
+
+If you use StarMap please read and cite:
+
+- Lugmayr, Kotov et al. StarMap: A user-friendly workflow for Rosetta-driven molecular structure refinement. 
+  Nat. Protoc. (2022). https://doi.org/10.1038/s41596-022-00757-9
+
+ 

@@ -3,11 +3,13 @@
 # Darwin: search and replace sed by gsed
 #
 
-# setup scripts
-sed -i "s/StarMapQt5/StarMap/g" setup.py
-sed -i "s/ChimeraX-Core==1.3/ChimeraX-Core>=1.4/g" setup.py 
+cd bundle
 
-cd starmap
+# bundle_info.xml
+#sed -i "s/StarMapQt5/StarMap/g" bundle_info.xml
+sed -i "s/==1.3/>=1.4/g" bundle_info.xml
+
+cd src
 
 # tool.py
 sed -i "s/from PyQt5 /from PyQt6 /g" tool.py

@@ -1,0 +1,53 @@
+<BundleInfo name="ChimeraX-StarMap"
+            version="@@VERSION@@" package="chimerax.starmap"
+            minSessionVersion="1" maxSessionVersion="1">
+
+    <Author>Wolfgang Lugmayr</Author>
+    <Email>w.lugmayr@uke.de</Email>
+    <URL>https://github.com/wlugmayr/chimerax-starmap/</URL>
+
+    <Synopsis>A mediator tool between ChimeraX and the Rosetta modeling software</Synopsis>
+    <Description>
+		StarMap is an easy-to-be-used mediator between the popular structural display program ChimeraX and the refinement program Rosetta.
+		StarMap provides a graphical interface within ChimeraX to control and execute Rosetta-based refinements. It includes options for symmetry,
+		local refinements, as well as independent map validation.
+		
+		A series of analytical outputs, including precise magnification calibration (pixel size calibration) and Fourier shell correlations (FSC)
+		to assess the overall quality of the refinement and resolution (map versus model FSC) are being calculated.
+		Furthermore, per-residue Z-scores provide a fast guide to evaluate and improve local refinements as well as to identify flexible and
+		potentially functional sites in large macromolecular complexes.
+    </Description>
+
+    <Categories>
+        <Category name="Volume Data"/>
+    </Categories>
+
+    <Dependencies>
+        <Dependency name="pyparsing"/>
+        <Dependency name="pyqtgraph"/>
+        <Dependency name="ChimeraX-Core" version="==1.3"/>
+    </Dependencies>
+
+    <Classifiers>
+        <PythonClassifier>Development Status :: 5 - Production/Stable</PythonClassifier>
+        <PythonClassifier>License :: OSI Approved :: BSD 2-Clause License</PythonClassifier>
+        <PythonClassifier>Operating System :: OS Independent</PythonClassifier>
+        <PythonClassifier>Programming Language :: Python</PythonClassifier>
+        <PythonClassifier>Programming Language :: Python :: 3</PythonClassifier>
+        <PythonClassifier>Intended Audience :: Science/Research</PythonClassifier>
+        <ChimeraXClassifier>ChimeraX :: Tool :: StarMap :: Volume Data :: Run Rosetta refinements</ChimeraXClassifier>
+        <ChimeraXClassifier>ChimeraX :: Command :: stmconfig :: Volume Data :: Print StarMap configuration</ChimeraXClassifier>
+        <ChimeraXClassifier>ChimeraX :: Command :: stmset :: Volume Data :: Set StarMap values</ChimeraXClassifier>
+        <ChimeraXClassifier>ChimeraX :: Command :: stmrunfsc :: Volume Data :: Execute FSC model vs. map analysis</ChimeraXClassifier>
+        <ChimeraXClassifier>ChimeraX :: Command :: stmrunlcc :: Volume Data :: Execute LCC per residue analysis</ChimeraXClassifier>
+        <ChimeraXClassifier>ChimeraX :: Command :: stmrunzsc :: Volume Data :: Execute LCC zscore per residue analysis</ChimeraXClassifier>
+        <ChimeraXClassifier>ChimeraX :: Command :: stmhelp :: Volume Data :: Show StarMap help</ChimeraXClassifier>    
+    </Classifiers>
+    
+    <DataFiles>
+    	<DataDir>contrib</DataDir>
+    	<DataDir>docs</DataDir>
+    	<DataDir>templates</DataDir>
+    </DataFiles>
+    
+</BundleInfo>

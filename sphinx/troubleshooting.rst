@@ -76,7 +76,7 @@ You should see the program printing messages on the screen. To use this new sett
 
 When the *StarMap* plugin is installed you can call *stmconfig* in the commandline of *ChimeraX* or from the *Bash* commandline::
 
-	chimerax -m starmap.config
+	chimerax -m chimerax.starmap.config
 
 
 .. _rosetta_mpi_support:

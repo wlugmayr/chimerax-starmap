@@ -81,6 +81,11 @@ def rosetta_cmd_location(cmd):
 # -----------------------------------------------------------------------------
 def get_data_location():
     """Returns the full datadir to the installed data directory"""
+    return str(install_path("chimerax.starmap")) + SEP
+    
+# -----------------------------------------------------------------------------
+def obsolete_get_data_location():
+    """Returns the full datadir to the installed data directory"""
     # global is $CHIMERAX/libexec/UCSF-ChimeraX/lib/python3.8/site-packages/starmap
     # local is $HOME/.local/share/ChimeraX/1.2/site-packages/starmap
     # windows local is $HOME\\AppData\\Local\\UCSF\\ChimeraX\\share\\starmap
@@ -112,10 +117,10 @@ def get_data_location():
     return topdir
 
 # -----------------------------------------------------------------------------
-def data_location(dataname):
+def data_location(subdir, dataname):
     """Returns the full path to the file in the installed data directory"""
     try:
-        file = get_data_location() + str(dataname)
+        file = get_data_location() + str(subdir) + SEP + str(dataname)
         if os.path.exists(file):
             return file
     except TypeError:
@@ -126,7 +131,7 @@ def tmp_location():
     """Returns the full path to a usable tmp directory"""
     try:
         tok = 'Local'
-        localdir = get_data_location().split(tok)[0]
+        localdir = obsolete_get_data_location().split(tok)[0]
         tmpdir = localdir + tok + SEP + "Temp"  + SEP
         #print("starmap> tmpdir=" + tmpdir)
         if os.path.exists(tmpdir):
@@ -138,8 +143,8 @@ def tmp_location():
 def help_url(htmlfile=None):
     """Check if the files exist"""
     global STARMAP_HELP
-    STARMAP_HELP = "docs" + SEP + "index.html"
-    loc = data_location(STARMAP_HELP) or STARMAP_HELP
+    STARMAP_HELP = "starmap.html"
+    loc = data_location('docs', STARMAP_HELP) or STARMAP_HELP
     if platform.system() == "Windows":
         loc = loc.replace(' ', "%20")
         loc = loc.replace('\\\\', "/")
@@ -149,7 +154,7 @@ def help_url(htmlfile=None):
     STARMAP_HELP = loc
 
     if htmlfile:
-        return loc.replace('index.html', htmlfile)
+        return loc.replace('starmap.html', htmlfile)
 
     return STARMAP_HELP
 
@@ -217,7 +222,7 @@ def check_windows_cmd():
         return
 
     STARMAP_SYMMETRY_CMD = "make_NCS.pl"
-    STARMAP_SYMMETRY_CMD = data_location(STARMAP_SYMMETRY_CMD) or STARMAP_SYMMETRY_CMD
+    STARMAP_SYMMETRY_CMD = data_location('contrib', STARMAP_SYMMETRY_CMD) or STARMAP_SYMMETRY_CMD
 
     return
 
@@ -225,9 +230,9 @@ def check_windows_cmd():
 def check_starmap_files():
     """Check if the files exist"""
     global STARMAP_ROSETTA_SCRIPT, STARMAP_ROSETTA_APIX_SCRIPT, STARMAP_SYMMETRY_CMD, STARMAP_HELP
-    STARMAP_ROSETTA_SCRIPT = data_location(STARMAP_ROSETTA_SCRIPT) or STARMAP_ROSETTA_SCRIPT
-    STARMAP_ROSETTA_APIX_SCRIPT = data_location(STARMAP_ROSETTA_APIX_SCRIPT) or STARMAP_ROSETTA_APIX_SCRIPT
-    STARMAP_SYMMETRY_CMD = data_location(STARMAP_SYMMETRY_CMD) or STARMAP_SYMMETRY_CMD
+    STARMAP_ROSETTA_SCRIPT = data_location('templates', STARMAP_ROSETTA_SCRIPT) or STARMAP_ROSETTA_SCRIPT
+    STARMAP_ROSETTA_APIX_SCRIPT = data_location('templates', STARMAP_ROSETTA_APIX_SCRIPT) or STARMAP_ROSETTA_APIX_SCRIPT
+    STARMAP_SYMMETRY_CMD = data_location('contrib', STARMAP_SYMMETRY_CMD) or STARMAP_SYMMETRY_CMD
     help_url()
     return
 
@@ -255,7 +260,7 @@ def config_as_string():
     if platform.system() == 'Windows':
         s += "\nBASH                        = " + BASH
         s += "\nTEMP                        = " + tmp_location()
-    s += "\nPYTHON_SITE_PACKAGE         = " + install_path("starmap")
+    s += "\nPYTHON_SITE_PACKAGE         = " + install_path("chimerax.starmap")
     s += "\nLOCAL_CORES                 = " + str(os.cpu_count())
     s += "\n"
 
@@ -284,7 +289,7 @@ def get_user_env():
         global STARMAP_TEMPLATES_DIR
         STARMAP_TEMPLATES_DIR = str(os.environ["STARMAP_TEMPLATES_DIR"])
     except KeyError:
-        STARMAP_TEMPLATES_DIR = get_data_location()
+        STARMAP_TEMPLATES_DIR = data_location('templates', '')
 
     return
 

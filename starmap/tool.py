@@ -21,8 +21,8 @@ from chimerax.ui.gui import MainToolWindow  # @UnresolvedImport
 from chimerax.core.commands import run  # @UnresolvedImport
 from .qtstarmapwidget import Ui_qtStarMapWidget
 from .rosettascripts import script, asXmlList
-from starmap.config import ROSETTA_FOUND
-from starmap.config import STARMAP_TEMPLATES_DIR
+from .config import ROSETTA_FOUND
+from .config import STARMAP_TEMPLATES_DIR
 
 
 _translate = QtCore.QCoreApplication.translate
@@ -219,11 +219,11 @@ class StarMap(ToolInstance):
         self.starMapGui.apixExecuteButton.clicked.connect(self._exec_local_bash_apix_script)
 
         # search templates
-        from .config import get_data_location
+        from .config import data_location
         global STARMAP_TEMPLATES_DIR
         self.starMapGui.executionLocalTemplateComboBox.clear()
         self.starMapGui.executionLocalTemplateComboBox.setDuplicatesEnabled(False)
-        files = os.listdir(get_data_location())
+        files = os.listdir(data_location('templates', ''))
         #self._debug("using templates in: " + STARMAP_TEMPLATES_DIR)
         if STARMAP_TEMPLATES_DIR:
             try:
@@ -543,7 +543,7 @@ class StarMap(ToolInstance):
         self.stmBashApixFile = self._save_file('*.sh', './starmap_apix.sh')
         if not self.stmBashApixFile:
             return
-        
+
         # generate apix xml with bash name
         apixFile = self.stmBashApixFile.rsplit(".", 1)[0]  + ".xml"
         self._save_apix_rosetta_script(apixFile)
@@ -570,19 +570,19 @@ class StarMap(ToolInstance):
     def _save_apix_rosetta_script(self, apixFile):
         """Saves the Rosetta apix xml script"""
         from .config import STARMAP_ROSETTA_APIX_SCRIPT
-        
+
         densMap = os.path.basename(self.starMapGui.apixDensityMapFileLabel.text())
         apixMap = densMap.rsplit(".", 1)[0]  + "_apix." + densMap.rsplit(".", 1)[1]
         s = ''
         with open(STARMAP_ROSETTA_APIX_SCRIPT) as f:
-            s = f.read()    
+            s = f.read()
         s = s.replace("@@APIX_MAP@@", str(apixMap))
-        
+
         if self.starMapGui.apixAnisoCheckBox.isChecked():
             s = s.replace("@@ANISO@@", "1")
         else:
             s = s.replace("@@ANISO@@", "0")
-            
+
         with open (os.path.basename(apixFile), "w") as aFile:
             aFile.write(s)
         return
@@ -1471,7 +1471,7 @@ class StarMap(ToolInstance):
         """Run StarMap help with section"""
         self._help("apix_tab#map-correction")
         return
-    
+
     # -------------------------------------------------------------------------
     def _help_cleanup(self):
         """Run StarMap help with section"""
@@ -1487,7 +1487,7 @@ class StarMap(ToolInstance):
     # -------------------------------------------------------------------------
     def _help_cite(self):
         """Run StarMap help with section"""
-        self._help("index#starmap-citations")
+        self._help("starmap#starmap-citations")
         return
 
     # -------------------------------------------------------------------------
@@ -1763,7 +1763,7 @@ class StarMap(ToolInstance):
     def get_values_script(self, fsc=False):
         """Returns settings script"""
         if fsc:
-            cxc = "ui tool show starmap"
+            cxc = "ui tool show StarMap"
             cxc += "\nstmset alspdb=" + os.path.basename(self.rosettaCxSelPdbFile)
             cxc += "\nstmset densitymap=" + os.path.basename(self.rosettaDensityMapFile)
             cxc += "\nstmset mapres=" + self.starMapGui.rosettaResolutionEdit.text()
@@ -1772,7 +1772,7 @@ class StarMap(ToolInstance):
             cxc += "\nexit\n"
             return cxc
 
-        cxc = "ui tool show starmap"
+        cxc = "ui tool show StarMap"
         if not self.starMapGui.executionFullPathBox.isChecked():
             if self.rosettaCxSelPdbFile:
                 cxc += "\nopen " + os.path.basename(self.rosettaCxSelPdbFile)

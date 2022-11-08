@@ -1,5 +1,0 @@
-include templates/s*
-include templates/rosetta_apix.xml
-include templates/rosetta_tmpl_1.2.xml
-include LICENSE *.txt
-recursive-include docs *
