@@ -72,7 +72,7 @@ uninstall:
 deploy-pip-qt5: wheeldist-qt5 uninstall
 	$(CHIMERAX)/bin/ChimeraX -m pip install ./bundle/wheels/qt5/ChimeraX_StarMap-$(VER)-py3-none-any.whl
 		
-deploy-pip-user: wheeldist uninstall
+deploy-pip-user: wheeldist-qt6 uninstall
 	$(CHIMERAX)/bin/ChimeraX -m pip install --user ./bundle/wheels/ChimeraX_StarMap-$(VER)-py3-none-any.whl
 
 bundle-clean:
