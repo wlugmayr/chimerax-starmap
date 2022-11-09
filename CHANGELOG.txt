@@ -1,5 +1,6 @@
 Version 1.1.70
 - changed main html index file to starmap.html to avoid jumps to ChimeraX help:index.html
+- removed version number from generated veusz header
 
 Version 1.1.69
 - Updated build and directory structure for ChimeraX bundle_info.xml
