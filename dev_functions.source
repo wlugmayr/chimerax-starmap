@@ -44,7 +44,7 @@ starmap_build_chimerax13_maxwell_centos7() {
 
 # -----------------------------------------------------------------------------
 starmap_build_chimerax_darwin_bigsur() {
-    # uses homebrew and p7zip
+    # uses homebrew tools
     conda activate ${ENV}
     # Rosetta is in ~/.zshrc
     export CHIMERAX=/Applications/ChimeraX-1.4.app/Contents
