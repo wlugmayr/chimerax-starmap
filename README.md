@@ -19,26 +19,26 @@ If you use *StarMap* please **read** and **cite**:
 - Lugmayr, Kotov et al. StarMap: A user-friendly workflow for Rosetta-driven molecular structure refinement. 
   Nat. Protoc. (2022). https://doi.org/10.1038/s41596-022-00757-9
 
+If you are interested in the history and background of *StarMap* please read:
+
+- Kotov et al. How to solve a molecular tangram?
+  Behind the paper: https://protocolsmethods.springernature.com/posts/how-to-solve-a-molecular-tangram
+
+
 # Software releases
 
 The actual release is: **StarMap 1.1.70**
 
-The *ChimeraX 1.4+ (Qt6)* version of the plugin will be available via the **ChimeraX Toolshed** in the near future.
+The *ChimeraX 1.4+ (Qt6)* version of the plugin is available via the **ChimeraX Toolshed** (*Tools->More Tools*).
 
-Meanwhile you can install it from the **dist** folder of this site.
+Installations using *ChimeraX 1.3 (Qt5)* are available in the **dist/qt5** folder of this site.
 ```
   chimerax -m pip install --user ChimeraX_StarMap-1.1.70-py3-none-any.whl
 ```
 
-Installations using *ChimeraX 1.3 (Qt5)* are available in the **dist/qt5** folder of this site.
-It can be installed as described in the command above.
-
 # Development notes
 
 Here are some starting notes on how this tool is developed.
-
-Since *StarMap* was mainly ported from *Chimera 1.x* to *ChimeraX 0.3* in 2017, 
-some development things might not be as now described in the actual *ChimeraX* development guidelines.
 
 First have a look at the file *dev_functions.source* for example development environment settings. 
 These functions are compatible with *BASH* and *ZSH*.
@@ -61,6 +61,8 @@ Here we use the shell statements in the *starmap_dev_chimerax_centos9* function 
   source dev_functions.source
   starmap_dev_chimerax_centos9
 ```
+
+Just copy&edit or add your own functions.
 
 ## Use Makefile targets to develop and test StarMap
 
