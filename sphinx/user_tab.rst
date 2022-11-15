@@ -5,6 +5,7 @@ User Tab
 ========
 
 In this tab you can choose user-generated or modified *Rosetta* and *Shell* script templates.
+The *Rosetta* and *Shell* script templates can be used independent of each other or in combination.
 
 .. image:: _images/user_tab.png
 
@@ -30,7 +31,7 @@ In this box user-defined *Rosetta* shell script template can be choosen.
 * **Select**:
   An external shell script template can be located on the filesystem.
   Template filenames must contain the keyword *local* or *cluster*.
-  Once choosen this template will be added to the pull down menue in the corresponding *Save* tab based on the keyword.
+  Once choosen this **template will be added to the pull down menu** in the corresponding *Save* tab based on the keyword.
   This shell script generation is independent of the choosen *Rosetta* XML script.
 
 As an alternative predefined templates can be put in a special folder as described in
@@ -42,11 +43,14 @@ StarMap Replacement Values
 --------------------------
 
 *StarMap* uses the following replacment values. This keywords can be used also in user-defined script templates.
-For easier visuability the patterns start and end with **@@** in both Rosetta and shell scripts.
+For easier visuability the patterns start and end with **@@** in both *Rosetta* and *Bash* scripts.
 
 The following patterns are valid and case sensitive:
 
+* **@@ANISO@@**: Use anisotropic pixels in magnification calibration.
+* **@@APIX_MAP@@**: The output filename of the magnification calibration.
 * **@@CONSTRAINT_SET_FILE@@**: The path and filename of the selected constraint set.
+* **@@CORES@@**: The amount of cores used by the MPI run.
 * **@@DENSITY_FILE@@**: The density map file.
 * **@@HIRES@@**: The density map resolution.
 * **@@USE_SYMMETRY@@**: Run symmetry options.
@@ -104,12 +108,7 @@ For *-extra_improper_file*, cat all the files together::
 
 and use that file as input.
 
-Newer versions of Rosetta (3.10+) no longer need the **-extra_improper** directive (specifying it will not hurt however).
-
-If you use the Rosetta script **molfile_to_params.py** to generate the *params* files, it's located in::
-
-  ${ROSETTA3}/source/scripts/python/public/molfile_to_params.py
-
+Newer versions of *Rosetta* (3.10+) no longer need the **-extra_improper** directive (specifying it will not hurt however).
 
 
 

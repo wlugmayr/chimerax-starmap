@@ -22,7 +22,7 @@ The information in this section will be used during execution script generation.
 
 * **HELIX**:
   Enable this check box if helical symmetry is used.
-  It will **not** add the flag **-score_symm_complex** to the *Rosetta* execution as done for normal symmetry.
+  It will **not** add the flag *-score_symm_complex* to the *Rosetta* execution as done for normal symmetry.
 
 * **Select**:
   When the symmetry detection in the :ref:`Symmetry <symmetry_tab>` tab was sucessful,
@@ -41,7 +41,6 @@ This box is used for to enable *Rosetta* to evaluate the results by the given mo
 
 * **Select**:
   The second *.pdb* half-map file can be selected here.
-
 
 
 Constraints
@@ -71,7 +70,7 @@ Versions
  The density weights database is distributed with *Rosetta* and there are various versions depending on the used *Rosetta* version.
 
  * **Rosetta 3.8 or below**:
-   The *talaris2013* database can be used when the parameter **-restore_talaris_behavior**
+   The *talaris2013* database can be used when the parameter *-restore_talaris_behavior*
    is added to the *Rosetta* command line executable as additional parameter e.g. in the *StarMap* bash template.
 
  * **Rosetta 3.9 or higher**:

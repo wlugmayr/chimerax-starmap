@@ -14,7 +14,7 @@ On this tab previous generated or external data can be analyzed.
 Rosetta Results
 ---------------
 
-After a successful run of *Rosetta* the result PDBs can be sorted based on the FSC value by pressing the **Execute** button.
+After a successful run of *Rosetta* the result PDBs can be sorted based on the overall FSC value by pressing the **Execute** button.
 This means the PDBs with the best value get re-ordered to the name *starmap_result_0001.pdb*, the second best to *...0002.pdb* etc.
 
 
@@ -56,7 +56,7 @@ Graphs
 * **Execute**:
   Choose on which values the FSC will be calculated.
   The calculation can be 5 seconds up to 5+ minutes depending on your input data and chosen option.
-  *ChimeraX* is blocked during the execution. When the calculation is finished the **Preview** button changes its color.
+  *ChimeraX* is **blocked** during the execution. When the calculation is finished the **Preview** button changes its color.
 
   After the execution *StarMap* prepares multiple **.cxc** scripts for coloring of the Z-score values in the working folder
   for highlightning ribbons in *ChimeraX*.

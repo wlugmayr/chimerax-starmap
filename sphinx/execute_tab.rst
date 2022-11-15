@@ -81,7 +81,7 @@ Here the generated filenames are displayed and the contents can be viewed.
 Run Locally Tab
 ---------------
 
-Here you can generate the bash script for execution on the local system.
+Here you can generate the *Bash* script for execution on the local system.
 
 .. image:: _images/execute_tab_local.png
 
@@ -91,7 +91,7 @@ Use local cores
 
 *Rosetta* uses 1 core per model for calculation.
 The pre-filled value is the amount of cores reported by the operating system.
-Since only Rosetta static executables are available on MacOS the local cores are set there to *1* by default.
+Since only *Rosetta* static executables are available on MacOS the local cores are set there to *1* by default.
 If the value is set to *1*, make sure to use a non-MPI template for the script generation.
 
 If you want to parallelize the calculation use as a *minimum* a value larger than *2* and a MPI script template.
@@ -124,11 +124,12 @@ Pressing the *Cancel* button disables editing in the widget, *reloads* the scrip
 Execute local script
 ^^^^^^^^^^^^^^^^^^^^
 
-By pressing the *Execute* button the local script is executed and the output is redirected to the *Log* tab of StarMap.
+By pressing the *Execute* button the local script is executed and the output is redirected to the *Log* tab of *StarMap*
+as long as you do not switch to other tabs.
 During the script execution the user interface is not blocked so other tasks in *ChimeraX* can be done meanwhile.
 If a new job is started while the old one is still running, the logs of the new job will be shown in the log window.
 The logs the old job can be monitored on the external command line with Unix tools like *tail -f*.
-Local *Rosetta* jobs cannot be stopped from StarMap and *ChimeraX* can be closed when executing longer analysis runs.
+Local *Rosetta* jobs cannot be stopped from *StarMap* and *ChimeraX* can be closed when executing longer analysis runs.
 Please refer to the platform and operating system documentation on how to stop *Rosetta* before it finishes automatically.
 
 Log files of local jobs are located in the working folder and get the name of the script
@@ -139,7 +140,7 @@ and suffix **.out** for *stdout* and **.err** for *stderr* messages.
 Submit Job Tab
 --------------
 
-Here you can generate the bash script for submitting it to a remote computing cluster using a job queueing system.
+Here you can generate the *Bash* script for submitting it to a remote computing cluster using a job queueing system.
 
 .. image:: _images/execute_tab_enqueue.png
 
@@ -157,7 +158,7 @@ With MPI another core must be added for the leader process. This value is most l
 Submission script templates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-StarMap comes with some script template examples.
+*StarMap* comes with some script template examples.
 More template examples are located in the *examples* folder from our website (:ref:`references`).
 
 The *Rosetta* commandline differs between version **3.8** and later versions.

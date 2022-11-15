@@ -9,10 +9,10 @@ This tab provides an **optional** symmetry check on the input data.
 Symmetry of the molecule of interest represents an important piece of information about the system,
 and can provide additional restraint for challenging models (e.g. worse than 4.5A resolution).
 
-When a symmetry is detected, a special Rosetta parameter file with the suffix *.symm* will be generated
+When a symmetry is detected, a special *Rosetta* parameter file with the suffix *.symm* will be generated
 in the directory where the input file is located. The output file will be named according to the input filename
 e.g. if the input filename is *starting_model_c7.pdb* the output filename will be *starting_model_c7.symm*.
-If no symmetry is detected, no additonal settings in StarMap will be changed.
+If no symmetry is detected, no additonal settings in *StarMap* will be changed.
 
 .. image:: _images/symmetry_tab.png
 
@@ -61,7 +61,7 @@ Rosetta Symmetry check
 
 * **Additional script options**:
   Most commonly useful additional script options are already preset in the user interface.
-  The following is the *help* output of the Rosetta commandline program **make_symmdef_file.pl**.
+  The following is the *help* output of the *Rosetta* commandline program **make_symmdef_file.pl**.
 
   | make_symmdef_file.pl
   | usage: /sw/rosetta/3.9/main/source/src/apps/public/symmetry/make_symmdef_file.pl [options]
@@ -104,4 +104,34 @@ Rosetta Symmetry check
   |
   |  PSEUDO-specific options:
   |    -a <char>   : [default A] the chain ID of the main chain
+
+
+
+.. _symmetry_howto:
+
+Symmetry example options
+------------------------
+
+Here are some example options to generate the symmetry definition file:
+
+- **Cyclic or dihedral symmetry with the protomer represented by a single chain**
+
+  Assuming that one of the protomers has chain ID A (the chain ID of the other subunit is not relevant, but must not be A),
+  type the following options in the *StarMap* symmetry tab section **Alternative 1 (Quick)**::
+
+	-a A -r 999
+
+- **Cyclic or dihedral symmetry with the protomer represented by multiple chains**
+
+  Assuming that the chain IDs in one protomer are A and Z and that chain B is identical to chain A but placed
+  in the neighboring protomer, type the following options in *StarMap* symmetry tab section **Alternative 2 (advanced)**::
+
+	-m NCS -a A -i B -d Z -r 999
+
+- **Helical symmetry**
+
+  Assuming that the chain IDs of the neighboring protomers are A and B and that n copies of the protomer should be generated
+  by *Rosetta*, type the following options in the *StarMap* symmetry tab section **Alternative 2 (advanced)**::
+
+    -m helix -a A -b B -t n -r 999
 

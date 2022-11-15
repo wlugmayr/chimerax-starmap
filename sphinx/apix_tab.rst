@@ -19,18 +19,20 @@ This analysis step can be run independently from model refinement, e.g. using th
 Input Data
 ^^^^^^^^^^
 
+Normally the values are preset from the analyis part before. But you can override or set your own values to use it independent
+from the previous analysis.
+
 Resolution
 ^^^^^^^^^^
 
-* **Map Resolution**:
-  The density map resolution. Should be the same value as used later in the *Analysis* tab.
+The density map resolution. Should be the same value as used later in the *Analysis* tab.
 
 .. index:: Density map
 
 Map correction
 ^^^^^^^^^^^^^^
 
-With the *Anisotropic pixel* checkbox on (default) Rosetta will try to make rectangular pixels in the map, which may crash other programs. 
+With the *Anisotropic pixel* checkbox on (default) *Rosetta* will try to make rectangular pixels in the map, which may crash other programs. 
 By unticking the pixel size will be changed in the map, but it will stay square.
 
 
@@ -45,17 +47,18 @@ You can choose a different one by pressing the **Select** button.
 Rosetta Result PDB
 ------------------
 
-**Select** the best Rosetta output PDB file for the run.
+**Select** the best *Rosetta* output PDB file for the run.
 
 
 Run Locally
 -----------
 
+Apix will run locally because it takes only a few minutes and uses 1 core for execution.
+
 Save shell script
 ^^^^^^^^^^^^^^^^^
 
-Apix calculation is done using 1 core. So the *Use local cores* field is not editable.
-StarMap comes with one premade ready-to-use *Rosetta* XML file for this special calculation.
+*StarMap* comes with one premade ready-to-use *Rosetta* XML file for this special calculation.
 The corresponding shell script is simple and has the usual name for this session, but adds a *_apix* to the file name before the suffix.
 
 

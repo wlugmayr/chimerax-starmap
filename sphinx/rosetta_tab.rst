@@ -6,9 +6,9 @@
 Rosetta Tab
 ===========
 
-This tab provides the starting point for the most commonly used Rosetta refinements.
-It is divided in two sections. First, the selected input data must be saved in ChimeraX
-or selected from the filesystem. Second, the choosen Rosetta strategy and additional
+This tab provides the starting point for the most commonly used *Rosetta* refinements.
+It is divided in two sections. First, the selected input data must be saved in *ChimeraX*
+or selected from the filesystem. Second, the choosen *Rosetta* strategy and additional
 settings must selected before saving and executing the analysis.
 
 .. image:: _images/rosetta_tab.png
@@ -17,12 +17,14 @@ settings must selected before saving and executing the analysis.
 ChimeraX
 --------
 
-Select your used atoms for refinement in ChimeraX e.g. the following example selects chain A,B,C and F in model 1:::
+Select your used atoms for refinement in *ChimeraX* e.g. the following example selects chain A,B,C and F in model 1::
 
   sel #1 /A-C,F
 
 * **PDB file (selected atoms only)**:
   Choose the selected atoms for further analysis.
+  If symmetry was detected by using *Alternative 2 (advanced)* from the Symmetry tab, then the appropriate
+  input PDB file is already selected here (suffix *_INPUT.pdb*).
 
 * **Save**:
   Once the atoms are selected they must be saved in a PDB file by pressing this button and
@@ -48,7 +50,8 @@ First a rebuilding or refinement strategy and second the used residues of the da
     * **Full rebuild**:
       Perform multiple iterations of backbone sampling followed by side-chain rebuilding and all-atom refinement.
     * **Minimal rebuild**:
-      Full rebuild, but only one iteration is performed.
+      Same as full rebuild, but only one iteration is performed. This mode is helpful for polishing the model,
+      for instance, after a refinement followed by manual adjustments in *Coot* or *ISOLDE*.
     * **Refinement only**:
       Perform side-chain rebuilding and all-atom refinement in Cartesian space.
       Only run cartesian or torsian model refinement, do not rebuild backbone residues.
@@ -67,6 +70,8 @@ First a rebuilding or refinement strategy and second the used residues of the da
       Each value can be in a range e.g. *22A-36A,56B-77B*.
 
 
+.. _results_number:
+
 Results
 -------
 
@@ -83,11 +88,8 @@ Resolution
 ----------
 
 * **Map Resolution**:
-  The density map resolution. Should be the same value as used later in the *Analysis* tab.
-  Enter the value and press the *Return* or *Tab* button to update the value in both entry fields.
-
-
-.. _results_number:
+  Enter the gold-standard resolution of your density map.
+  Enter the value and press the *Return* or *Tab* button to update also the corresponding value in the *Analysis* tab.
 
 Density
 -------

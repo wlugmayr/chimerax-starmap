@@ -15,6 +15,7 @@ Software Links
 * *OpenPBS workload manager*: `https://www.openpbs.org/ <https://www.openpbs.org/>`_
 * *PyParsing Library*: `https://pyparsing-docs.readthedocs.io/en/latest/ <https://pyparsing-docs.readthedocs.io/en/latest/>`_
 * *PyQtGraph Library*: `http://www.pyqtgraph.org/ <http://www.pyqtgraph.org/>`_
+* *Relion*: `https://relion.readthedocs.io/ <https://relion.readthedocs.io/>`_
 * *Rosetta*: `https://www.rosettacommons.org/ <https://www.rosettacommons.org/>`_
 * *SLURM workload manager*: `https://slurm.schedmd.com/ <https://slurm.schedmd.com/>`_
 * *StarMap*: `https://github.com/wlugmayr/chimerax-starmap/ <https://github.com/wlugmayr/chimerax-starmap/>`_
@@ -39,6 +40,6 @@ Other Documentation
 Credits
 =======
 
-The Rosetta script template, the quick symmetry check perl script and testcases for generating
-the runtime Rosetta scripts were provided by **Frank DiMaio (University of Washington)**.
+The *Rosetta* XML script templates, the quick symmetry check *Perl* script and testcases for generating
+correct runtime *Rosetta* scripts were provided by **Frank DiMaio (University of Washington)**.
 

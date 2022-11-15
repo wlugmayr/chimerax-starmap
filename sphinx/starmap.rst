@@ -28,7 +28,7 @@ Note:
 
 Contact:
 
-- *Wolfgang Lugmayr <w.lugmayr@uke.de>*
+- *StarMap <starmap@marlovitslab.org>*
 
 
 
@@ -38,10 +38,15 @@ Contact:
 How to cite StarMap
 -------------------
 
-If you use *StarMap* please cite:
+If you use *StarMap* please read and cite:
 
 - Lugmayr, Kotov et al. StarMap: A user-friendly workflow for Rosetta-driven molecular structure refinement. 
   Nat. Protoc. (2022). `https://doi.org/10.1038/s41596-022-00757-9 <https://doi.org/10.1038/s41596-022-00757-9>`_
+
+If you are interested in the history and background of *StarMap* please read:
+
+- Kotov et al. How to solve a molecular tangram? Behind the paper:
+  `https://protocolsmethods.springernature.com/posts/how-to-solve-a-molecular-tangram <https://protocolsmethods.springernature.com/posts/how-to-solve-a-molecular-tangram>`_
 
 
 Contents

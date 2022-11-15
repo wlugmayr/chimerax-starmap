@@ -156,7 +156,7 @@ Testing the installation
 1.
 *(Optional)* You can test the detected environment and the location of e.g. the *Rosetta* executables from the Linux *Bash* commandline like::
 
-  chimerax -m starmap.config
+  chimerax -m chimerax.starmap.config
 
 This should print you the current configuration with the full path to the Rosetta executables in the terminal window.
 
