@@ -6,29 +6,27 @@
 #
 
 .EXPORT_ALL_VARIABLES:
-.PHONY: env gitdirs qt5-to-qt6 doc bundle
-BASEVER := $(shell grep __version__ ./starmap/__init__.py | cut -f2 -d'"' | cut -f1,2 -d'.' | head -1)
+.PHONY: env tmpdirs qt5-to-qt6 doc bundle-setup
 VER := $(shell grep __version__ ./starmap/__init__.py | cut -f2 -d'"' | head -1)
 
 env:
 	export VER=$(VER)
-	export BASEVER=$(BASEVER)
 
 wheeldist-qt5: distclean doc
 	sed -i "s/self.tabWidget = QtWidgets.QTabWidget(qtStarMapWidget)/self.tabWidget = QtWidgets.QTabWidget(qtStarMapWidget);\n        self.tabWidget.setFont(QtGui.QFont(\"Sans Serif\", 10))/g" bundle/src/qtstarmapwidget.py
 	(cd bundle; $(CHIMERAX)/bin/ChimeraX --nogui --cmd "devel build . ; exit")
-	cp ./bundle/dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl ./bundle/wheels/qt5/ChimeraX_StarMap-$(VER)-py3-none-any.whl 
+	cp ./bundle/dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl ./dist/qt5/ChimeraX_StarMap-$(VER)-py3-none-any.whl 
 
 wheeldist-qt6: distclean doc
 	./qt5_to_qt6.sh
 	(cd bundle; $(CHIMERAX)/bin/ChimeraX --nogui --cmd "devel build . ; exit")
-	cp ./bundle/dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl ./bundle/wheels/ChimeraX_StarMap-$(VER)-py3-none-any.whl 
+	cp ./bundle/dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl ./dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl 
 
 bundle-install: distclean doc
 	./qt5_to_qt6.sh
 	(cd bundle; $(CHIMERAX)/bin/ChimeraX --nogui --cmd "devel install . ; exit")
 	
-bundle-setup:
+bundle-setup: tmpdirs
 	mkdir -p ./bundle/src
 	mkdir -p ./bundle/wheels/qt5
 	cp -r ./templates ./bundle/src
@@ -37,14 +35,13 @@ bundle-setup:
 	cp LICENSE bundle/license.txt
 	
 doc: clean sed_version bundle-setup
-	mkdir -p docs
-	mkdir -p sphinx/_static
+	mkdir -p ./bundle/src/docs
+	mkdir -p ./sphinx/_static
 	(cd sphinx; make html)
 	(cd sphinx; make epub)
-	cp -rv ./sphinx/_build/html/* ./docs
-	cp -rv ./sphinx/_build/epub/StarMap.epub ./docs
-	cp *.txt *.md LICENSE ./docs
-	cp -rv ./docs ./bundle/src/docs
+	cp -rv ./sphinx/_build/html/* ./bundle/src/docs
+	cp -rv ./sphinx/_build/epub/StarMap.epub ./bundle/src/docs
+	cp *.txt *.md LICENSE ./bundle/src/docs
 
 sed_version: env
 	sed -e "s/@@VERSION@@/${VER}/g" <./sphinx/conf.py.in >./sphinx/conf.py
@@ -84,25 +81,24 @@ bundle-clean:
 	rm -f ./bundle/bundle_info.xml
 	
 clean: bundle-clean
-	rm -rf starmap/__pycache__
-	rm -rf qtstarmap/__pycache__
+	rm -rf ./starmap/__pycache__
+	rm -rf ./qtstarmap/__pycache__
+	rm -rf ./sphinx/_static
 	rm -f ./sphinx/conf.py
 	rm -f ./sphinx/install_guide.rst
-
-distclean: clean
-	rm -rf ./docs
-	rm -rf ./sphinx/_static
 	(cd sphinx; make clean)
 
-realclean: distclean
-	rm -rf bundle/wheels
+distclean: clean
+	rm -rf ./dist
 	
-gitdirs:
-	mkdir -p dist
-	mkdir -p sphinx/_static
+tmpdirs:
+	mkdir -p ./dist/qt5
+	mkdir -p ./sphinx/_static
 
 gitignore:
 	echo .gitignore >.gitignore
 	echo .project >>.gitignore
 	echo .pydevproject >>.gitignore
 	echo .settings >>.gitignore
+
+
