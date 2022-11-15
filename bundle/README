@@ -8,8 +8,12 @@ to assess the overall quality of the refinement and resolution (map versus model
 Furthermore, per-residue Z-scores provide a fast guide to evaluate and improve local refinements as well as to identify flexible and
 potentially functional sites in large macromolecular complexes.
 
-If you use StarMap please read and cite:
+This plugin needs the external Rosetta software suite to work properly.
 
+Once installed type 'stmhelp show' in the ChimeraX commandline to see the manual 
+and a short guide on how to integrate the Rosetta binary distribution.
+
+If you use StarMap please read and cite:
 - Lugmayr, Kotov et al. StarMap: A user-friendly workflow for Rosetta-driven molecular structure refinement. 
   Nat. Protoc. (2022). https://doi.org/10.1038/s41596-022-00757-9
 
