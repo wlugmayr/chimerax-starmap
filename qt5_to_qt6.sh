@@ -1,12 +1,11 @@
 #!/bin/sh
 #
-# Darwin: search and replace sed by gsed
+# Darwin: search and replace sed by Homebrew gsed
 #
 
 cd bundle
 
 # bundle_info.xml
-#sed -i "s/StarMapQt5/StarMap/g" bundle_info.xml
 sed -i "s/==1.3/>=1.4/g" bundle_info.xml
 
 cd src
