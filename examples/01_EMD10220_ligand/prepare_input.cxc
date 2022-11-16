@@ -1,0 +1,12 @@
+open 6SK5
+open emdb:10220
+fitmap #1 inMap #2
+volume zone #2 nearAtoms #1 range 2.2 newMap true
+sel #1
+save 6SK5_fit.pdb models #1 selectedOnly true relModel #2
+save emd_10220_zone.mrc model #3
+sel #1:LGQ
+save LGQ.pdb models #1 selectedOnly true relModel #2
+open LGQ.pdb
+save LGQ.mol2 format mol2 models #4
+exit

@@ -1,0 +1,14 @@
+open 2lpz
+save 2lpz_assembly1.pdb format pdb models #1.1
+close session
+open 2lpz_assembly1.pdb
+open emdb_11311_recentered_map.mrc
+# move the model inside the map
+turn y 180 models #1
+move z 200 models #1
+# refine the fit
+fitmap #1 inMap #2 
+save 2lpz_assembly1_newcoord.pdb relModel #2
+exit
+
+      

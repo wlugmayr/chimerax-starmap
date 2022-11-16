@@ -1,5 +1,7 @@
 Version 1.1.71
 - Improved help text and added input data preperation hints.
+- Added EMD-10220 ligand example
+- Added EMD-11311 helix example
 
 Version 1.1.70
 - changed main html index file to starmap.html to avoid jumps to ChimeraX help:index.html

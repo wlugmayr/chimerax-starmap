@@ -1,0 +1,11 @@
+ui tool show StarMap
+open 6SK5_fit.pdb
+open emd_10220_zone.mrc
+stmset selfile=6SK5_fit.pdb
+stmset densitymap=emd_10220_zone.mrc
+stmset mapres=3.6
+stmset usrlbl1=extra_res_cen
+stmset usrval1=LGQ.cen.params
+stmset usrlbl2=extra_res_fa
+stmset usrval2=LGQ.fa.params
+

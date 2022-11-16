@@ -1,0 +1,10 @@
+ui tool show StarMap
+open 2lpz_assembly1_newcoord.pdb
+open emdb_11311_recentered_map.mrc
+stmset symm=True
+stmset symmhelix=True
+stmset rsymmflags=-m_helix_-a_O_-b_P:5.68194:4.39657:Z_-t_13_-r_999
+stmset symmpdb=2lpz_assembly1_newcoord.pdb
+stmset densitymap=emdb_11311_recentered_map.mrc
+stmset mapres=3.6
+

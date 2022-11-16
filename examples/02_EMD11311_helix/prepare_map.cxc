@@ -1,0 +1,6 @@
+open emdb:11311
+volume #1 originIndex 149.5,149.5,149.5
+vop resample #1 onGrid #1
+save emdb_11311_recentered_map.mrc models #2
+exit
+
