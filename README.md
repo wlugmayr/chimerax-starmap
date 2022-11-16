@@ -33,7 +33,7 @@ The *ChimeraX 1.4+ (Qt6)* version of the plugin is available via the **ChimeraX 
 
 Installations using *ChimeraX 1.3 (Qt5)* are available in the **dist/qt5** folder of this site.
 ```
-  chimerax -m pip install --user ChimeraX_StarMap-1.1.70-py3-none-any.whl
+  chimerax -m pip install --user ChimeraX_StarMap-1.1.71-py3-none-any.whl
 ```
 
 # Development notes
