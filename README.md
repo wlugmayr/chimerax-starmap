@@ -27,7 +27,7 @@ If you are interested in the history and background of *StarMap* please read:
 
 # Software releases
 
-The actual GitHub build release is: **StarMap 1.1.71** (see CHANGELOG.txt for changes).
+The actual GitHub code release is: **StarMap 1.1.71** (see CHANGELOG.txt for changes).
 
 The *ChimeraX 1.4+ (Qt6)* version of the plugin is available via the **ChimeraX Toolshed** (*Tools->More Tools*).
 
