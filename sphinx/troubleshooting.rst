@@ -91,7 +91,7 @@ When you have a powerful workstation with multiple cores running *Linux*, you co
 
 First, install the *openmpi* development package with the usual package installer
 
-Now edit the file *$ROSETTA_HOME/main/source/tools/build/site.settings* and change the section as below::
+Now edit the file *$ROSETTA3/source/tools/build/site.settings* and change the section as below::
 
         "overrides" : {
             "cxx" : "mpicxx",
