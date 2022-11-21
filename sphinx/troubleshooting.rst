@@ -49,7 +49,8 @@ Download the binary package from the *Rosetta* website.
 
 Extract the package on your PC and (*optional*) set a symbolic link for shorter paths::
 
-	cd /usr/local
+	mkdir -p /usr/local/rosetta
+	cd /usr/local/rosetta
 	tar zxvf /somewhere/Downloads/rosetta_bin_linux_3.13_bundle.tgz
 	ln -s rosetta_bin_linux_2021.16.61629_bundle 3.13
 
