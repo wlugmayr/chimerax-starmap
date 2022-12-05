@@ -40,8 +40,11 @@ How to cite StarMap
 
 If you use *StarMap* please read and cite:
 
-- Lugmayr, Kotov et al. StarMap: A user-friendly workflow for Rosetta-driven molecular structure refinement. 
+- Lugmayr, W., Kotov, V. et al. StarMap: A user-friendly workflow for Rosetta-driven molecular structure refinement.
   Nat. Protoc. (2022). `https://doi.org/10.1038/s41596-022-00757-9 <https://doi.org/10.1038/s41596-022-00757-9>`_
+
+- DiMaio, F. et al. Atomic-accuracy models from 4.5-A cryo-electron microscopy data with density-guided iterative local refinement.
+  Nat. Methods 12, 361-365 (2015). `https://www.nature.com/articles/nmeth.3286 <https://www.nature.com/articles/nmeth.3286>`_
 
 If you are interested in the history and background of *StarMap* please read:
 

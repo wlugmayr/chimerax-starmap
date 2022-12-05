@@ -27,9 +27,11 @@ If you are interested in the history and background of *StarMap* please read:
 
 # Software releases
 
-The actual GitHub code release is: **StarMap 1.1.71** (see CHANGELOG.txt for changes).
+The actual GitHub code release is: **StarMap 1.1.74** (see CHANGELOG.txt for changes).
 
-The *ChimeraX 1.4+ (Qt6)* version of the plugin is available via the **ChimeraX Toolshed** (*Tools->More Tools*).
+**Version 1.1.74+ differs from the Toolshed version only with full support of the Windows Subsystem for Linux on Windows 10+!**
+
+The official *ChimeraX 1.4+ (Qt6)* version of the plugin is available via the **ChimeraX Toolshed** (*Tools->More Tools...*).
 
 Installations using *ChimeraX 1.3 (Qt5)* are available in the **dist/qt5** folder of this site.
 ```
@@ -62,7 +64,7 @@ Here we use the shell statements in the *starmap_dev_chimerax_centos9* function 
   starmap_dev_chimerax_centos9
 ```
 
-Just copy&edit or add your own functions.
+Just edit or add your own functions.
 
 ## Use Makefile targets to develop and test StarMap
 

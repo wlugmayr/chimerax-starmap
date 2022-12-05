@@ -1,5 +1,21 @@
+Version 1.1.74
+- Windows adaptions if no WSL distribution is installed
+- Check stmconfig only once at startup
+- Added WSL setup instructions for beginners to the manual
+
+Version 1.1.73
+- ChimeraX Windows executes result sorting on WSL
+- ChimeraX Windows executes analysis on WSL
+- ChimeraX Windows executes apix on WSL
+
+Version 1.1.72
+- implemented pylint hints
+- ChimeraX Windows detect Rosetta scripts on WSL
+- ChimeraX Windows executes symmetry scripts on WSL
+- ChimeraX Windows executes refinement on WSL with Log tab support
+
 Version 1.1.71
-- Improved help text and added input data preperation hints.
+- Improved help text and added input data preperation hints
 - Added EMD-10220 ligand example
 - Added EMD-11311 helix example
 

@@ -131,7 +131,37 @@ Windows Subsystem for Linux HOWTO
 =================================
 
 The *Windows Subsystem for Linux* can run a full Linux distribution like *Ubuntu* on *Windows 10+*.
-So you can compile *Rosetta* by yourself (or use the binary download version) and use it in *StarMap* on a computing workstation running *Windows 10+*.
+
+Simple WSL install
+------------------
+
+To install it choose a Linux distribution like *Ubuntu* from the *Microsoft* store and open it after the installation process.
+Follow the steps and close it.
+
+Now download the *Rosetta* binary distribution from their website.
+
+Open *Ubuntu* and do similar steps::
+
+  sudo mkdir -p /usr/local/rosetta
+  sudo cd /usr/local/rosetta
+  sudo tar zxvf /mnt/c/Users/username/Downloads/rosetta*.tar.gz
+
+Close *Ubuntu*.
+
+Open *ChimeraX* with *StarMap 1.1.74+* and type *stmconfig* in the *ChimeraX* commandline.
+
+The full path to the *Rosetta* binaries should be shown.
+
+If not open a normal *Windows* commandline (*cmd.exe*) and try::
+
+  wsl.exe /usr/bin/find /usr/local/rosetta
+
+This should print a lot of files. If not check the install steps above.
+*StarMap* tries to locate at startup the needed *Rosetta* executables in the *WSL* */usr/local/rosetta* folder.
+
+Changes between WSL and Windows
+-------------------------------
+
 You can access your data files on the filesystem from both systems, if they are located somewhere visible from Windows e.g. *C:\\*.
 
 **Path problems**:
@@ -139,7 +169,7 @@ You can access your data files on the filesystem from both systems, if they are 
   The path handling of *Windows* and the *Windows Subsystem for Linux* differs as described below.
   If you have your data in e.g.::
 
-	C:\\Users\\username\\Documents\\starmap_examples
+	C:\Users\username\Documents\starmap_examples
 
   the corresponding path for *Bash* would be::
 

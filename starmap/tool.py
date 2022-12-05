@@ -12,6 +12,12 @@ import platform
 import stat
 import threading
 import subprocess
+import string
+import random
+from shutil import copyfile
+import numpy
+import pyqtgraph.exporters
+from pyparsing import ParseException
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.Qt import QIntValidator, QDoubleValidator
 #from PyQt6 import QtCore, QtWidgets, QtGui
@@ -20,9 +26,10 @@ from chimerax.core.tools import ToolInstance  # @UnresolvedImport
 from chimerax.ui.gui import MainToolWindow  # @UnresolvedImport
 from chimerax.core.commands import run  # @UnresolvedImport
 from .qtstarmapwidget import Ui_qtStarMapWidget
-from .rosettascripts import script, asXmlList
-from .config import ROSETTA_FOUND
-from .config import STARMAP_TEMPLATES_DIR
+from .rosettascripts import cleanupList, asXmlList, removeTagAndMoverByTagName, removeTagAndMoverByValueName, replaceUserDefinedRebuildingValues, script, reset
+from .config import wsl_cmd_wrapper, data_location, check_config, check_rosetta_cmd
+from .config import STARMAP_USER_ENV, STARMAP_TEMPLATES_DIR, STARMAP_SYMMETRY_CMD, STARMAP_ROSETTA_SCRIPT, STARMAP_ROSETTA_APIX_SCRIPT
+from .config import ROSETTA_SCRIPTS_CMD, ROSETTA_SCRIPTS_MPI_CMD, ROSETTA_DENSITY_CMD, ROSETTA_SYMMDEF_CMD
 
 
 _translate = QtCore.QCoreApplication.translate
@@ -40,36 +47,33 @@ class ExternalBashThread(threading.Thread):
     # -------------------------------------------------------------------------
     def __init__(self):
         """Init this instance"""
+        self.cmd = None
         self.stdout = None
         self.stderr = None
         threading.Thread.__init__(self)
         return
 
     # -------------------------------------------------------------------------
-    def set_script(self, cmd="bash", submit=""):
+    def set_script(self, cmd="", submit=""):
         """Set the commandline to execute"""
         self.cmd = cmd
-        self.submit = submit
-        return
-
-    # -------------------------------------------------------------------------
-    def set_submission(self):
-        """Set the commandline to execute"""
-        if self.submit.startswith('ts '):
-            self.submit += ' -L starmap -n -E '
-
-        self.cmd = self.submit + ' ' + self.cmd
+        self.stdout = cmd.rsplit(".", 1)[0]  + ".out"
+        self.stderr = cmd.rsplit(".", 1)[0]  + ".err"
+        self.cmd = wsl_cmd_wrapper(cmd, True)
+        if submit:
+            self.cmd = submit + ' ' + self.cmd
+        # TODO comment debugfile below
+        debugfile = cmd.rsplit(".", 1)[0]  + ".cmd"
+        with open(debugfile, 'w', encoding='utf-8') as d:
+            d.writelines(submit)
+            d.writelines(self.cmd)
         return
 
     # -------------------------------------------------------------------------
     def run(self):
         """Calls the command"""
-        self.stdout = self.cmd.rsplit(".", 1)[0]  + ".out"
-        self.stderr = self.cmd.rsplit(".", 1)[0]  + ".err"
-        self.set_submission()
-
-        with open(self.stdout, 'w') as o:
-            with open(self.stderr, 'w') as e:
+        with open(self.stdout, 'w', encoding='utf-8') as o:
+            with open(self.stderr, 'w', encoding='utf-8') as e:
                 subprocess.Popen(self.cmd, shell=True, stdout=o, stderr=e, universal_newlines=True)
         return
 
@@ -110,13 +114,15 @@ class StarMap(ToolInstance):
         self.logger = session.logger
         self._init_gui(tw.ui_area)
         self.tool_window.manage(placement="side")
+        check_config()
         self._load_rosetta_script()
-        global ROSETTA_FOUND
+        from .config import ROSETTA_FOUND
         if not ROSETTA_FOUND:
-            msg = "Rosetta executables not found!\n\n"
+            msg = "Rosetta executables not found!\n"
             msg += "Scripts can only be generated with default Rosetta executable names."
             msg += " Executing them directly from ChimeraX will therefore fail!"
-            QtWidgets.QMessageBox.warning(self.starMapGui.tabWidget, "StarMap Warning", msg, QtWidgets.QMessageBox.Ok)
+            #QtWidgets.QMessageBox.warning(self.starMapGui.tabWidget, "StarMap Warning", msg, QtWidgets.QMessageBox.Ok)
+            self.logger.warning(msg)
 
         return
 
@@ -197,6 +203,9 @@ class StarMap(ToolInstance):
         self.starMapGui.executionLocalSaveButton.clicked.connect(self._save_bash_script)
         self.starMapGui.executionRemoteSaveButton.clicked.connect(self._save_bash_script)
         self.starMapGui.executionLocalRunScript.clicked.connect(self._exec_local_bash_script)
+        if platform.system() == "Darwin" or platform.system() == "Windows":
+            self.starMapGui.executionLocalCoresEdit.setText(str(1))
+            self.starMapGui.remoteTab.setEnabled(False)
 
         # analysis tab
         self.starMapGui.analysisRosettaResultsExecuteButton.clicked.connect(self._exec_local_sort_rosetta_results)
@@ -219,7 +228,6 @@ class StarMap(ToolInstance):
         self.starMapGui.apixExecuteButton.clicked.connect(self._exec_local_bash_apix_script)
 
         # search templates
-        from .config import data_location
         global STARMAP_TEMPLATES_DIR
         self.starMapGui.executionLocalTemplateComboBox.clear()
         self.starMapGui.executionLocalTemplateComboBox.setDuplicatesEnabled(False)
@@ -266,6 +274,8 @@ class StarMap(ToolInstance):
         self.starMapGui.executionRemoteSaveButton.setEnabled(False)
         self.starMapGui.executionRemoteExecuteButton.setEnabled(False)
         self.starMapGui.apixExecuteButton.setEnabled(False)
+        if platform.system() == "Windows":
+            self.starMapGui.executionFullPathBox.setEnabled(False)
 
         # log buttons
         self.starMapGui.logViewEdit.setReadOnly(True)
@@ -316,7 +326,6 @@ class StarMap(ToolInstance):
 
         # hide development tab
         #self.starMapGui.tabWidget.removeTab(3)
-        from .config import STARMAP_USER_ENV
         for k, v in STARMAP_USER_ENV.items():
             if str(v):
                 self._run_cmd("stmset usrlbl" + str(k) + "=" + str(v))
@@ -407,7 +416,8 @@ class StarMap(ToolInstance):
             self.rosettaScriptString = self._replace_xml_tags(self.stmUserSelRosettaFile)
         else:
             #self._debug("initializing original rosetta script template")
-            from .config import STARMAP_ROSETTA_SCRIPT
+            global STARMAP_ROSETTA_SCRIPT
+            STARMAP_ROSETTA_SCRIPT = data_location('templates', STARMAP_ROSETTA_SCRIPT) or STARMAP_ROSETTA_SCRIPT
             self._load_rosetta_script(STARMAP_ROSETTA_SCRIPT)
             self.rosettaScriptString = self._replace_xml_tags(STARMAP_ROSETTA_SCRIPT)
         return
@@ -421,7 +431,7 @@ class StarMap(ToolInstance):
             #self._debug(filename)
             return filename
         self.logger.warning("No filename given!")
-        return
+        return ""
 
     # -------------------------------------------------------------------------
     def _select_file(self, pattern='*'):
@@ -431,12 +441,11 @@ class StarMap(ToolInstance):
                 #self._debug(filename)
             return filename
         self.logger.warning("No file selected!")
-        return
+        return ""
 
     # -------------------------------------------------------------------------
     def _save_chimerax_pdb(self):
         """Saves the selected atoms in Chimerax as pdb file"""
-        import string, random
         randomName = './' + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8)) + '.pdb'
         self.rosettaCxSelPdbFile = self._save_file('*.pdb', randomName)
         if self.rosettaCxSelPdbFile:
@@ -453,7 +462,7 @@ class StarMap(ToolInstance):
             self.stmChimeraxFile = self.stmChimeraxFile.rsplit(".", 1)[0]  + ".cxc"
             self.stmRosettaFile = self.stmChimeraxFile.rsplit(".", 1)[0]  + ".xml"
             self.stmBashFile = self.stmChimeraxFile.rsplit(".", 1)[0]  + ".sh"
-            target = open(self.stmChimeraxFile, 'w', newline='\n')
+            target = open(self.stmChimeraxFile, 'w', encoding='utf-8', newline='\n')
             target.write(self.get_values_script())
             target.close()
             self.set_value("runcxc=" + os.path.basename(self.stmChimeraxFile))
@@ -468,7 +477,7 @@ class StarMap(ToolInstance):
         """Saves a default fsc starmap script"""
         if cxcFile:
             fscFile = cxcFile.rsplit(".", 1)[0]  + "_fsc.cxc"
-            target = open(fscFile, 'w', newline='\n')
+            target = open(fscFile, 'w', encoding='utf-8', newline='\n')
             target.write(self.get_values_script(True))
             target.close()
         return
@@ -480,12 +489,12 @@ class StarMap(ToolInstance):
         #self._debug(self.rosettaScriptString)
 
         if self.stmRosettaFile:
-            target = open(self.stmRosettaFile, 'w', newline='\n')
+            target = open(self.stmRosettaFile, 'w', encoding='utf-8', newline='\n')
             target.write(self.rosettaScriptString)
             target.close()
             # re-edit to add residues to the correct replaced file
             self.rosettaScriptString = self._replace_xml_tags(self.stmRosettaFile)
-            target = open(self.stmRosettaFile, 'w', newline='\n')
+            target = open(self.stmRosettaFile, 'w', encoding='utf-8', newline='\n')
             target.write(self.rosettaScriptString)
             target.close()
             self.set_value("runxml=" + os.path.basename(self.stmRosettaFile))
@@ -506,7 +515,7 @@ class StarMap(ToolInstance):
             self.starMapGui.executionLocalEditButton.setStyleSheet("background-color: rgb(255, 255, 255); color: rgb(0, 0, 0)")
             self.starMapGui.executionRemoteEditButton.setStyleSheet("background-color: rgb(255, 255, 255); color: rgb(0, 0, 0)")
             if self.stmBashFile:
-                target = open(self.stmBashFile, 'w', newline='\n')
+                target = open(self.stmBashFile, 'w', encoding='utf-8', newline='\n')
                 target.write(self.starMapGui.executionTextEdit.toPlainText())
                 target.close()
                 return
@@ -518,11 +527,11 @@ class StarMap(ToolInstance):
 
         #self._debug("template = " + template)
         if os.path.isfile(template):
-            file = open(template, 'r')
+            file = open(template, 'r', encoding='utf-8')
             templateScriptString = file.read()
             templateScriptString = self._replace_script_tags(templateScriptString)
             if self.stmBashFile:
-                target = open(self.stmBashFile, 'w', newline='\n')
+                target = open(self.stmBashFile, 'w', encoding='utf-8', newline='\n')
                 target.write(templateScriptString)
                 target.close()
                 os.chmod(self.stmBashFile, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH)
@@ -538,8 +547,6 @@ class StarMap(ToolInstance):
     # -------------------------------------------------------------------------
     def _save_bash_apix_script(self):
         """Saves the bash script for local Rosetta calls"""
-        from .config import ROSETTA_SCRIPTS_CMD, STARMAP_ROSETTA_APIX_SCRIPT
-
         self.stmBashApixFile = self._save_file('*.sh', './starmap_apix.sh')
         if not self.stmBashApixFile:
             return
@@ -549,7 +556,10 @@ class StarMap(ToolInstance):
         self._save_apix_rosetta_script(apixFile)
 
         s = "#!/bin/sh\n"
-        s += "$(which " + os.path.basename(ROSETTA_SCRIPTS_CMD) + ") \\\n"
+        if platform.system() == "Windows":
+            s += ROSETTA_SCRIPTS_CMD + " \\\n"
+        else:
+            s += "$(which " + os.path.basename(ROSETTA_SCRIPTS_CMD) + ") \\\n"
         s += "  -parser:protocol \"" + os.path.basename(apixFile) + "\" \\\n"
         s += "  -edensity:mapfile \"" + os.path.basename(self.starMapGui.apixDensityMapFileLabel.text()) + "\" \\\n"
         s += "  -s \"" + os.path.basename(self.starMapGui.apixResultPdbFileLabel.text()) + "\" \\\n"
@@ -559,7 +569,7 @@ class StarMap(ToolInstance):
         s += "  -out:no_nstruct_label \n"
         s += "echo --- StarMap: end of log ---\n"
 
-        with open (self.stmBashApixFile, "w") as sFile:
+        with open (self.stmBashApixFile, 'w', encoding='utf-8', newline='\n') as sFile:
             sFile.write(s)
         os.chmod(self.stmBashApixFile, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH)
         self.starMapGui.apixBashFileLabel.setText(os.path.basename(self.stmBashApixFile))
@@ -569,12 +579,10 @@ class StarMap(ToolInstance):
     # -------------------------------------------------------------------------
     def _save_apix_rosetta_script(self, apixFile):
         """Saves the Rosetta apix xml script"""
-        from .config import STARMAP_ROSETTA_APIX_SCRIPT
-
         densMap = os.path.basename(self.starMapGui.apixDensityMapFileLabel.text())
         apixMap = densMap.rsplit(".", 1)[0]  + "_apix." + densMap.rsplit(".", 1)[1]
         s = ''
-        with open(STARMAP_ROSETTA_APIX_SCRIPT) as f:
+        with open(STARMAP_ROSETTA_APIX_SCRIPT, encoding='utf-8') as f:
             s = f.read()
         s = s.replace("@@APIX_MAP@@", str(apixMap))
 
@@ -583,7 +591,7 @@ class StarMap(ToolInstance):
         else:
             s = s.replace("@@ANISO@@", "0")
 
-        with open (os.path.basename(apixFile), "w") as aFile:
+        with open (os.path.basename(apixFile), 'w', encoding='utf-8') as aFile:
             aFile.write(s)
         return
 
@@ -737,7 +745,7 @@ class StarMap(ToolInstance):
         self.starMapGui.executionTextEdit.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
 
         if os.path.exists(filename):
-            text = open(filename).read()
+            text = open(filename, encoding='utf-8').read()
             self.starMapGui.executionTextEdit.setPlainText(text)
         return
 
@@ -774,20 +782,8 @@ class StarMap(ToolInstance):
                 return
 
         self.rosettaSymmFile = self.symmPdbFile.rsplit(".", 1)[0]  + ".symm"
-
-        from .config import STARMAP_SYMMETRY_CMD, win_path_wrapper
-        cmd = STARMAP_SYMMETRY_CMD.replace(' ', '\ ') + ' ' + self.starMapGui.symmOptionsEdit.text() + ' -p \"' + win_path_wrapper(self.symmPdbFile) + '\"'
-
-        from .config import win_cmd_wrapper
-        cmd = win_cmd_wrapper(cmd)
-        if platform.system() == "Windows":
-            scriptfile = self.symmPdbFile.rsplit(".", 1)[0]  + ".cmd"
-            target = open(scriptfile, 'w', newline='\n')
-            target.write(cmd)
-            target.close()
-            cmd = scriptfile
-            self.logger.warning("If the symmetry check fails, run the symmetry script on Windows by double-clicking on it: " + scriptfile)
-
+        cmd = STARMAP_SYMMETRY_CMD.replace(' ', r'\ ') + ' ' + self.starMapGui.symmOptionsEdit.text() + ' -p \"' + self.symmPdbFile + '\"'
+        cmd = wsl_cmd_wrapper(cmd, True)
         #self._debug(cmd)
         procExe = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         self.stdout, self.stderr = procExe.communicate()
@@ -830,13 +826,11 @@ class StarMap(ToolInstance):
                 return
 
         self.rosettaSymmFile = self.symmPdbFile.rsplit(".", 1)[0]  + ".symm"
+        cmd = '/usr/bin/env perl ' + ROSETTA_SYMMDEF_CMD.replace(' ', r'\ ') + ' ' + self.starMapGui.symmRosettaOptionsEdit.text() + ' -p \"' + self.symmPdbFile + '\"'
+        cmd = wsl_cmd_wrapper(cmd)
 
-        from .config import ROSETTA_SYMMDEF_CMD, win_path_wrapper
-        #cmd = '\"' + ROSETTA_SYMMDEF_CMD.replace(' ', '\ ') + '\" ' + self.starMapGui.symmRosettaOptionsEdit.text() + ' -p \"' + win_path_wrapper(self.symmPdbFile) + '\"'
-        cmd = '/usr/bin/env perl ' + ROSETTA_SYMMDEF_CMD.replace(' ', '\ ') + ' ' + self.starMapGui.symmRosettaOptionsEdit.text() + ' -p \"' + win_path_wrapper(self.symmPdbFile) + '\"'
-
-        self._debug(cmd)
-        with open(self.rosettaSymmFile, "w") as outfile:
+        #self._debug(cmd)
+        with open(self.rosettaSymmFile, 'w', encoding='utf-8') as outfile:
             procExe = subprocess.Popen(cmd, shell=True, stdout=outfile, stderr=subprocess.PIPE, universal_newlines=True)
             self.stdout, self.stderr = procExe.communicate()
         self.starMapGui.logViewEdit.setText(self.stderr)
@@ -870,13 +864,13 @@ class StarMap(ToolInstance):
     # -------------------------------------------------------------------------
     def _exec_local_bash_script(self):
         """Executes the bash script for local Rosetta calls"""
-        self._exec_external_script(self.stmBashFile)
+        self._exec_external_script_thread(self.stmBashFile)
         return
 
     # -------------------------------------------------------------------------
     def _exec_local_bash_apix_script(self):
         """Executes the bash script for local Rosetta calls"""
-        self._exec_external_script(self.stmBashApixFile)
+        self._exec_external_script_thread(self.stmBashApixFile)
         return
 
     # -------------------------------------------------------------------------
@@ -885,15 +879,12 @@ class StarMap(ToolInstance):
         submit = self.starMapGui.executionRemoteSubmitComboBox.currentText()
         if submit == 'ts':
             submit += ' -L starmap -N ' + self.starMapGui.executionRemoteCoresEdit.text()
-        self._exec_external_script(self.stmBashFile, submit)
+        self._exec_external_script_thread(self.stmBashFile, submit)
         return
 
     # -------------------------------------------------------------------------
     def _exec_cleanup(self):
         """Cleanup necessary files"""
-        if not self._check_supported():
-            return
-
         filename = "cleanup.sh"
         s = "rm -f *.err *.out\n"
         s += "rm -f *_sort.*\n"
@@ -908,9 +899,6 @@ class StarMap(ToolInstance):
     # -------------------------------------------------------------------------
     def _exec_local_sort_rosetta_results(self):
         """Sorts the Rosetta results PDBs by FSC value"""
-        if not self._check_supported():
-            return
-
         spattern = os.path.basename(self.rosettaCxSelPdbFile).rsplit(".", 1)[0] + "_????.pdb"
         s = "names=`grep mask " + spattern + " | grep -v starmap_result | sort -r -k5 | cut -f1 -d':'`\n"
         s += "i=1\n"
@@ -922,7 +910,7 @@ class StarMap(ToolInstance):
         filename = self.rosettaCxSelPdbFile.rsplit(".", 1)[0]  + "_sort.sh"
         filename = os.path.abspath(filename)
         self._write_bash_script(filename, s)
-        self._exec_external_script(filename)
+        self._exec_external_script_thread(filename)
         return
 
 
@@ -942,15 +930,13 @@ class StarMap(ToolInstance):
     # -------------------------------------------------------------------------
     def _exec_local_fsc_calculation(self, batchmode=False, fsc=False, lcc=False, zsc=False):
         """Executes Rosetta FSC calculation"""
-        if not self._check_supported():
-            return
-
         resultPdbName = os.path.basename(os.path.realpath(self.starMapGui.analysisResultPdbFileLabel.text()))
         #self._debug("resultPdbName=" + resultPdbName)
 
-        from .config import ROSETTA_DENSITY_CMD
         s = "$(which " + os.path.basename(ROSETTA_DENSITY_CMD) + ")"
         if self.starMapGui.executionFullPathBox.isChecked():
+            s = ROSETTA_DENSITY_CMD
+        if platform.system() == "Windows":
             s = ROSETTA_DENSITY_CMD
         s += " -s " + resultPdbName
         s += " -mapfile " + os.path.basename(self.starMapGui.analysisDensityMapFileLabel.text())
@@ -982,7 +968,7 @@ class StarMap(ToolInstance):
         s += "echo --- StarMap: end of log ---\n"
         self._write_bash_script(scriptname, s)
         if not batchmode:
-            self._exec_external_script(scriptname)
+            self._exec_external_script_thread(scriptname)
         else:
             self._exec_external_script_batchmode(scriptname)
 
@@ -1000,8 +986,8 @@ class StarMap(ToolInstance):
             QtWidgets.QMessageBox.Ok)
             return
 
-        lines = [line.rstrip('\n') for line in open(fscname)]
-        with open(self.fscModelMapCsvFile, 'w', newline='\n') as f:
+        lines = [line.rstrip('\n') for line in open(fscname, encoding='utf-8')]
+        with open(self.fscModelMapCsvFile, 'w', encoding='utf-8', newline='\n') as f:
             for line in lines:
                 if line.find("density_tools:") != -1:
                     tok = line.split()
@@ -1022,7 +1008,7 @@ class StarMap(ToolInstance):
         """Generate LCC CVS files"""
         realname = os.path.realpath(self.starMapGui.analysisResultPdbFileLabel.text())
         lccname = os.path.basename(realname.rsplit(".", 1)[0] + "_lcc_res.out")
-        lines = [line.rstrip('\n') for line in open(lccname)]
+        lines = [line.rstrip('\n') for line in open(lccname, encoding='utf-8')]
         fscLccCsvFiles = {}
 
         for line in lines:
@@ -1032,7 +1018,7 @@ class StarMap(ToolInstance):
 
         #self._debug("generating csv file(s):\n" + str(fscLccCsvFiles))
         for chain in fscLccCsvFiles:
-            with open(fscLccCsvFiles[chain], 'w', newline='\n') as f:
+            with open(fscLccCsvFiles[chain], 'w', encoding='utf-8', newline='\n') as f:
                 for line in lines:
                     if line.find("PERRESCC") != -1:
                         tok = line.split()
@@ -1055,12 +1041,11 @@ class StarMap(ToolInstance):
         if not os.path.isfile(zscname):
             try:
                 if os.path.isfile(lccname):
-                    from shutil import copyfile
                     copyfile(lccname, zscname)
             except OSError:
                 self._debug("assuming zsc direct run")
 
-        lines = [line.rstrip('\n') for line in open(zscname)]
+        lines = [line.rstrip('\n') for line in open(zscname, encoding='utf-8')]
         fscLccZscoreCsvFiles = {}
 
         for line in lines:
@@ -1070,7 +1055,7 @@ class StarMap(ToolInstance):
 
         #self._debug("generating csv file(s):\n" + str(fscLccZscoreCsvFiles))
         for chain in fscLccZscoreCsvFiles:
-            with open(fscLccZscoreCsvFiles[chain], 'w', newline='\n') as f:
+            with open(fscLccZscoreCsvFiles[chain], 'w', encoding='utf-8', newline='\n') as f:
                 for line in lines:
                     if line.find("PERRESCC") != -1:
                         tok = line.split()
@@ -1088,8 +1073,8 @@ class StarMap(ToolInstance):
     def _obsolete_make_lcc_color_com(self, fscname):
         """Generate a color file for Chimera 1.x"""
         chimeraColorFile = fscname.rsplit(".", 1)[0] + ".com"
-        lines = [line.rstrip('\n') for line in open(fscname)]
-        with open(chimeraColorFile, 'w', newline='\n') as f:
+        lines = [line.rstrip('\n') for line in open(fscname, encoding='utf-8')]
+        with open(chimeraColorFile, 'w', encoding='utf-8', newline='\n') as f:
             for line in lines:
                 if line.find("PERRESCC") != -1:
                     tok = line.split()
@@ -1123,8 +1108,8 @@ class StarMap(ToolInstance):
     # -------------------------------------------------------------------------
     def _write_zscore_color_cxc(self, csvfile, colfile, zcol, attrname):
         """Generate a color file for ChimeraX"""
-        lines = [line.rstrip('\n') for line in open(csvfile)]
-        with open(colfile, 'w', newline='\n') as f:
+        lines = [line.rstrip('\n') for line in open(csvfile, encoding='utf-8')]
+        with open(colfile, 'w', encoding='utf-8', newline='\n') as f:
             f.write("hide atoms\n")
             f.write("show cartoons\n")
             try:
@@ -1141,8 +1126,6 @@ class StarMap(ToolInstance):
     def _show_fsc_calculation(self):
         """Visualizes the FSC calculation"""
         self.starMapGui.analysisFscShowButton.setStyleSheet("background-color: rgb(255, 255, 255); color: rgb(0, 0, 0)")
-        import numpy
-        import pyqtgraph.exporters
         titlelabel = "Default Title"
         xlabel = "1/res"
         ylabel = "FSC_maskedmodelmap"
@@ -1178,7 +1161,7 @@ class StarMap(ToolInstance):
             vszfilename = filename.rsplit(".", 1)[0] + "_lcc_res.vsz"
         if zsc:
             vszfilename = filename.rsplit(".", 1)[0] + "_lcc_res_zscore.vsz"
-        with open(vszfilename, 'w', newline='\n') as f:
+        with open(vszfilename, 'w', encoding='utf-8', newline='\n') as f:
             f.write("# generated by StarMap\n")
             f.write("AddImportPath(u'" + str(os.getcwd()) + "')\n")
             for chain in self.fscCsvFiles:
@@ -1228,12 +1211,10 @@ class StarMap(ToolInstance):
     # -------------------------------------------------------------------------
     def _load_rosetta_script(self, scriptfile=""):
         """Loads the Rosetta script template"""
-        from pyparsing import ParseException
-        from .config import STARMAP_ROSETTA_SCRIPT
-        from .rosettascripts import reset
-        if not scriptfile:
-            scriptfile = STARMAP_ROSETTA_SCRIPT
         try:
+            global STARMAP_ROSETTA_SCRIPT
+            if not scriptfile:
+                scriptfile = data_location('templates', STARMAP_ROSETTA_SCRIPT) or STARMAP_ROSETTA_SCRIPT
             #self._debug("loading script: " + scriptfile)
             parsedScript = script.parseFile(scriptfile)
             tags = parsedScript.asList()
@@ -1241,6 +1222,8 @@ class StarMap(ToolInstance):
             self.rosettaScriptString = asXmlList(tags)
         except ParseException:
             self.logger.error("Error parsing the rosetta script template!")
+        except FileNotFoundError:
+            self.logger.error("Error opening the rosetta script template: " + scriptfile)
         return
 
     # -------------------------------------------------------------------------
@@ -1502,21 +1485,11 @@ class StarMap(ToolInstance):
         return
 
     # -------------------------------------------------------------------------
-    def _check_supported(self):
-        """Sorts the Rosetta results PDBs by FSC value"""
-        if platform.system() == "Windows":
-            QtWidgets.QMessageBox.warning(self.starMapGui.tabWidget, "StarMap warning",
-                                          "This functionality is not supported on Windows!",
-                                          QtWidgets.QMessageBox.Ok)
-            return False
-        return True
-
-    # -------------------------------------------------------------------------
     def _show_stdout_log(self):
         """Show stdout contents in log tab"""
         if not self.stdout:
             return
-        with open(self.stdout, "r") as f:
+        with open(self.stdout, 'r', encoding='utf-8') as f:
             f.seek (0, 2)
             fsize = f.tell()
             f.seek (max (fsize-20000, 0), 0)
@@ -1529,7 +1502,7 @@ class StarMap(ToolInstance):
         """Show stderr contents in log tab"""
         if not self.stderr:
             return
-        file = open(self.stderr, 'r')
+        file = open(self.stderr, 'r', encoding='utf-8')
         self.starMapGui.logViewEdit.setText(file.read())
         self.starMapGui.logViewEdit.moveCursor(QtGui.QTextCursor.End)
         return
@@ -1550,14 +1523,14 @@ class StarMap(ToolInstance):
     # -------------------------------------------------------------------------
     def _write_bash_script(self, filename, content):
         """Executes or submits the the given script as thread"""
-        with open (filename, "w", newline='\n') as sFile:
+        with open(filename, 'w', encoding='utf-8', newline='\n') as sFile:
             sFile.write("#!/bin/sh\n")
             sFile.write(content)
         os.chmod(filename, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH)
         return
 
     # -------------------------------------------------------------------------
-    def _exec_external_script(self, scriptfile, submit=''):
+    def _exec_external_script_thread(self, scriptfile, submit=''):
         """Executes or submits the the given script as thread"""
         if not os.path.exists(scriptfile):
             QtWidgets.QMessageBox.warning(self.starMapGui.tabWidget, "StarMap warning",
@@ -1580,12 +1553,15 @@ class StarMap(ToolInstance):
     # -------------------------------------------------------------------------
     def _exec_external_script_batchmode(self, cmd):
         """Executes or submits the the given script as thread"""
-        o = open(cmd.rsplit(".", 1)[0]  + ".out", 'w', newline='\n')
-        e = open(cmd.rsplit(".", 1)[0]  + ".err", 'w', newline='\n')
-        procExe = subprocess.Popen(os.path.abspath(cmd), shell=True, stdout=o, stderr=e, universal_newlines=True)
+        stdout = cmd.rsplit(".", 1)[0]  + ".out"
+        stderr = cmd.rsplit(".", 1)[0]  + ".err"
+        cmd = os.path.abspath(cmd)
+        cmd = wsl_cmd_wrapper(cmd, True)
+
+        with open(stdout, 'w', encoding='utf-8') as o:
+            with open(stderr, 'w', encoding='utf-8') as e:
+                procExe = subprocess.Popen(cmd, shell=True, stdout=o, stderr=e, universal_newlines=True)
         procExe.wait()
-        o.close()
-        e.close()
         return
 
     # -------------------------------------------------------------------------
@@ -1662,8 +1638,8 @@ class StarMap(ToolInstance):
                 self.starMapGui.executionLocalCoresEdit.setText(str(os.cpu_count()))
             else:
                 self.starMapGui.executionLocalCoresEdit.setText(str(int(qval)+1))
-            # Darwin has only static Rosetta executables for local execution
-            if platform.system() == "Darwin":
+            # Darwin has only static Rosetta executables for local execution, also WSL binary install
+            if platform.system() == "Darwin" or platform.system() == "Windows":
                 self.starMapGui.executionLocalCoresEdit.setText(str(1))
             self.starMapGui.executionRemoteCoresEdit.setText(str(int(qval)+1))
         # saved scripts
@@ -1877,9 +1853,6 @@ class StarMap(ToolInstance):
     # -------------------------------------------------------------------------
     def _replace_xml_tags(self, template):
         """Reads the given template from the disk and replaces the xml tags"""
-        from pyparsing import ParseException
-        from .rosettascripts import cleanupList, removeTagAndMoverByTagName, removeTagAndMoverByValueName, replaceUserDefinedRebuildingValues, reset
-
         try:
             parsedScript = script.parseFile(template)
             l = parsedScript.asList()
@@ -1954,24 +1927,29 @@ class StarMap(ToolInstance):
         except ParseException:
             self.logger.error("Error in Rosetta XML replacements")
 
-        return
+        return ""
 
     # -------------------------------------------------------------------------
     def _replace_script_tags(self, script):
         """Replace @@ tags"""
-        from .config import ROSETTA_SCRIPTS_CMD, ROSETTA_SCRIPTS_MPI_CMD
         # use mpi if cores < 1
         cores = int(self.starMapGui.executionLocalCoresEdit.text())
         if self.starMapGui.executionTabWidget.currentIndex() == 2:
             cores = int(self.starMapGui.executionRemoteCoresEdit.text())
         if cores == 1:
             if not self.starMapGui.executionFullPathBox.isChecked():
-                cmdline = "$(which " + os.path.basename(ROSETTA_SCRIPTS_CMD) + ")"
+                if platform.system() == "Windows":
+                    cmdline = ROSETTA_SCRIPTS_CMD
+                else:
+                    cmdline = "$(which " + os.path.basename(ROSETTA_SCRIPTS_CMD) + ")"
             else:
                 cmdline = ROSETTA_SCRIPTS_CMD + " "
         else:
             if not self.starMapGui.executionFullPathBox.isChecked():
-                cmdline = "$(which " + os.path.basename(ROSETTA_SCRIPTS_MPI_CMD) + ")"
+                if platform.system() == "Windows":
+                    cmdline = ROSETTA_SCRIPTS_MPI_CMD
+                else:
+                    cmdline = "$(which " + os.path.basename(ROSETTA_SCRIPTS_MPI_CMD) + ")"
             else:
                 cmdline = ROSETTA_SCRIPTS_MPI_CMD + " "
 

@@ -6,6 +6,10 @@
 Handle all command registered at ChimeraX.
 """
 from chimerax.core.commands import CmdDesc, NoArg, StringArg, BoolArg # @UnresolvedImport
+from chimerax.help_viewer.tool import HelpUI  # @UnresolvedImport
+from .tool import StarMap
+from . import config
+#from .config import help_url
 
 # -----------------------------------------------------------------------------
 starmap_config_desc = CmdDesc(required=[('stmconfig', NoArg)],
@@ -34,7 +38,6 @@ starmap_set_desc = CmdDesc(required=[('stmset', StringArg)],
 # -----------------------------------------------------------------------------
 def starmap_cmd_handler(session, stmconfig=None, stmhelp=None, stmset=None, stmrunfsc=None, stmrunlcc=None, stmrunzsc=None):
     """StarMap command handler"""
-    from .tool import StarMap
     if stmset:
         #session.logger.info("stmset> " + stmset)
         stm = StarMap.get_singleton(session, create=False)
@@ -42,7 +45,6 @@ def starmap_cmd_handler(session, stmconfig=None, stmhelp=None, stmset=None, stmr
         return
 
     if stmconfig:
-        from . import config
         session.logger.info(config.config_as_string())
         return
 
@@ -63,10 +65,8 @@ def starmap_cmd_handler(session, stmconfig=None, stmhelp=None, stmset=None, stmr
 
     if stmhelp:
         #session.logger.info("stmhelp> " + stmhelp)
-        from chimerax.help_viewer.tool import HelpUI  # @UnresolvedImport
         hv = HelpUI.get_viewer(session)
-        from .config import help_url
-        url = help_url()
+        url = config.help_url()
 
         try:
             section = stmhelp.split('=')[1]
@@ -75,7 +75,7 @@ def starmap_cmd_handler(session, stmconfig=None, stmhelp=None, stmset=None, stmr
 
         if '#' in section:
             where = section.split('#')
-            url = help_url(where[0]  + ".html")
+            url = config.help_url(where[0]  + ".html")
             url += '#' + where[1]
 
         #session.logger.info("stmhelp> url=" + str(url))

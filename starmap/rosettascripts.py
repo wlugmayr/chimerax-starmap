@@ -75,6 +75,7 @@ def appendOption(optList):
     """Reorder options in list"""
     if len(optList) == 3 and optList[1] == '=':
         return " " + optList[0] + optList[1] + '"' + optList[2] + '"'
+    return ""
 
 
 # -----------------------------------------------------------------------------

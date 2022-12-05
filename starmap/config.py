@@ -7,6 +7,10 @@ Configuration tools
 """
 import os
 import platform
+import subprocess
+import importlib
+from shutil import which
+from . import __version__ as version
 
 # -----------------------------------------------------------------------------
 SEP = os.sep
@@ -26,27 +30,24 @@ STARMAP_SYMMETRY_CMD = "check_symmetry.sh"
 STARMAP_HELP = None
 STARMAP_USER_ENV = {}
 STARMAP_TEMPLATES_DIR = ""
+STARMAP_CONFIG_CHECK = False
 
-CYGWIN_BASH = r'C:\\Cygwin64\\bin\\bash.exe'
-WSL_BASH = r'C:\\Windows\system32\\bash.exe'
-BASH = WSL_BASH
+WSL = r'C:\\Windows\\system32\\wsl.exe'
+WSL_ROSETTA_DIR = ''
 
 # -----------------------------------------------------------------------------
 def cmd_exists(name):
     """Check whether `name` is on PATH and marked as executable"""
-    from shutil import which
     return which(name) is not None
 
 # -----------------------------------------------------------------------------
 def cmd_location(name):
     """Check whether `name` is on PATH and marked as executable"""
-    from shutil import which
     return which(name)
 
 # -----------------------------------------------------------------------------
 def install_path(pkg):
     """Return the local install path"""
-    import importlib
     try:
         m = importlib.import_module(pkg)
         s = str(m.__path__).split("'")
@@ -55,11 +56,63 @@ def install_path(pkg):
         return None
 
 # -----------------------------------------------------------------------------
+def wsl_find_location(findstr):
+    """Returns the full path to the executable in WSL"""
+    #print(findstr)
+    findstr = WSL + ' ' + findstr
+    # hide WSL empty popup window when executing
+    win_kwargs = {}
+    startupinfo = subprocess.STARTUPINFO()
+    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    win_kwargs['startupinfo'] = startupinfo
+    output = subprocess.run(findstr.split(), capture_output=True, text=True, **win_kwargs).stdout
+    return str(output.strip())
+
+# -----------------------------------------------------------------------------
+def wsl_check_distribution():
+    """Checks if a WSL compatible distribution is installed"""
+    if not platform.system() == "Windows":
+        return ""
+
+    diststr = wsl_find_location(' --status')
+    if diststr:
+        return diststr
+    return ""
+
+# -----------------------------------------------------------------------------
+def wsl_rosetta_cmd_location(rosettacmd, grepdir):
+    """Returns the full path to the executable in WSL. Search specific dirs for faster startup."""
+    if platform.system() == "Windows" and wsl_check_distribution():
+        global WSL_ROSETTA_DIR
+        finddir = '/usr/local/rosetta'
+        if WSL_ROSETTA_DIR:
+            finddir = WSL_ROSETTA_DIR
+        if not WSL_ROSETTA_DIR:
+            findstr =  "/usr/bin/find " + finddir + r" -type d | /usr/bin/grep 'source\/bin'"
+            WSL_ROSETTA_DIR = wsl_find_location(findstr)
+        elif grepdir == 'apps':
+            finddir = WSL_ROSETTA_DIR.removesuffix('bin') + 'src/apps/public/symmetry'
+
+        findstr = '/usr/bin/find ' + finddir + ' -name ' + rosettacmd
+        output = wsl_find_location(findstr)
+        if output is not None and rosettacmd in str(output) and len(output.split('\n')) == 1:
+            return str(output.strip())
+        if len(output.split('\n')) > 1:
+            lines = output.splitlines()
+            for line in lines:
+                if not 'build' in line and rosettacmd in line:
+                    return str(line.strip())
+    return None
+
+# -----------------------------------------------------------------------------
 def rosetta_cmd_location(cmd):
     """Returns the full path to the executable"""
+    if platform.system() == "Windows" and not wsl_check_distribution():
+        return None
+
     buildtype = []
-    buildtype.append("default")
     buildtype.append("static")
+    buildtype.append("default")
     compiler = []
     compiler.append("gcc")
     compiler.append("icc")
@@ -71,73 +124,52 @@ def rosetta_cmd_location(cmd):
         for o in dist:
             for t in buildtype:
                 if "mpi" in cmd:
-                    n = cmd + '.' + o + c + 'release'
+                    rosettacmd = cmd + '.' + o + c + 'release'
                 else:
-                    n = cmd + '.' + t + '.' + o + c + 'release'
-                if cmd_exists(n):
-                    return cmd_location(n)
+                    rosettacmd = cmd + '.' + t + '.' + o + c + 'release'
+                if platform.system() == "Windows":
+                    loc = wsl_rosetta_cmd_location(rosettacmd, 'bin')
+                    if rosettacmd in str(loc):
+                        return loc
+                if cmd_exists(rosettacmd):
+                    return cmd_location(rosettacmd)
     return None
 
 # -----------------------------------------------------------------------------
 def get_data_location():
     """Returns the full datadir to the installed data directory"""
-    return str(install_path("chimerax.starmap")) + SEP
-    
-# -----------------------------------------------------------------------------
-def obsolete_get_data_location():
-    """Returns the full datadir to the installed data directory"""
+    # data/share locations
     # global is $CHIMERAX/libexec/UCSF-ChimeraX/lib/python3.8/site-packages/starmap
     # local is $HOME/.local/share/ChimeraX/1.2/site-packages/starmap
     # windows local is $HOME\\AppData\\Local\\UCSF\\ChimeraX\\share\\starmap
     # darwin local is $HOME/Library/Application Support/ChimeraX/share/starmap
     # ubuntu global is /usr/lib/ucsf-chimerax/share/starmap
-    if '.local' in install_path("starmap"):
-        tok = 'ChimeraX'
-    else:
-        tok = 'libexec' + SEP + 'UCSF-ChimeraX'
-
-    if platform.system() == "Windows":
-        tok ='UCSF' + SEP + 'ChimeraX'
-
-    if platform.system() == "Darwin":
-        tok ='ChimeraX'
-
-    topdir = install_path("starmap").split(tok)[0]
-    #print("starmap> topdir=" + topdir)
-    if os.path.exists(topdir):
-        datadir = topdir + tok + SEP + "share"  + SEP + "starmap" + SEP
-        #print("starmap> datadir=" + datadir)
-        if os.path.exists(datadir):
-            return datadir
-    # dirty fix for global Ubuntu installations from bash
-    datadir = "/usr/lib/ucsf-chimerax/share/starmap/"
-    #print("starmap> datadir=" + datadir)
-    if os.path.exists(datadir):
-        return datadir
-    return topdir
+    return str(install_path("chimerax.starmap")) + SEP
 
 # -----------------------------------------------------------------------------
 def data_location(subdir, dataname):
     """Returns the full path to the file in the installed data directory"""
     try:
-        file = get_data_location() + str(subdir) + SEP + str(dataname)
+        file = get_data_location() + str(subdir) + SEP + str(os.path.basename(dataname))
+        file = win_path_wrapper(file)
         if os.path.exists(file):
             return file
     except TypeError:
         return "/starmap_data_directory_not_found"
+    return ""
 
 # -----------------------------------------------------------------------------
 def tmp_location():
     """Returns the full path to a usable tmp directory"""
     try:
         tok = 'Local'
-        localdir = obsolete_get_data_location().split(tok)[0]
+        localdir = get_data_location().split(tok, maxsplit=1)[0]
         tmpdir = localdir + tok + SEP + "Temp"  + SEP
-        #print("starmap> tmpdir=" + tmpdir)
         if os.path.exists(tmpdir):
             return tmpdir
     except TypeError:
         return "/tmp"
+    return ""
 
 # -----------------------------------------------------------------------------
 def help_url(htmlfile=None):
@@ -147,39 +179,39 @@ def help_url(htmlfile=None):
     loc = data_location('docs', STARMAP_HELP) or STARMAP_HELP
     if platform.system() == "Windows":
         loc = loc.replace(' ', "%20")
-        loc = loc.replace('\\\\', "/")
+        loc = win_path_wrapper(loc)
         loc = "file:///" + loc
     else:
         loc = "file://" + loc
     STARMAP_HELP = loc
-
     if htmlfile:
         return loc.replace('starmap.html', htmlfile)
-
     return STARMAP_HELP
 
 # -----------------------------------------------------------------------------
 def win_path_wrapper(p=None):
+    """Wraps slashes"""
+    if not platform.system() == "Windows":
+        return p
+    return p.replace('\\\\', "/")
+
+# -----------------------------------------------------------------------------
+def wsl_path_wrapper(p=None, windrive=False):
     """Wraps for Windows and Unix"""
     if not platform.system() == "Windows":
         return p
-
-    p = p.replace('\\\\', '/')
-    p = p.replace('Program F', 'Program\\ F')
-    if BASH == WSL_BASH:
+    p = p.replace('\\', '/')
+    if windrive:
         drive = p.rsplit(':')[0]
         p = p.replace(drive + ':', '/mnt/' + drive.lower())
-
     return p
 
 # -----------------------------------------------------------------------------
-def win_cmd_wrapper(cmd=None):
-    """Wraps for Windows and Unix"""
+def wsl_cmd_wrapper(cmd=None, windrive=False):
+    """Wraps for WSL"""
     if not platform.system() == "Windows":
         return cmd
-
-    cmd = win_path_wrapper(cmd)
-    cmd = BASH + " -c " + '"' + cmd + '"'
+    cmd = WSL + ' ' + wsl_path_wrapper(cmd, windrive)
     return cmd
 
 # -----------------------------------------------------------------------------
@@ -190,8 +222,15 @@ def check_rosetta_cmd():
     ROSETTA_SCRIPTS_CMD = rosetta_cmd_location(ROSETTA_SCRIPTS_CMD) or ROSETTA_SCRIPTS_CMD
     ROSETTA_SCRIPTS_MPI_CMD = rosetta_cmd_location(ROSETTA_SCRIPTS_MPI_CMD) or ROSETTA_SCRIPTS_MPI_CMD
     ROSETTA_DENSITY_CMD = rosetta_cmd_location(ROSETTA_DENSITY_CMD) or ROSETTA_DENSITY_CMD
-    if cmd_exists('make_symmdef_file.pl'):
-        ROSETTA_SYMMDEF_CMD = cmd_location('make_symmdef_file.pl')
+    symmcmd = 'make_symmdef_file.pl'
+    if platform.system() == "Windows":
+        loc = wsl_rosetta_cmd_location(symmcmd, 'apps')
+        if loc:
+            ROSETTA_SYMMDEF_CMD = loc
+        else:
+            ROSETTA_SYMMDEF_CMD = symmcmd
+    elif cmd_exists(symmcmd):
+        ROSETTA_SYMMDEF_CMD = cmd_location(symmcmd)
     # add default suffix
     if not ROSETTA_SCRIPTS_MPI_CMD.endswith('release'):
         ROSETTA_SCRIPTS_MPI_CMD = ROSETTA_SCRIPTS_MPI_CMD + '.linuxgccrelease'
@@ -199,6 +238,8 @@ def check_rosetta_cmd():
         ROSETTA_SCRIPTS_CMD = ROSETTA_SCRIPTS_CMD + '.linuxgccrelease'
         ROSETTA_DENSITY_CMD = ROSETTA_DENSITY_CMD + '.linuxgccrelease'
     else:
+        ROSETTA_FOUND = True
+    if ROSETTA_SCRIPTS_CMD != os.path.basename(ROSETTA_SCRIPTS_CMD):
         ROSETTA_FOUND = True
 
     if not ROSETTA_FOUND:
@@ -215,55 +256,56 @@ def check_rosetta_cmd():
 # -----------------------------------------------------------------------------
 def check_windows_cmd():
     """Checks basic executables"""
-    global BASH, STARMAP_SYMMETRY_CMD
-    BASH = cmd_location(WSL_BASH) or None
-    if not BASH:
-        BASH = "bash.exe_not_found"
+    global WSL, STARMAP_SYMMETRY_CMD
+    WSL = cmd_location(WSL) or None
+    if not WSL:
+        WSL = "wsl.exe_not_found"
         return
-
     STARMAP_SYMMETRY_CMD = "make_NCS.pl"
     STARMAP_SYMMETRY_CMD = data_location('contrib', STARMAP_SYMMETRY_CMD) or STARMAP_SYMMETRY_CMD
-
-    return
 
 # -----------------------------------------------------------------------------
 def check_starmap_files():
     """Check if the files exist"""
-    global STARMAP_ROSETTA_SCRIPT, STARMAP_ROSETTA_APIX_SCRIPT, STARMAP_SYMMETRY_CMD, STARMAP_HELP
+    global STARMAP_ROSETTA_SCRIPT, STARMAP_ROSETTA_APIX_SCRIPT, STARMAP_SYMMETRY_CMD
     STARMAP_ROSETTA_SCRIPT = data_location('templates', STARMAP_ROSETTA_SCRIPT) or STARMAP_ROSETTA_SCRIPT
     STARMAP_ROSETTA_APIX_SCRIPT = data_location('templates', STARMAP_ROSETTA_APIX_SCRIPT) or STARMAP_ROSETTA_APIX_SCRIPT
     STARMAP_SYMMETRY_CMD = data_location('contrib', STARMAP_SYMMETRY_CMD) or STARMAP_SYMMETRY_CMD
     help_url()
-    return
+
+# -----------------------------------------------------------------------------
+def check_config():
+    """Return the configuration for printing"""
+    global ROSETTA_FOUND, STARMAP_CONFIG_CHECK
+    if not STARMAP_CONFIG_CHECK:
+        if not ROSETTA_FOUND:
+            check_rosetta_cmd()
+        check_starmap_files()
+        get_user_env()
+        STARMAP_CONFIG_CHECK = True
 
 # -----------------------------------------------------------------------------
 def config_as_string():
     """Return the configuration for printing"""
-    from . import __version__ as version
+    check_config()
     s = "\nSTARMAP_VERSION             = " + str(version)
-    global ROSETTA_FOUND
-    if not ROSETTA_FOUND:
-        check_rosetta_cmd()
     s += "\nROSETTA_SCRIPTS_CMD         = " + ROSETTA_SCRIPTS_CMD
     s += "\nROSETTA_SCRIPTS_MPI_CMD     = " + ROSETTA_SCRIPTS_MPI_CMD
     s += "\nROSETTA_DENSITY_CMD         = " + ROSETTA_DENSITY_CMD
     s += "\nROSETTA_SYMMDEF_CMD         = " + ROSETTA_SYMMDEF_CMD
-    check_starmap_files()
     s += "\nSTARMAP_ROSETTA_SCRIPT      = " + STARMAP_ROSETTA_SCRIPT
     s += "\nSTARMAP_ROSETTA_APIX_SCRIPT = " + STARMAP_ROSETTA_APIX_SCRIPT
     s += "\nSTARMAP_SYMMETRY_CMD        = " + STARMAP_SYMMETRY_CMD
     s += "\nSTARMAP_HELP                = " + STARMAP_HELP
-    get_user_env()
     s += "\nSTARMAP_TEMPLATES_DIR       = " + STARMAP_TEMPLATES_DIR
     for k, v in STARMAP_USER_ENV.items():
         s += '\nSTARMAP_USER' + str(k) + '               = ' + str(v)
     if platform.system() == 'Windows':
-        s += "\nBASH                        = " + BASH
-        s += "\nTEMP                        = " + tmp_location()
-    s += "\nPYTHON_SITE_PACKAGE         = " + install_path("chimerax.starmap")
+        s += "\nWSL                         = " + win_path_wrapper(WSL)
+        s += "\nTEMP                        = " + win_path_wrapper(tmp_location())
+    s += "\nPYTHON_SITE_PACKAGE         = " + win_path_wrapper(install_path("chimerax.starmap"))
     s += "\nLOCAL_CORES                 = " + str(os.cpu_count())
     s += "\n"
-
     return s
 
 # -----------------------------------------------------------------------------
@@ -290,9 +332,6 @@ def get_user_env():
         STARMAP_TEMPLATES_DIR = str(os.environ["STARMAP_TEMPLATES_DIR"])
     except KeyError:
         STARMAP_TEMPLATES_DIR = data_location('templates', '')
-
-    return
-
 
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":

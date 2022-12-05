@@ -8,8 +8,8 @@ using the external Rosetta modeling software.
 """
 
 # -----------------------------------------------------------------------------
-__version__ = "1.1.71"
-__versionTime__ = "14 November 2022 18:02"
+__version__ = "1.1.74"
+__versionTime__ = "29 November 2022 16:50"
 __author__ = "Wolfgang Lugmayr <w.lugmayr@uke.de>"
 __copyright__ = "Copyright (c) 2013-2022 by the Universitätsklinikum Hamburg-Eppendorf (UKE)"
 
@@ -34,14 +34,9 @@ class _MyAPI(BundleAPI):
     def start_tool(session, tool_name, **kw):
         """Returns gui instance"""
         session.logger.info('> starting StarMap ' + __version__)
-        session.logger.info('> use command <stmhelp show> for help on StarMap')
-        from .config import check_rosetta_cmd, check_starmap_files, check_windows_cmd, get_user_env, ROSETTA_FOUND
-        global ROSETTA_FOUND
-        if not ROSETTA_FOUND:
-            check_rosetta_cmd()
-        check_starmap_files()
-        check_windows_cmd()
-        get_user_env()
+        session.logger.info('> use command <stmhelp show> for the StarMap manual')
+        from .config import check_config
+        check_config()
 
         from .tool import StarMap
         return StarMap.get_singleton(session)

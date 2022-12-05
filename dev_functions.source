@@ -24,6 +24,15 @@ starmap_dev_chimerax_wsl2_ubuntu() {
 }
 
 # -----------------------------------------------------------------------------
+starmap_dev_chimerax14_wsl2_win11() {
+    conda activate ${ENV}
+    export CHIMERAX='/mnt/c/Program\ Files/ChimeraX\ 1.4'
+    alias chimerax-win='/mnt/c/Program\ Files/ChimeraX\ 1.4/bin/ChimeraX.exe'
+    export CHIMERAX_PYTHON=${CHIMERAX}/bin/python.exe
+    export PYTHONPATH=${CHIMERAX}/Lib/site-packages:${PYTHONPATH}
+}
+
+# -----------------------------------------------------------------------------
 starmap_dev_chimerax_centos9() {
     conda activate ${ENV}
     module load rosetta/3.13

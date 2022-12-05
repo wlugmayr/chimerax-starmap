@@ -29,11 +29,13 @@ If you are interested in the history and background of *StarMap* please read:
 
 The actual GitHub code release is: **StarMap @@VERSION@@** (see CHANGELOG.txt for changes).
 
+**Version 1.1.74+ differs from the Toolshed version only with full support of the Windows Subsystem for Linux on Windows 10+!**
+
 The official *ChimeraX 1.4+ (Qt6)* version of the plugin is available via the **ChimeraX Toolshed** (*Tools->More Tools...*).
 
 Installations using *ChimeraX 1.3 (Qt5)* are available in the **dist/qt5** folder of this site.
 ```
-  chimerax -m pip install --user ChimeraX_StarMap-@@VERSION@@-py3-none-any.whl
+  chimerax -m pip install --user ChimeraX_StarMap-1.1.70-py3-none-any.whl
 ```
 
 # Development notes

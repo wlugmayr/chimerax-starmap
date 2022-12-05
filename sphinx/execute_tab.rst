@@ -54,6 +54,8 @@ Save the status as *ChimeraX* command script and generate the execution *Rosetta
   This option is useful if not all files are located in the working directory.
   Use no path if you plan to execute the scripts on a different location e.g. a remote cluster
   or you generate the scripts on a platform where *Rosetta* is not available.
+  
+  On *Windows* operating systems this checkbox is **disabled** to avoid confusion between Windows *C:\\* and WSL */mnt/c*.
 
 * **Save**:
   The *Save* buttons let you choose the name of the shell script without suffix.
