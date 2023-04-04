@@ -41,7 +41,7 @@ master_doc = 'starmap'
 
 # General information about the project.
 project = u'StarMap'
-copyright = u'2017-2022, Universitätsklinikum Hamburg-Eppendorf (UKE)'
+copyright = u'2017-2023, Universitätsklinikum Hamburg-Eppendorf (UKE)'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
