@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-#SBATCH --partition cssb,all
+#SBATCH --partition cssb,allcpu
 #SBATCH --job-name starmap
 #SBATCH --time 7-00:00
 #SBATCH --output starmap_cluster.out
