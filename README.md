@@ -19,6 +19,9 @@ If you use *StarMap* please **read** and **cite**:
 - Lugmayr, Kotov et al. StarMap: A user-friendly workflow for Rosetta-driven molecular structure refinement. 
   Nat. Protoc. (2022). https://doi.org/10.1038/s41596-022-00757-9
 
+- DiMaio, F. et al. Atomic-accuracy models from 4.5-A cryo-electron microscopy data with density-guided iterative local refinement.
+  Nat. Methods 12, 361-365 (2015). https://www.nature.com/articles/nmeth.3286
+
 If you are interested in the history and background of *StarMap* please read:
 
 - Kotov et al. How to solve a molecular tangram?
@@ -27,15 +30,16 @@ If you are interested in the history and background of *StarMap* please read:
 
 # Software releases
 
-The actual GitHub code release is: **StarMap 1.1.74** (see CHANGELOG.txt for changes).
+The actual GitHub code release is: **StarMap 1.1.75** (see CHANGELOG.txt for changes).
 
-**Version 1.1.74+ differs from the Toolshed version only with full support of the Windows Subsystem for Linux on Windows 10+!**
+**Version 1.1.74+ offers full support of using the Windows ChimeraX executable and running Linux-based Rosetta inside the
+the Windows Subsystem for Linux (WSL2) on Windows 10+ directly from ChimeraX!**
 
 The official *ChimeraX 1.4+ (Qt6)* version of the plugin is available via the **ChimeraX Toolshed** (*Tools->More Tools...*).
 
 Installations using *ChimeraX 1.3 (Qt5)* are available in the **dist/qt5** folder of this site.
 ```
-  chimerax -m pip install --user ChimeraX_StarMap-1.1.70-py3-none-any.whl
+  chimerax -m pip install --user ChimeraX_StarMap-1.1.75-py3-none-any.whl
 ```
 
 # Development notes

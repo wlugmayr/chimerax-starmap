@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017-2022 by the Universitätsklinikum Hamburg-Eppendorf (UKE)
+# Copyright (c) 2017-2023 by the Universitätsklinikum Hamburg-Eppendorf (UKE)
 # Written by Wolfgang Lugmayr <w.lugmayr@uke.de>
 #
 """
@@ -8,10 +8,10 @@ using the external Rosetta modeling software.
 """
 
 # -----------------------------------------------------------------------------
-__version__ = "1.1.74"
-__versionTime__ = "29 November 2022 16:50"
+__version__ = "1.1.75"
+__versionTime__ = "3 April 2023 16:03"
 __author__ = "Wolfgang Lugmayr <w.lugmayr@uke.de>"
-__copyright__ = "Copyright (c) 2013-2022 by the Universitätsklinikum Hamburg-Eppendorf (UKE)"
+__copyright__ = "Copyright (c) 2013-2023 by the Universitätsklinikum Hamburg-Eppendorf (UKE)"
 
 
 # -----------------------------------------------------------------------------

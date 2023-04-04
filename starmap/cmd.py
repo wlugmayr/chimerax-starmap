@@ -36,11 +36,19 @@ starmap_set_desc = CmdDesc(required=[('stmset', StringArg)],
                            synopsis='Set StarMap values')
 
 # -----------------------------------------------------------------------------
+def print_init_warning(session):
+    """Print a warning when StarMap is not initialized"""
+    session.logger.error("Trying to access StarMap without full initialization!\nSee ChimeraX 'Log' window for details.")
+    session.logger.warning("starmap> open StarMap in Tools->More Tools... first or add")
+    session.logger.warning("starmap> ui tool show StarMap")
+    session.logger.warning("starmap> as first line in your CXC script!")
+    
+# -----------------------------------------------------------------------------
 def starmap_cmd_handler(session, stmconfig=None, stmhelp=None, stmset=None, stmrunfsc=None, stmrunlcc=None, stmrunzsc=None):
     """StarMap command handler"""
     if stmset:
         #session.logger.info("stmset> " + stmset)
-        stm = StarMap.get_singleton(session, create=False)
+        stm = StarMap.get_singleton(session, create=True)
         stm.set_value(stmset)
         return
 
@@ -50,16 +58,25 @@ def starmap_cmd_handler(session, stmconfig=None, stmhelp=None, stmset=None, stmr
 
     if stmrunfsc:
         stm = StarMap.get_singleton(session, create=False)
+        if not stm:
+            print_init_warning(session)
+            return
         stm.cxc_exec_fsc_calc()
         return
 
     if stmrunlcc:
         stm = StarMap.get_singleton(session, create=False)
+        if not stm:
+            print_init_warning(session)
+            return
         stm.cxc_exec_lcc_calc()
         return
 
     if stmrunzsc:
         stm = StarMap.get_singleton(session, create=False)
+        if not stm:
+            print_init_warning(session)
+            return
         stm.cxc_exec_zsc_calc()
         return
 
