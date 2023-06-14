@@ -40,7 +40,7 @@ The actual GitHub code release is: **StarMap 1.2.14** (see CHANGELOG.txt for cha
 
 The official *ChimeraX 1.4+ (Qt6)* version of the plugin is available via the **ChimeraX Toolshed** (*Tools->More Tools...*).
 
-Installations using *ChimeraX 1.3 (Qt5)* are available in the **dist/qt5** folder of this site.
+Installations using *ChimeraX 1.3 (Qt5)* are available in the **dist** folder of this site.
 ```
   chimerax -m pip install --user ChimeraX_StarMap-1.2.14-py3-none-any.whl
 ```
