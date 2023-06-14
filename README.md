@@ -20,18 +20,18 @@ by combining local fit-to-density with deep-learning-derived structural informat
 If you use *StarMap* please **read** and **cite**:
 
 - Lugmayr W., Kotov V. et al. StarMap: A user-friendly workflow for Rosetta-driven molecular structure refinement.
-  Nat. Protoc. (2022). `https://doi.org/10.1038/s41596-022-00757-9 <https://doi.org/10.1038/s41596-022-00757-9>`_
+  Nat. Protoc. (2022). https://doi.org/10.1038/s41596-022-00757-9
 
 - DiMaio F. et al. Atomic-accuracy models from 4.5-A cryo-electron microscopy data with density-guided iterative local refinement.
-  Nat. Methods 12, 361-365 (2015). `https://www.nature.com/articles/nmeth.3286 <https://www.nature.com/articles/nmeth.3286>`_
+  Nat. Methods 12, 361-365 (2015). https://www.nature.com/articles/nmeth.3286
   
 - Reggiano G. et al. Robust residue-level error detection in cryo-electron microscopy models.
-  Structure (2023). `https://doi.org/10.1016/j.str.2023.05.002 <https://doi.org/10.1016/j.str.2023.05.002>`_
+  Structure (2023). https://doi.org/10.1016/j.str.2023.05.002
 
 If you are interested in the history and background of *StarMap* please read:
 
 - Kotov V., Lugmayr W. How to solve a molecular tangram? Behind the paper:
-  `https://protocolsmethods.springernature.com/posts/how-to-solve-a-molecular-tangram <https://protocolsmethods.springernature.com/posts/how-to-solve-a-molecular-tangram>`_
+  https://protocolsmethods.springernature.com/posts/how-to-solve-a-molecular-tangram
 
 
 # Software releases
