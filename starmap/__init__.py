@@ -8,8 +8,8 @@ using the external Rosetta modeling software.
 """
 
 # -----------------------------------------------------------------------------
-__version__ = "1.1.75"
-__versionTime__ = "3 April 2023 16:03"
+__version__ = "1.2.14"
+__versionTime__ = "1 June 2023 12:03"
 __author__ = "Wolfgang Lugmayr <w.lugmayr@uke.de>"
 __copyright__ = "Copyright (c) 2013-2023 by the Universitätsklinikum Hamburg-Eppendorf (UKE)"
 
@@ -59,6 +59,8 @@ class _MyAPI(BundleAPI):
             register(command_name, cmd.starmap_runlcc_desc, cmd.starmap_cmd_handler, logger=logger)
         if command_name == "stmrunzsc":
             register(command_name, cmd.starmap_runzsc_desc, cmd.starmap_cmd_handler, logger=logger)
+        if command_name == "stmopenmedsum":
+            register(command_name, cmd.starmap_openmedsum_desc, cmd.starmap_cmd_handler, logger=logger)
         return
 
 # -----------------------------------------------------------------------------

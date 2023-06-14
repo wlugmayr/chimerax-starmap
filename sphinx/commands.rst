@@ -7,6 +7,7 @@ Commands
 ========
 
 *StarMap* supports the *ChimeraX* commandline with the provided commands described below.
+There are more commands but they are not intended to be called by *ChimeraX* users.
 
 StarMap Commands
 ^^^^^^^^^^^^^^^^
@@ -50,7 +51,7 @@ e.g. it is used to save the status of the *StarMap* user interface in a *.cxc* f
 Scripting the Analysis
 ^^^^^^^^^^^^^^^^^^^^^^
 
-For testing purposes we implemented some scripting and *hidden* commands for the analysis part via *ChimeraX* command scripts.
+For internal purposes we implemented some scripting and *hidden* commands for the analysis part via *ChimeraX* command scripts.
 E.g. you could let *ChimeraX* download a PDB and a map, fit them manually and then generate the Z-scores for testing the software.
 
 A script would look like (below called *run_fsc.cxc*)::

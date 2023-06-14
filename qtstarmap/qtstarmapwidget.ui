@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>599</width>
-    <height>736</height>
+    <width>569</width>
+    <height>657</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>581</width>
+     <width>551</width>
      <height>631</height>
     </rect>
    </property>
@@ -2292,398 +2292,897 @@
      <property name="title">
       <string>Analysis</string>
      </property>
-     <widget class="QGroupBox" name="rosettaDensityBox_2">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>100</y>
-        <width>501</width>
-        <height>91</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Density</string>
-      </property>
-      <widget class="QLabel" name="analysisDensityMapFileLabel">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>60</y>
-         <width>441</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Sans Serif</family>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>Selected file name</string>
-       </property>
-       <property name="text">
-        <string>No file</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="rosettaDensityMapHelpButton_2">
-       <property name="geometry">
-        <rect>
-         <x>460</x>
-         <y>30</y>
-         <width>31</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Show help</string>
-       </property>
-       <property name="text">
-        <string>?</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="rosettaDensityMapSelectButton_2">
-       <property name="geometry">
-        <rect>
-         <x>370</x>
-         <y>30</y>
-         <width>82</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Select the density map</string>
-       </property>
-       <property name="text">
-        <string>Select</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="rosettaDensityLabel_2">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>341</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Density map:</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="analysisFscExecutionBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>300</y>
-        <width>501</width>
-        <height>191</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Graphs</string>
-      </property>
-      <widget class="QCheckBox" name="analysisFscLccCheckBox">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>60</y>
-         <width>281</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>LCC per residue</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="analysisFscModelMapCheckBox">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>301</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>FSC between selected model and map</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="analysisFscExecuteButton">
-       <property name="geometry">
-        <rect>
-         <x>370</x>
-         <y>40</y>
-         <width>82</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Execute calculation</string>
-       </property>
-       <property name="text">
-        <string>Execute</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="analysisFscExecuteHelpButton">
-       <property name="geometry">
-        <rect>
-         <x>460</x>
-         <y>40</y>
-         <width>31</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Show help</string>
-       </property>
-       <property name="text">
-        <string>?</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="analysisFscShowButton">
-       <property name="geometry">
-        <rect>
-         <x>370</x>
-         <y>90</y>
-         <width>81</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Display graphs</string>
-       </property>
-       <property name="text">
-        <string>Preview</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="analysisFscShowHelpButton">
-       <property name="geometry">
-        <rect>
-         <x>460</x>
-         <y>90</y>
-         <width>31</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Show help</string>
-       </property>
-       <property name="text">
-        <string>?</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="analysisCleanupButton">
-       <property name="geometry">
-        <rect>
-         <x>370</x>
-         <y>150</y>
-         <width>81</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Cleanup temporary files</string>
-       </property>
-       <property name="text">
-        <string>Cleanup</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="analysisCleanupHelpButton">
-       <property name="geometry">
-        <rect>
-         <x>460</x>
-         <y>150</y>
-         <width>31</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Show help</string>
-       </property>
-       <property name="text">
-        <string>?</string>
-       </property>
-      </widget>
-      <widget class="Line" name="line_5">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>130</y>
-         <width>481</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-      <widget class="QLabel" name="analysisCleanupLabel">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>150</y>
-         <width>301</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Cleanup temporary files</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="analysisFscLccZscoreCheckBox">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>90</y>
-         <width>281</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>LCC zscore</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="analysisResultPdbBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>200</y>
-        <width>501</width>
-        <height>91</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Rosetta Result-PDB</string>
-      </property>
-      <widget class="QPushButton" name="analysisResultPdbSelectButton">
-       <property name="geometry">
-        <rect>
-         <x>370</x>
-         <y>30</y>
-         <width>82</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Select a Rosetta result file</string>
-       </property>
-       <property name="text">
-        <string>Select</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="analysisResultPdbLabel">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>341</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>PDB file:</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="rosettaPdbResultHelpButton">
-       <property name="geometry">
-        <rect>
-         <x>460</x>
-         <y>30</y>
-         <width>31</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Show help</string>
-       </property>
-       <property name="text">
-        <string>?</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="analysisResultPdbFileLabel">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>60</y>
-         <width>441</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Sans Serif</family>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>Selected file name</string>
-       </property>
-       <property name="text">
-        <string>starmap_result_0001.pdb</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="rosettaResolutionBox_2">
+     <widget class="QTabWidget" name="analyisInputTabWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>30</y>
-        <width>241</width>
-        <height>61</height>
+        <width>501</width>
+        <height>461</height>
        </rect>
       </property>
-      <property name="title">
-       <string>Resolution</string>
+      <property name="currentIndex">
+       <number>0</number>
       </property>
-      <widget class="QLabel" name="rosettaResolutionLabel_2">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>131</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Map resolution:</string>
-       </property>
+      <widget class="QWidget" name="InputTab">
+       <attribute name="title">
+        <string>Input</string>
+       </attribute>
+       <widget class="QGroupBox" name="rosettaResolutionBox_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>241</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Resolution</string>
+        </property>
+        <widget class="QLabel" name="rosettaResolutionLabel_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>131</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Map resolution:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="analysisResolutionEdit">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>30</y>
+           <width>41</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="text">
+          <string>3.5</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="rosettaResolutionHelpButton_2">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>30</y>
+           <width>31</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Show help</string>
+         </property>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="rosettaDensityBox_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>100</y>
+          <width>471</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Density</string>
+        </property>
+        <widget class="QLabel" name="analysisDensityMapFileLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>441</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Sans Serif</family>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>Selected file name</string>
+         </property>
+         <property name="text">
+          <string>No file</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="rosettaDensityMapHelpButton_2">
+         <property name="geometry">
+          <rect>
+           <x>430</x>
+           <y>30</y>
+           <width>31</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Show help</string>
+         </property>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="rosettaDensityMapSelectButton_2">
+         <property name="geometry">
+          <rect>
+           <x>340</x>
+           <y>30</y>
+           <width>82</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Select the density map</string>
+         </property>
+         <property name="text">
+          <string>Select</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="rosettaDensityLabel_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>341</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Density map:</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="analysisResultPdbBox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>210</y>
+          <width>471</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Rosetta Result-PDB or Select Input</string>
+        </property>
+        <widget class="QPushButton" name="analysisResultPdbSelectButton">
+         <property name="geometry">
+          <rect>
+           <x>340</x>
+           <y>30</y>
+           <width>82</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Select a Rosetta result file</string>
+         </property>
+         <property name="text">
+          <string>Select</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="analysisResultPdbLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>341</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>PDB file:</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="rosettaPdbResultHelpButton">
+         <property name="geometry">
+          <rect>
+           <x>430</x>
+           <y>30</y>
+           <width>31</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Show help</string>
+         </property>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="analysisResultPdbFileLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>441</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Sans Serif</family>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>Selected file name</string>
+         </property>
+         <property name="text">
+          <string>starmap_result_0001.pdb</string>
+         </property>
+        </widget>
+       </widget>
       </widget>
-      <widget class="QLineEdit" name="analysisResolutionEdit">
-       <property name="geometry">
-        <rect>
-         <x>150</x>
-         <y>30</y>
-         <width>41</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="inputMask">
-        <string/>
-       </property>
-       <property name="text">
-        <string>3.5</string>
-       </property>
+      <widget class="QWidget" name="MedicTab">
+       <attribute name="title">
+        <string>MEDIC</string>
+       </attribute>
+       <widget class="QTabWidget" name="medicTabWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>481</width>
+          <height>411</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <widget class="QWidget" name="medicParametersTab">
+         <attribute name="title">
+          <string>Parameters</string>
+         </attribute>
+         <widget class="QGroupBox" name="medicPdbGroupBox">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>461</width>
+            <height>101</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Input PDB</string>
+          </property>
+          <widget class="QCheckBox" name="medicCleanCheckBox">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>30</y>
+             <width>301</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Clean PDB from HETATMS/noncanonicals</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="medicInputPdbHelpButton">
+           <property name="geometry">
+            <rect>
+             <x>420</x>
+             <y>30</y>
+             <width>31</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>Show help</string>
+           </property>
+           <property name="text">
+            <string>?</string>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="medicRosettaRelaxCheckBox">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>60</y>
+             <width>301</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Skip Rosetta relax step</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="medicRunLocalGroupBox">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>120</y>
+            <width>461</width>
+            <height>80</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Run locally</string>
+          </property>
+          <widget class="QLabel" name="medicLocalCoresLabel">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>40</y>
+             <width>141</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Use local cores:</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="medicLocalCoresHelpButton">
+           <property name="geometry">
+            <rect>
+             <x>420</x>
+             <y>40</y>
+             <width>31</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>Show help</string>
+           </property>
+           <property name="text">
+            <string>?</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="medicLocalCoresEdit">
+           <property name="geometry">
+            <rect>
+             <x>190</x>
+             <y>40</y>
+             <width>51</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>4</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="medicRunClusterGroupBox">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>210</y>
+            <width>461</width>
+            <height>141</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Use SLURM cluster</string>
+          </property>
+          <widget class="QCheckBox" name="medicRunClusterCheckBox">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>30</y>
+             <width>301</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Run DAN step on HPC</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="medicRunClusterHelpButton">
+           <property name="geometry">
+            <rect>
+             <x>420</x>
+             <y>30</y>
+             <width>31</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>Show help</string>
+           </property>
+           <property name="text">
+            <string>?</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="medicQueueNameEdit">
+           <property name="geometry">
+            <rect>
+             <x>190</x>
+             <y>70</y>
+             <width>261</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>Default chain id and distance</string>
+           </property>
+           <property name="text">
+            <string>allgpu</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="medicQueueNameLabel">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>70</y>
+             <width>141</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Queue name(s):</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="medicClusterWorkersEdit">
+           <property name="geometry">
+            <rect>
+             <x>190</x>
+             <y>100</y>
+             <width>51</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>10</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="medicWorkersLabel">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>100</y>
+             <width>121</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Parallel workers:</string>
+           </property>
+          </widget>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="medicSaveRunTab">
+         <attribute name="title">
+          <string>Save / Run</string>
+         </attribute>
+         <widget class="QPushButton" name="medicSaveHelpButton">
+          <property name="geometry">
+           <rect>
+            <x>440</x>
+            <y>10</y>
+            <width>31</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="toolTip">
+           <string>Show help</string>
+          </property>
+          <property name="text">
+           <string>?</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="medicSaveLabel">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>231</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Save shell script:</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="medicSaveButton">
+          <property name="geometry">
+           <rect>
+            <x>350</x>
+            <y>10</y>
+            <width>82</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="toolTip">
+           <string>Save script</string>
+          </property>
+          <property name="text">
+           <string>Save</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="medicEditButton">
+          <property name="geometry">
+           <rect>
+            <x>260</x>
+            <y>10</y>
+            <width>82</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="toolTip">
+           <string>Edit bash script</string>
+          </property>
+          <property name="text">
+           <string>Edit</string>
+          </property>
+         </widget>
+         <widget class="QTextEdit" name="medicTextEdit">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>40</y>
+            <width>461</width>
+            <height>301</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="medicExecuteButton">
+          <property name="geometry">
+           <rect>
+            <x>380</x>
+            <y>350</y>
+            <width>82</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="toolTip">
+           <string>Run MEDIC</string>
+          </property>
+          <property name="text">
+           <string>Execute</string>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="medicResultsTab">
+         <attribute name="title">
+          <string>Results</string>
+         </attribute>
+         <widget class="QGroupBox" name="groupBox_5">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>461</width>
+            <height>201</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>ChimeraX</string>
+          </property>
+          <widget class="QPushButton" name="medicLoadResultHelpButton">
+           <property name="geometry">
+            <rect>
+             <x>420</x>
+             <y>30</y>
+             <width>31</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>Show help</string>
+           </property>
+           <property name="text">
+            <string>?</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="medicLoadResultButton">
+           <property name="geometry">
+            <rect>
+             <x>310</x>
+             <y>90</y>
+             <width>141</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>Load MEDIC result</string>
+           </property>
+           <property name="text">
+            <string>Load Result</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="medicLoadSummaryButton">
+           <property name="geometry">
+            <rect>
+             <x>310</x>
+             <y>160</y>
+             <width>141</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>Show MEDIC summary</string>
+           </property>
+           <property name="text">
+            <string>Show Summary</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="medicResultCxcLabel">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>60</y>
+             <width>441</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Sans Serif</family>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string>Selected file name</string>
+           </property>
+           <property name="text">
+            <string>MEDIC_result_*.cxc | *_pred.pdb</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="medicSummaryTxtLabel">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>130</y>
+             <width>441</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Sans Serif</family>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string>Selected file name</string>
+           </property>
+           <property name="text">
+            <string>MEDIC_summary_*.txt</string>
+           </property>
+          </widget>
+         </widget>
+        </widget>
+       </widget>
       </widget>
-      <widget class="QPushButton" name="rosettaResolutionHelpButton_2">
-       <property name="geometry">
-        <rect>
-         <x>200</x>
-         <y>30</y>
-         <width>31</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Show help</string>
-       </property>
-       <property name="text">
-        <string>?</string>
-       </property>
+      <widget class="QWidget" name="ZscoreTab">
+       <attribute name="title">
+        <string>Z-score</string>
+       </attribute>
+       <widget class="QGroupBox" name="analysisFscExecutionBox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>471</width>
+          <height>321</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Graphs</string>
+        </property>
+        <widget class="QCheckBox" name="analysisFscLccCheckBox">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>281</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>LCC per residue</string>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="analysisFscModelMapCheckBox">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>301</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>FSC between selected model and map</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="analysisFscExecuteButton">
+         <property name="geometry">
+          <rect>
+           <x>340</x>
+           <y>140</y>
+           <width>82</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Execute calculation</string>
+         </property>
+         <property name="text">
+          <string>Execute</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="analysisFscExecuteHelpButton">
+         <property name="geometry">
+          <rect>
+           <x>430</x>
+           <y>140</y>
+           <width>31</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Show help</string>
+         </property>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="analysisFscShowButton">
+         <property name="geometry">
+          <rect>
+           <x>340</x>
+           <y>220</y>
+           <width>81</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Display graphs</string>
+         </property>
+         <property name="text">
+          <string>Preview</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="analysisFscShowHelpButton">
+         <property name="geometry">
+          <rect>
+           <x>430</x>
+           <y>220</y>
+           <width>31</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Show help</string>
+         </property>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="analysisCleanupButton">
+         <property name="geometry">
+          <rect>
+           <x>340</x>
+           <y>270</y>
+           <width>81</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Cleanup temporary files</string>
+         </property>
+         <property name="text">
+          <string>Cleanup</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="analysisCleanupHelpButton">
+         <property name="geometry">
+          <rect>
+           <x>430</x>
+           <y>270</y>
+           <width>31</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Show help</string>
+         </property>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </widget>
+        <widget class="Line" name="line_5">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>250</y>
+           <width>451</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="analysisCleanupLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>270</y>
+           <width>301</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Cleanup temporary files</string>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="analysisFscLccZscoreCheckBox">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>90</y>
+           <width>281</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>LCC zscore</string>
+         </property>
+        </widget>
+        <widget class="Line" name="line_6">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>120</y>
+           <width>451</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="progressLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>180</y>
+           <width>221</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Progress status</string>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="progressBar">
+         <property name="geometry">
+          <rect>
+           <x>250</x>
+           <y>180</y>
+           <width>211</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="format">
+          <string/>
+         </property>
+        </widget>
+       </widget>
       </widget>
      </widget>
     </widget>

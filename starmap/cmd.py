@@ -24,6 +24,9 @@ starmap_runlcc_desc = CmdDesc(required=[('stmrunlcc', NoArg)],
 starmap_runzsc_desc = CmdDesc(required=[('stmrunzsc', NoArg)],
                               synopsis='Run StarMap LCC zscore analysis')
 
+starmap_openmedsum_desc = CmdDesc(required=[('stmopenmedsum', NoArg)],
+                              synopsis='Open MEDIC summary window')
+
 starmap_help_desc = CmdDesc(required=[('stmhelp', StringArg)],
                             keyword=[("show", NoArg),
                                      ("section", NoArg),
@@ -35,6 +38,7 @@ starmap_set_desc = CmdDesc(required=[('stmset', StringArg)],
                                 ],
                            synopsis='Set StarMap values')
 
+
 # -----------------------------------------------------------------------------
 def print_init_warning(session):
     """Print a warning when StarMap is not initialized"""
@@ -42,9 +46,9 @@ def print_init_warning(session):
     session.logger.warning("starmap> open StarMap in Tools->More Tools... first or add")
     session.logger.warning("starmap> ui tool show StarMap")
     session.logger.warning("starmap> as first line in your CXC script!")
-    
+   
 # -----------------------------------------------------------------------------
-def starmap_cmd_handler(session, stmconfig=None, stmhelp=None, stmset=None, stmrunfsc=None, stmrunlcc=None, stmrunzsc=None):
+def starmap_cmd_handler(session, stmconfig=None, stmhelp=None, stmset=None, stmrunfsc=None, stmrunlcc=None, stmrunzsc=None, stmopenmedsum=None):
     """StarMap command handler"""
     if stmset:
         #session.logger.info("stmset> " + stmset)
@@ -78,6 +82,11 @@ def starmap_cmd_handler(session, stmconfig=None, stmhelp=None, stmset=None, stmr
             print_init_warning(session)
             return
         stm.cxc_exec_zsc_calc()
+        return
+
+    if stmopenmedsum:
+        stm = StarMap.get_singleton(session, create=True)
+        stm._show_medic_summary_window()
         return
 
     if stmhelp:

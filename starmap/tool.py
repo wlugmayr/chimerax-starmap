@@ -22,14 +22,16 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.Qt import QIntValidator, QDoubleValidator
 #from PyQt6 import QtCore, QtWidgets, QtGui
 #from PyQt6.QtGui import QIntValidator, QDoubleValidator
-from chimerax.core.tools import ToolInstance  # @UnresolvedImport
-from chimerax.ui.gui import MainToolWindow  # @UnresolvedImport
-from chimerax.core.commands import run  # @UnresolvedImport
+from chimerax.core.tools import ToolInstance
+from chimerax.ui.gui import MainToolWindow
+from chimerax.core.commands import run
+from chimerax.core.models import Model
 from .qtstarmapwidget import Ui_qtStarMapWidget
 from .rosettascripts import cleanupList, asXmlList, removeTagAndMoverByTagName, removeTagAndMoverByValueName, replaceUserDefinedRebuildingValues, script, reset
 from .config import wsl_cmd_wrapper, data_location, check_config, check_rosetta_cmd
 from .config import STARMAP_USER_ENV, STARMAP_TEMPLATES_DIR, STARMAP_SYMMETRY_CMD, STARMAP_ROSETTA_SCRIPT, STARMAP_ROSETTA_APIX_SCRIPT
 from .config import ROSETTA_SCRIPTS_CMD, ROSETTA_SCRIPTS_MPI_CMD, ROSETTA_DENSITY_CMD, ROSETTA_SYMMDEF_CMD
+from .medic import MedicSummaryPopupWindow, MEDIC_SCRIPT_TEMPLATE, MEDIC_SUMMARY
 
 
 _translate = QtCore.QCoreApplication.translate
@@ -63,10 +65,10 @@ class ExternalBashThread(threading.Thread):
         if submit:
             self.cmd = submit + ' ' + self.cmd
         # TODO comment debugfile below
-        debugfile = cmd.rsplit(".", 1)[0]  + ".cmd"
-        with open(debugfile, 'w', encoding='utf-8') as d:
-            d.writelines(submit)
-            d.writelines(self.cmd)
+        #debugfile = cmd.rsplit(".", 1)[0]  + ".cmd"
+        #with open(debugfile, 'w', encoding='utf-8') as d:
+        #    d.writelines(submit)
+        #    d.writelines(self.cmd)
         return
 
     # -------------------------------------------------------------------------
@@ -89,6 +91,13 @@ class StarMap(ToolInstance):
     rosettaConsFile = ""
     rosettaResultPdbFile = ""
     stmBashFile = ""
+    stmBashMedicFile = "run_starmap_medic.sh"
+    stmMedicResultFile = ""
+    stmMedicResultCxc = "medic_result.cxc"
+    global MEDIC_SUMMARY
+    stmMedicSummaryFile = MEDIC_SUMMARY
+    stmMedicCleanFlag = "--clean"
+    stmMedicSkipRelaxFlag = "--skip_relax"
     stmBashApixFile = ""
     stmRosettaFile = ""
     stmChimeraxFile = ""
@@ -102,6 +111,7 @@ class StarMap(ToolInstance):
     logTabIndex = 7
     localShellTemplates = {}
     remoteShellTemplates = {}
+    medicSummeryWindow = None
 
 
     # -------------------------------------------------------------------------
@@ -219,6 +229,14 @@ class StarMap(ToolInstance):
         self.starMapGui.analysisFscExecuteButton.clicked.connect(self._exec_stmrun_analysis)
         self.starMapGui.analysisCleanupButton.clicked.connect(self._exec_cleanup)
 
+        self.starMapGui.medicCleanCheckBox.setChecked(True)
+        self.starMapGui.medicTextEdit.setReadOnly(True);
+        self.starMapGui.medicSaveButton.clicked.connect(self._save_bash_medic_script)
+        self.starMapGui.medicEditButton.clicked.connect(self._edit_bash_medic_script)
+        self.starMapGui.medicExecuteButton.clicked.connect(self._exec_local_bash_medic_script)
+        self.starMapGui.medicLoadResultButton.clicked.connect(self._load_medic_result)
+        self.starMapGui.medicLoadSummaryButton.clicked.connect(self._show_medic_summary_window)
+
         # apix tab
         self.starMapGui.apixResultPdbSelectButton.clicked.connect(self._select_apix_pdb)
         self.starMapGui.apixDensityMapSelectButton.clicked.connect(self._select_apix_densitymap)
@@ -273,6 +291,10 @@ class StarMap(ToolInstance):
         self.starMapGui.executionRemoteEditButton.setEnabled(False)
         self.starMapGui.executionRemoteSaveButton.setEnabled(False)
         self.starMapGui.executionRemoteExecuteButton.setEnabled(False)
+        self.starMapGui.medicEditButton.setEnabled(False)
+        self.starMapGui.medicExecuteButton.setEnabled(False)
+        #self.starMapGui.medicLoadResultButton.setEnabled(False)
+        #self.starMapGui.medicLoadSummaryButton.setEnabled(False)
         self.starMapGui.apixExecuteButton.setEnabled(False)
         if platform.system() == "Windows":
             self.starMapGui.executionFullPathBox.setEnabled(False)
@@ -323,6 +345,13 @@ class StarMap(ToolInstance):
         self.starMapGui.apixHelpButton.clicked.connect(self._help_apix_execute)
         self.starMapGui.logHelpButton.clicked.connect(self._help_log)
         self.starMapGui.howtoCiteButton.clicked.connect(self._help_cite)
+             
+        self.starMapGui.medicInputPdbHelpButton.clicked.connect(self._help_analysis_medic_params)
+        self.starMapGui.medicLocalCoresHelpButton.clicked.connect(self._help_analysis_medic_cores)        
+        self.starMapGui.medicRunClusterHelpButton.clicked.connect(self._help_analysis_medic_cluster)
+        self.starMapGui.medicSaveHelpButton.clicked.connect(self._help_analysis_medic_script)
+        self.starMapGui.medicLoadResultHelpButton.clicked.connect(self._help_analysis_medic_results)
+
 
         # hide development tab
         #self.starMapGui.tabWidget.removeTab(3)
@@ -331,8 +360,8 @@ class StarMap(ToolInstance):
                 self._run_cmd("stmset usrlbl" + str(k) + "=" + str(v))
 
         # copy values from Ui_qtStarMapWidget
-        parent.setFixedHeight(640)
-        parent.setFixedWidth(560)
+        parent.setFixedHeight(660)
+        parent.setFixedWidth(570)
         parent.updateGeometry()
         return
 
@@ -545,6 +574,43 @@ class StarMap(ToolInstance):
         return
 
     # -------------------------------------------------------------------------
+    def _save_bash_medic_script(self):
+        """Saves the medic execution as .sh file"""
+        # save modified edit field
+        if not self.starMapGui.medicTextEdit.isReadOnly():
+            self.starMapGui.medicTextEdit.setReadOnly(True);
+            self.starMapGui.medicEditButton.setText(_translate("qtStarMapWidget", "Edit"))
+            self.starMapGui.medicEditButton.setStyleSheet("background-color: rgb(255, 255, 255); color: rgb(0, 0, 0)")
+            if self.stmBashMedicFile:
+                target = open(self.stmBashMedicFile, 'w', newline='\n')
+                target.write(self.starMapGui.medicTextEdit.toPlainText())
+                target.close()
+                return
+
+        # generate file from template
+        global MEDIC_SCRIPT_TEMPLATE
+        if not os.path.isfile(MEDIC_SCRIPT_TEMPLATE):
+            # TODO stmconfig has full path but not here?
+            from .config import data_location
+            MEDIC_SCRIPT_TEMPLATE = data_location('templates', MEDIC_SCRIPT_TEMPLATE) or MEDIC_SCRIPT_TEMPLATE
+        if os.path.isfile(MEDIC_SCRIPT_TEMPLATE):
+            file = open(MEDIC_SCRIPT_TEMPLATE, 'r')
+            templateScriptString = file.read()
+            templateScriptString = self._replace_script_tags(templateScriptString)
+            if self.stmBashMedicFile:
+                target = open(self.stmBashMedicFile, 'w', newline='\n')
+                target.write(templateScriptString)
+                target.close()
+                os.chmod(self.stmBashMedicFile, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH)
+                self._view_medic_file(self.stmBashMedicFile)
+            self.starMapGui.medicEditButton.setEnabled(True)
+            self.starMapGui.medicExecuteButton.setEnabled(True)
+        else:
+            QtWidgets.QMessageBox.warning(self.starMapGui.tabWidget, "StarMap warning",
+                "MEDIC template file " + MEDIC_SCRIPT_TEMPLATE + " does not exist!",
+                QtWidgets.QMessageBox.Ok)
+
+    # -------------------------------------------------------------------------
     def _save_bash_apix_script(self):
         """Saves the bash script for local Rosetta calls"""
         self.stmBashApixFile = self._save_file('*.sh', './starmap_apix.sh')
@@ -623,6 +689,29 @@ class StarMap(ToolInstance):
             self.starMapGui.executionRemoteEditButton.setText(_translate("qtStarMapWidget", "Edit"))
             self.starMapGui.executionRemoteEditButton.setStyleSheet("background-color: rgb(255, 255, 255); color: rgb(0, 0, 0)")
             self._view_text_file(self.stmBashFile)
+        return
+
+    # -------------------------------------------------------------------------
+    def _edit_bash_medic_script(self):
+        """Sets the edit mode"""
+        if self.starMapGui.medicEditButton.text() == "Edit":
+            self.starMapGui.medicTextEdit.setReadOnly(True)
+            self.starMapGui.medicEditButton.setText(_translate("qtStarMapWidget", "Cancel"))
+
+        # enable edit mode
+        if self.starMapGui.medicTextEdit.isReadOnly():
+            self._view_medic_file(self.stmBashMedicFile)
+            self.starMapGui.medicTextEdit.setReadOnly(False)
+            self.starMapGui.medicEditButton.setText(_translate("qtStarMapWidget", "Cancel"))
+            self.starMapGui.medicEditButton.setStyleSheet("background-color: rgb(255, 191, 0); color: rgb(0, 0, 0)")
+            return
+
+        # disable edit mode
+        if not self.starMapGui.medicTextEdit.isReadOnly():
+            self.starMapGui.medicTextEdit.setReadOnly(True)
+            self.starMapGui.medicEditButton.setText(_translate("qtStarMapWidget", "Edit"))
+            self.starMapGui.medicEditButton.setStyleSheet("background-color: rgb(255, 255, 255); color: rgb(0, 0, 0)")
+            self._view_medic_file(self.stmBashMedicFile)
         return
 
     # -------------------------------------------------------------------------
@@ -750,6 +839,26 @@ class StarMap(ToolInstance):
         return
 
     # -------------------------------------------------------------------------
+    def _view_medic_file(self, filename, readonly=True):
+        """View read only file in gui"""
+        font = QtGui.QFont('Monospace')
+        font.setStyleHint(QtGui.QFont.TypeWriter) # Qt5
+        font.setFixedPitch(True)
+        font.setPointSize(10)
+        metrics = QtGui.QFontMetrics(font)
+
+        self.starMapGui.medicTextEdit.setFont(font)
+        self.starMapGui.medicTextEdit.setTabStopWidth(metrics.width("  ")) # Qt5
+        #self.starMapGui.medicTextEdit.setTabStopDistance(metrics.horizontalAdvance("  ")) # Qt6
+        self.starMapGui.medicTextEdit.setReadOnly(readonly)
+        self.starMapGui.medicTextEdit.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
+
+        if os.path.exists(filename):
+            text = open(filename).read()
+            self.starMapGui.medicTextEdit.setPlainText(text)
+        return
+
+    # -------------------------------------------------------------------------
     def _view_chimerax_script(self):
         """Show the script in a scrollable area"""
         self._view_text_file(self.stmChimeraxFile)
@@ -868,6 +977,12 @@ class StarMap(ToolInstance):
         return
 
     # -------------------------------------------------------------------------
+    def _exec_local_bash_medic_script(self):
+        """Executes the bash script for local MEDIC calls"""
+        self._exec_external_script_thread(self.stmBashMedicFile)
+        return
+
+    # -------------------------------------------------------------------------
     def _exec_local_bash_apix_script(self):
         """Executes the bash script for local Rosetta calls"""
         self._exec_external_script_thread(self.stmBashApixFile)
@@ -881,6 +996,40 @@ class StarMap(ToolInstance):
             submit += ' -L starmap -N ' + self.starMapGui.executionRemoteCoresEdit.text()
         self._exec_external_script_thread(self.stmBashFile, submit)
         return
+
+    # -------------------------------------------------------------------------
+    def _load_medic_result(self):
+        """Load the generated result cxc script"""
+        if os.path.isfile(self.stmMedicResultCxc):
+            self._run_cmd('open ' + self.stmMedicResultCxc)
+        else:
+            filter = "PDB files (*.pdb);;CXC files (*.cxc)"
+            sel = self._select_file(filter)
+            self._run_cmd('open ' + sel)
+        return
+
+    # -------------------------------------------------------------------------
+    def _show_medic_summary_window(self):
+        """Show a colored version of the summary file"""
+        if not os.path.isfile(self.stmMedicSummaryFile):
+            self.stmMedicSummaryFile = self._select_file('MEDIC_*.txt')
+            if not self.stmMedicSummaryFile:
+                return
+        self.medicSummaryWindow = QtWidgets.QMainWindow()
+        summary = MedicSummaryPopupWindow(self.medicSummaryWindow)
+        summary.set_callback(self)
+        if summary.init_gui(self.stmMedicSummaryFile):
+            self.medicSummaryWindow.show()
+        return
+
+    # -------------------------------------------------------------------------
+    def get_models_string(self):
+        """Get the model numbers from chimerax"""
+        modstr = []
+        for obj in self.session.models:
+            if isinstance(obj, Model) and '.' not in obj.id_string:
+                modstr.append("#" + obj.id_string + " " + getattr(obj, "name", "(unnamed)"))
+        return modstr
 
     # -------------------------------------------------------------------------
     def _exec_cleanup(self):
@@ -913,19 +1062,29 @@ class StarMap(ToolInstance):
         self._exec_external_script_thread(filename)
         return
 
-
     # -------------------------------------------------------------------------
     def _exec_stmrun_analysis(self):
         """Runs the full fsc analysis"""
-        self.starMapGui.analysisFscShowButton.setStyleSheet("background-color: rgb(255, 191, 0); color: rgb(0, 0, 0)")
+        self._set_progress(10, 'Running FSC analysis ...')
         self.starMapGui.analysisFscExecuteButton.update()
         if self.starMapGui.analysisFscModelMapCheckBox.isChecked():
             self._run_cmd("stmrunfsc")
+        self._set_progress(30, 'Running LCC analysis ...')
         if self.starMapGui.analysisFscLccCheckBox.isChecked():
             self._run_cmd("stmrunlcc")
+        self._set_progress(70, 'Running LCC Zscore analysis ...')
         if self.starMapGui.analysisFscLccZscoreCheckBox.isChecked():
             self._run_cmd("stmrunzsc")
+        self._set_progress(100, 'Done ...')
+        self.starMapGui.analysisFscShowButton.setStyleSheet("background-color: rgb(255, 191, 0); color: rgb(0, 0, 0)")
         return
+
+    # -------------------------------------------------------------------------
+    def _set_progress(self, value, msg=''):
+        """Set new value to the progress bar"""
+        if msg:
+            self.starMapGui.progressLabel.setText(msg)
+        self.starMapGui.progressBar.setValue(value)
 
     # -------------------------------------------------------------------------
     def _exec_local_fsc_calculation(self, batchmode=False, fsc=False, lcc=False, zsc=False):
@@ -1443,6 +1602,42 @@ class StarMap(ToolInstance):
         return
 
     # -------------------------------------------------------------------------
+    def _help_analysis_medic_script(self):
+        """Run StarMap help with section"""
+        self._help("analysis_medic_subtab#save-run")
+        return
+
+    # -------------------------------------------------------------------------
+    def _help_analysis_medic_results(self):
+        """Run StarMap help with section"""
+        self._help("analysis_medic_subtab#results")
+        return
+         
+    # -------------------------------------------------------------------------
+    def _help_analysis_medic_params(self):
+        """Run StarMap help with section"""
+        self._help("analysis_medic_subtab#parameters")
+        return
+
+    # -------------------------------------------------------------------------
+    def _help_analysis_medic_cores(self):
+        """Run StarMap help with section"""
+        self._help("analysis_medic_subtab#run-locally")
+        return
+
+   # -------------------------------------------------------------------------
+    def _help_analysis_medic_cluster(self):
+        """Run StarMap help with section"""
+        self._help("analysis_medic_subtab#use-slurm-cluster")
+        return
+
+   # -------------------------------------------------------------------------
+    def _help_analysis_medic_summary(self):
+        """Run StarMap help with section"""
+        self._help("analysis_medic_subtab#medic-summary")
+        return
+
+    # -------------------------------------------------------------------------
     def _help_analysis_fsc(self):
         """Run StarMap help with section"""
         self._help("analysis_tab#graphs")
@@ -1564,7 +1759,7 @@ class StarMap(ToolInstance):
         procExe.wait()
         return
 
-    # -------------------------------------------------------------------------
+   # -------------------------------------------------------------------------
     def set_value(self, value):
         """Expects a value in form name=value as string"""
         #self._debug(value)
@@ -1669,6 +1864,12 @@ class StarMap(ToolInstance):
         if qname == "alspdb":
             if os.path.exists(qval):
                 self.starMapGui.analysisResultPdbFileLabel.setText(self._short_path(qval))
+        if qname == "medsum":
+            if os.path.exists(qval):    
+                global MEDIC_SUMMARY
+                MEDIC_SUMMARY = qval
+                self.stmMedicSummaryFile = qval
+                self.starMapGui.medicSummaryTxtLabel.setText(self._short_path(qval))
         if qname == "usrtplr" or qname == "usrtpl": # backward compatibility
             if qval == "True":
                 self.starMapGui.userRosettaTemplatesCheckBox.setChecked(True)
@@ -2023,6 +2224,43 @@ class StarMap(ToolInstance):
 
         # how to call rosetta
         s = s.replace("@@ROSETTA_SCRIPT_EXE@@", cmdline)
+
+        # MEDIC
+        s = s.replace("@@ANALYSIS_HIRES@@", self.starMapGui.analysisResolutionEdit.text())
+        if not self.rosettaResultPdbFile:
+            self.rosettaResultPdbFile = self.starMapGui.analysisResultPdbFileLabel.text()
+        s = s.replace("@@MEDIC_INPUT_PDB@@", os.path.basename(self.rosettaResultPdbFile))
+        suffix = "_MEDIC_bfac_pred.pdb"
+        if self.starMapGui.medicRosettaRelaxCheckBox.isChecked():
+            s = s.replace("@@MEDIC_SKIP_RELAX@@", self.stmMedicSkipRelaxFlag)
+        else:
+            s = s.replace("@@MEDIC_SKIP_RELAX@@", "")            
+            #suffix = "_refine" + suffix
+        if self.starMapGui.medicCleanCheckBox.isChecked():
+            s = s.replace("@@MEDIC_CLEAN_PDB@@", self.stmMedicCleanFlag)           
+            #suffix = "_clean" + suffix
+        else:
+            s = s.replace("@@MEDIC_CLEAN_PDB@@", "") 
+        self.stmMedicResultFile = self.rosettaResultPdbFile.rsplit(".", 1)[0]  + suffix
+        s = s.replace("@@MEDIC_RESULT_PDB@@", os.path.basename(self.stmMedicResultFile))
+        
+        # MEDIC result
+        medRes = os.path.basename(self.starMapGui.analysisResultPdbFileLabel.text())
+        medRes = medRes.rsplit(".", 1)[0]
+        medRes = medRes.replace("_clean", "")
+        medRes = medRes.replace("_refine", "")
+        s = s.replace("@@MEDIC_INPUT@@", medRes)
+        global MEDIC_SUMMARY
+        MEDIC_SUMMARY = "MEDIC_summary_" + medRes + ".txt"
+        self.stmMedicSummaryFile = MEDIC_SUMMARY
+        self.stmMedicResultCxc = "MEDIC_summary_" + medRes + ".cxc"
+        self.starMapGui.medicSummaryTxtLabel.setText(self._short_path(MEDIC_SUMMARY))
+        self.starMapGui.medicResultCxcLabel.setText(self._short_path(self.stmMedicResultCxc))
+        
+        if not self.starMapGui.medicRunClusterCheckBox.isChecked():
+            s = s.replace("@@MEDIC_RUN_PARAMS@@", "-j " + self.starMapGui.medicLocalCoresEdit.text())
+        else:
+            s = s.replace("@@MEDIC_RUN_PARAMS@@", "--scheduler --queue " + self.starMapGui.medicQueueNameEdit.text() + " --workers " + self.starMapGui.medicClusterWorkersEdit.text())
 
         return s
 

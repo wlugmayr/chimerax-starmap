@@ -11,6 +11,7 @@ import subprocess
 import importlib
 from shutil import which
 from . import __version__ as version
+from .medic import MEDIC_SCRIPT_TEMPLATE
 
 # -----------------------------------------------------------------------------
 SEP = os.sep
@@ -32,7 +33,7 @@ STARMAP_USER_ENV = {}
 STARMAP_TEMPLATES_DIR = ""
 STARMAP_CONFIG_CHECK = False
 
-WSL = r'C:\\Windows\\system32\\wsl.exe'
+WSL = 'C:/Windows/system32/wsl.exe'
 WSL_ROSETTA_DIR = ''
 
 # -----------------------------------------------------------------------------
@@ -193,7 +194,8 @@ def win_path_wrapper(p=None):
     """Wraps slashes"""
     if not platform.system() == "Windows":
         return p
-    return p.replace('\\\\', "/")
+    p = p.replace('\\\\', "/")
+    return p.replace('\\', "/")
 
 # -----------------------------------------------------------------------------
 def wsl_path_wrapper(p=None, windrive=False):
@@ -267,10 +269,11 @@ def check_windows_cmd():
 # -----------------------------------------------------------------------------
 def check_starmap_files():
     """Check if the files exist"""
-    global STARMAP_ROSETTA_SCRIPT, STARMAP_ROSETTA_APIX_SCRIPT, STARMAP_SYMMETRY_CMD
+    global STARMAP_ROSETTA_SCRIPT, STARMAP_ROSETTA_APIX_SCRIPT, STARMAP_SYMMETRY_CMD, MEDIC_SCRIPT_TEMPLATE
     STARMAP_ROSETTA_SCRIPT = data_location('templates', STARMAP_ROSETTA_SCRIPT) or STARMAP_ROSETTA_SCRIPT
     STARMAP_ROSETTA_APIX_SCRIPT = data_location('templates', STARMAP_ROSETTA_APIX_SCRIPT) or STARMAP_ROSETTA_APIX_SCRIPT
     STARMAP_SYMMETRY_CMD = data_location('contrib', STARMAP_SYMMETRY_CMD) or STARMAP_SYMMETRY_CMD
+    MEDIC_SCRIPT_TEMPLATE = data_location('templates', MEDIC_SCRIPT_TEMPLATE) or MEDIC_SCRIPT_TEMPLATE
     help_url()
 
 # -----------------------------------------------------------------------------
@@ -280,8 +283,8 @@ def check_config():
     if not STARMAP_CONFIG_CHECK:
         if not ROSETTA_FOUND:
             check_rosetta_cmd()
-        check_starmap_files()
         get_user_env()
+        check_starmap_files()
         STARMAP_CONFIG_CHECK = True
 
 # -----------------------------------------------------------------------------
@@ -293,6 +296,7 @@ def config_as_string():
     s += "\nROSETTA_SCRIPTS_MPI_CMD     = " + ROSETTA_SCRIPTS_MPI_CMD
     s += "\nROSETTA_DENSITY_CMD         = " + ROSETTA_DENSITY_CMD
     s += "\nROSETTA_SYMMDEF_CMD         = " + ROSETTA_SYMMDEF_CMD
+    s += "\nMEDIC_SCRIPT_TEMPLATE       = " + MEDIC_SCRIPT_TEMPLATE
     s += "\nSTARMAP_ROSETTA_SCRIPT      = " + STARMAP_ROSETTA_SCRIPT
     s += "\nSTARMAP_ROSETTA_APIX_SCRIPT = " + STARMAP_ROSETTA_APIX_SCRIPT
     s += "\nSTARMAP_SYMMETRY_CMD        = " + STARMAP_SYMMETRY_CMD
@@ -305,6 +309,7 @@ def config_as_string():
         s += "\nTEMP                        = " + win_path_wrapper(tmp_location())
     s += "\nPYTHON_SITE_PACKAGE         = " + win_path_wrapper(install_path("chimerax.starmap"))
     s += "\nLOCAL_CORES                 = " + str(os.cpu_count())
+    s += "\nFIX_FONT_SIZE               = " + win_path_wrapper(os.path.join(install_path("chimerax.starmap"), "qtstarmapwidget.py"))
     s += "\n"
     return s
 

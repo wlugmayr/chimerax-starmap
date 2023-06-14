@@ -12,6 +12,7 @@ Software Links
 * *GWSL*: `https://opticos.github.io/gwsl/ <https://opticos.github.io/gwsl/>`_
 * *IBM Spectrum LSF*: `https://www.ibm.com/products/hpc-workload-management <https://www.ibm.com/products/hpc-workload-management>`_
 * *Mesa 3D Graphics Library*: `https://www.mesa3d.org/ <https://www.mesa3d.org/>`_
+* *MEDIC*: `https://github.com/gabriellareggiano/MEDIC <https://github.com/gabriellareggiano/MEDIC>`_
 * *OpenPBS workload manager*: `https://www.openpbs.org/ <https://www.openpbs.org/>`_
 * *PyParsing Library*: `https://pyparsing-docs.readthedocs.io/en/latest/ <https://pyparsing-docs.readthedocs.io/en/latest/>`_
 * *PyQtGraph Library*: `http://www.pyqtgraph.org/ <http://www.pyqtgraph.org/>`_
