@@ -6,7 +6,8 @@
 ENV=pyqt5-dev
 
 starmap_create_env() {
-    conda create -n ${ENV} -y python=3.9 sphinx pylint pyqt=5
+    # qtcreator on centos7 needs pyqt 5.9 otherwise it crashes
+    conda create -n ${ENV} -y python=3.9 sphinx pylint pyqt=5.9
     conda install -n ${ENV} -c qttesting -y qtcreator
 }
 
@@ -24,10 +25,10 @@ starmap_dev_chimerax_wsl2_ubuntu() {
 }
 
 # -----------------------------------------------------------------------------
-starmap_dev_chimerax14_wsl2_win11() {
+starmap_dev_chimerax_wsl2_win11() {
     conda activate ${ENV}
-    export CHIMERAX='/mnt/c/Program\ Files/ChimeraX\ 1.4'
-    alias chimerax-win='/mnt/c/Program\ Files/ChimeraX\ 1.4/bin/ChimeraX.exe'
+    export CHIMERAX='/mnt/c/Program\ Files/ChimeraX'
+    alias chimerax-win='/mnt/c/Program\ Files/ChimeraX/bin/ChimeraX.exe'
     export CHIMERAX_PYTHON=${CHIMERAX}/bin/python.exe
     export PYTHONPATH=${CHIMERAX}/Lib/site-packages:${PYTHONPATH}
 }
