@@ -11,35 +11,38 @@ to assess the overall quality of the refinement and resolution (map versus model
 Furthermore, per-residue Z-scores provide a fast guide to evaluate and improve local refinements as well as to identify flexible and
 potentially functional sites in large macromolecular complexes.
 
+In *StarMap v1.2* we have integrated support for *MEDIC (Model Error Detection in Cryo-EM)*,
+a robust statistical model that identifies local backbone errors in protein structures built into cryo-EM maps
+by combining local fit-to-density with deep-learning-derived structural information.
 
 # Manuscript
 
 If you use *StarMap* please **read** and **cite**:
 
-- Lugmayr, Kotov et al. StarMap: A user-friendly workflow for Rosetta-driven molecular structure refinement. 
-  Nat. Protoc. (2022). https://doi.org/10.1038/s41596-022-00757-9
+- Lugmayr W., Kotov V. et al. StarMap: A user-friendly workflow for Rosetta-driven molecular structure refinement.
+  Nat. Protoc. (2022). `https://doi.org/10.1038/s41596-022-00757-9 <https://doi.org/10.1038/s41596-022-00757-9>`_
 
-- DiMaio, F. et al. Atomic-accuracy models from 4.5-A cryo-electron microscopy data with density-guided iterative local refinement.
-  Nat. Methods 12, 361-365 (2015). https://www.nature.com/articles/nmeth.3286
+- DiMaio F. et al. Atomic-accuracy models from 4.5-A cryo-electron microscopy data with density-guided iterative local refinement.
+  Nat. Methods 12, 361-365 (2015). `https://www.nature.com/articles/nmeth.3286 <https://www.nature.com/articles/nmeth.3286>`_
+  
+- Reggiano G. et al. Robust residue-level error detection in cryo-electron microscopy models.
+  Structure (2023). `https://doi.org/10.1016/j.str.2023.05.002 <https://doi.org/10.1016/j.str.2023.05.002>`_
 
 If you are interested in the history and background of *StarMap* please read:
 
-- Kotov et al. How to solve a molecular tangram?
-  Behind the paper: https://protocolsmethods.springernature.com/posts/how-to-solve-a-molecular-tangram
+- Kotov V., Lugmayr W. How to solve a molecular tangram? Behind the paper:
+  `https://protocolsmethods.springernature.com/posts/how-to-solve-a-molecular-tangram <https://protocolsmethods.springernature.com/posts/how-to-solve-a-molecular-tangram>`_
 
 
 # Software releases
 
 The actual GitHub code release is: **StarMap @@VERSION@@** (see CHANGELOG.txt for changes).
 
-**Version 1.1.74+ offers full support of using the Windows ChimeraX executable and running Linux-based Rosetta inside the
-the Windows Subsystem for Linux (WSL2) on Windows 10+ directly from ChimeraX!**
-
 The official *ChimeraX 1.4+ (Qt6)* version of the plugin is available via the **ChimeraX Toolshed** (*Tools->More Tools...*).
 
 Installations using *ChimeraX 1.3 (Qt5)* are available in the **dist/qt5** folder of this site.
 ```
-  chimerax -m pip install --user ChimeraX_StarMap-1.1.75-py3-none-any.whl
+  chimerax -m pip install --user ChimeraX_StarMap-@@VERSION@@-py3-none-any.whl
 ```
 
 # Development notes
