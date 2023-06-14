@@ -35,4 +35,8 @@ echo "stmset medsum=MEDIC_summary_@@MEDIC_INPUT@@.txt" >>${SUMMARY_CXC}
 echo "stmopenmedsum" >>${SUMMARY_CXC}
 echo
 
+echo "cleaning up"
+rm -rf slurm-*.out
+rm -rf dask-worker-space
+
 echo --- StarMap: end of log ---
