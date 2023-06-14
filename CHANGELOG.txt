@@ -1,167 +1,48 @@
-Version 1.1.75
+Version 1.2.14
+- changed MEDIC template to check if the MEDIC result pdb exists
+- improved the MEDIC help text
+
+Version 1.2.13
+- use MEDIC result pdb basename in CXC script
+
+Version 1.2.12
+- use @@ANALYSIS_HIRES@@ instead of @@HIRES@@ for standalone MEDIC script generation
+- added simple progress bar to zscore calculation
+
+Version 1.2.11
 - ChimeraX #8739: stmset will initialize and open StarMap to avoid None_Type error
 
-Version 1.1.74
-- Windows adaptions if no WSL distribution is installed
-- Check stmconfig only once at startup
-- Added WSL setup instructions for beginners to the manual
+Version 1.2.10
+- MEDIC window resizes to content
+- Added zone checkbox to top of MEDIC window
 
-Version 1.1.73
-- ChimeraX Windows executes result sorting on WSL
-- ChimeraX Windows executes analysis on WSL
-- ChimeraX Windows executes apix on WSL
+Version 1.2.9
+- MEDIC input pdb does not use full path
 
-Version 1.1.72
-- implemented pylint hints
-- ChimeraX Windows detect Rosetta scripts on WSL
-- ChimeraX Windows executes symmetry scripts on WSL
-- ChimeraX Windows executes refinement on WSL with Log tab support
+Version 1.2.8
+- added stmopenmedsum command for easier MEDIC result loading
 
-Version 1.1.71
-- Improved help text and added input data preperation hints
-- Added EMD-10220 ligand example
-- Added EMD-11311 helix example
+Version 1.2.7
+- reorganized MEDIC handling in new Results tab
 
-Version 1.1.70
-- changed main html index file to starmap.html to avoid jumps to ChimeraX help:index.html
-- removed version number from generated veusz header
+Version 1.2.6
+- adaptions for the new MEDIC result filenames
 
-Version 1.1.69
-- Updated build and directory structure for ChimeraX bundle_info.xml
+Version 1.2.5
+- merged with StarMap GitHub 1.1.74
 
-Version 1.1.68
-- Updated README.md for GitHub
+Version 1.2.4
+- fixed minor template bug for MEDIC publication tests
 
-Version 1.1.67
-- added scripts for qt6 wheel generation
-- renamed ChimeraX with Qt5 StarMap to ChimeraX-StarMapQt5
-- removed obsolete cluster templates in examples
-- added citation info to Log tab
+Version 1.2.3
+- added MEDIC summary popup window
 
-Version 1.1.66
-- moved anisotropic pixel to map correction groupbox with its own help button
+Version 1.2.2
+- Script support for actual MEDIC package
+- GUI adapted to new parameters
 
-Version 1.1.65
-- added _apix_bfactor to the name of the apix output pdb
-- added anisotropic pixel checkbox in the apix tab
-- rosetta apix xml script has now the same prefix as the corresponding bash script
- 
-Version 1.1.64
-- added try except statement to LCC cxc file generation
+Version 1.2.1
+- use medic bash template from user STARMAP_TEMPLATES_DIR
 
-Version 1.1.63
-- preset half2 to analysis densisty map for consistent FSC calculation
-- conda development environment renamed to pyqt5-dev
-
-Version 1.1.62
-- set build dependency to Chimerax-1.3 and Qt5
-
-Version 1.1.61
-- improved documentation
-
-Version 1.1.60
-- added -ignore_unrecognized_res to FSC calculation
-
-Version 1.1.59
-- save the complex Rosetta symmetry check flags in the settings.cxc
-- save user defined labels only if a corresponding value is given
-- save Rosetta template checkbox as usrtplr instead of usrtpl
-- MacOS/Darwin local cores are set to 1 since only static Rosetta executables are available
-
-Version 1.1.58
-- fixes for calling the symmetry scripts on MacOS/Darwin
-
-Version 1.1.57
-- removed atom-pair weight from gui
-- moved model evaluation to advanced tab
-
-Version 1.1.56
-- added HELIX checkbox to advanced symmetry section
-- when the Rosetta MPI commands are not found it will use the default value
-
-Version 1.1.55
-- the map resolution and cores edit fields have a int/double validator
-- analysis sorting results use mv instead of cp -s
-- ligand user values are now default but can be overriden from the user environment
-
-Version 1.1.54
-- fixed bug in Rosetta executables location search
-- fixed bug in multiple -perres lines
-
-Version 1.1.53
-- added quick start help for installing the Rosetta binaries
-- renamed x-axis of FSC preview to 1/res
-- apix location is handled by quotes
-
-Version 1.1.52
-- development and build changes
-- moved from subversion to git
-- moved tests and additional tools to second repository
-
-Version 1.1.51
-- fixed path for /usr/lib as data location on Ubuntu
-
-Version 1.1.50
-- removed @CA in setattr zscore coloring
-- added -out:level 200 to templates for shorter Rosetta logs
-- Rosetta symmetry check sets _INPUT.pdb as selected file for the Rosetta run
-
-Version 1.1.49
-- fixed full or no path to chimerax pdb, mrc open
-- added example 10
-
-Version 1.1.48
-- changed symmetry GUI lables for easier understanding
-
-Version 1.1.47
-- fixed bug in full path script generation
-
-Version 1.1.46
-- fixed MacOS local directory template access
-
-Version 1.1.45
-- added clang for MacOS to executebale search pattern
-- changed template location to data directory when the environment variable is not set
-- fixed bug with StarMap symmetry script execution on Windows Bash via a CMD file
-
-Version 1.1.44
-- fixed user location of StarMap data files for Windows 10
-
-Version 1.1.43
-- fixed user/global location of StarMap data files for Linux
-- Rosetta tests done now with version 3.13
-
-Version 1.1.42
-- adapted documentation for ChimeraX 1.2
-
-Version 1.1.41
-- added contrib/starmap_* scripts
-- removed Chimera 1.x com files generation
-
-Version 1.1.40
-- needs ChimeraX 1.2 due the changed libexec/UCSF-ChimeraX starmap files location
-
-Version 1.1.39
-- fixed residues/chain attributes
-- now color settings for zscores
-
-Version 1.1.36
-- support for ChimeraX 1.0 coloring
-- named attributes as zscore, zrama, ...
- 
-Version 1.1.25
- - support of the Chimera 1.x Z-score coloring of
-   Z_density Z_neighborhood_density Z_rama Z_bondstrain
- 
-Version 1.1.19
- - fixes to support the official ChimeraX 1.0 release
- 
-Version 1.1.14
- - static rosetta executables detection fixed
-
-Version 1.1.13
- - FSC nresbin parameter set from 25 to 200 data points to get smoother curves
- 
-Version 1.1.5
- - save a _fsc.cxc script for easier fsc/lcc command execution from the commandline
- - lcc chimera 1.x colorfile has now the same color settings between lcc and zscore .com
+Version 1.2.0
+- added userinterface for MEDIC
