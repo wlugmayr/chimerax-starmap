@@ -1,0 +1,18 @@
+# HOWTO
+
+Make sure ChimeraX and the MEDIC examples are callable from the commandline.
+
+Call the following script to use ChimeraX to prepare the input data:
+```
+    ./prepare_input.sh
+```
+
+Start ChimeraX and load the CXC script to preset the values in the StarMap user interface:
+```
+    chimerax example03_setup_starmap.cxc
+```
+
+Go to the Analysis tab, MEDIC tab and save the CXC settings and Rosetta XML script.
+
+Save the Bash script and execute the run locally or submit it to the computing cluster.
+

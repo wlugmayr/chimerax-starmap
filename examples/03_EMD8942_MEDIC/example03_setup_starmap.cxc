@@ -1,0 +1,5 @@
+ui tool show StarMap
+stmset densitymap=emd_8942.mrc
+stmset mapres=4.10
+stmset alspdb=6DZY_fit.pdb
+

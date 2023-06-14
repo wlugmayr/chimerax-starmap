@@ -1,0 +1,29 @@
+#
+# starmap-medic deepaccnet/pyrosetta conda & development environment
+#
+
+ENV=medic
+
+conda_init_env() {
+    source /cssbsw/anaconda3/etc/profile.d/conda.sh
+}
+
+medic_create_env() {
+    conda_init_env
+    conda create -n ${ENV} -y pyrosetta
+}
+
+medic_install() {
+    conda_init_env
+    conda activate ${ENV}
+    cd ${CONDA_PREFIX}
+    if [ ! -d MEDIC ]; then
+        git clone --recursive https://github.com/gabriellareggiano/MEDIC.git
+        cd MEDIC
+    else
+        cd MEDIC; git pull
+    fi
+    pip install -e .
+    conda deactivate
+}
+

@@ -1,0 +1,7 @@
+open 6DZY
+open emdb:8942
+fitmap #1 inMap #2
+sel #1
+save 6DZY_fit.pdb models #1 selectedOnly true relModel #2
+save emd_8942.mrc models #2
+exit
