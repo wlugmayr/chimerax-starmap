@@ -40,6 +40,7 @@ potentially functional sites in large macromolecular complexes.
         <ChimeraXClassifier>ChimeraX :: Command :: stmrunfsc :: Volume Data :: Execute FSC model vs. map analysis</ChimeraXClassifier>
         <ChimeraXClassifier>ChimeraX :: Command :: stmrunlcc :: Volume Data :: Execute LCC per residue analysis</ChimeraXClassifier>
         <ChimeraXClassifier>ChimeraX :: Command :: stmrunzsc :: Volume Data :: Execute LCC zscore per residue analysis</ChimeraXClassifier>
+        <ChimeraXClassifier>ChimeraX :: Command :: stmopenmedsum :: Volume Data :: Open MEDIC summary window</ChimeraXClassifier>
         <ChimeraXClassifier>ChimeraX :: Command :: stmhelp :: Volume Data :: Show StarMap help</ChimeraXClassifier>    
     </Classifiers>
     
