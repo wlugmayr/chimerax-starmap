@@ -6,25 +6,25 @@
 #
 
 .EXPORT_ALL_VARIABLES:
-.PHONY: env tmpdirs qt5-to-qt6 doc bundle-setup
+.PHONY: env tmpdirs qt5-to-qt6 doc bundle-setup fixed-font
 VER := $(shell grep __version__ ./starmap/__init__.py | cut -f2 -d'"' | head -1)
 
 env:
 	export VER=$(VER)
 
-wheeldist-qt5: clean doc
-	sed -i "s/self.tabWidget = QtWidgets.QTabWidget(qtStarMapWidget)/self.tabWidget = QtWidgets.QTabWidget(qtStarMapWidget);\n        self.tabWidget.setFont(QtGui.QFont(\"Sans Serif\", 10))/g" bundle/src/qtstarmapwidget.py
+wheeldist-qt5: clean doc fixed-font
+	cp templates/starmap_medic_cssb.tmpl.sh ./bundle/src/templates/starmap_medic.tmpl.sh
 	(cd bundle; $(CHIMERAX)/bin/ChimeraX --nogui --cmd "devel build . ; exit")
 	cp ./bundle/dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl ./dist/qt5/ChimeraX_StarMap-$(VER)-py3-none-any.whl
 
-wheeldist-qt6: clean doc qt5_to_qt6
+wheeldist-qt6: clean doc qt5_to_qt6 fixed-font
 	(cd bundle; $(CHIMERAX)/bin/ChimeraX --nogui --cmd "devel build . ; exit")
 	cp ./bundle/dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl ./dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl
 
-bundle-install: clean doc qt5_to_qt6
+bundle-install: clean doc qt5_to_qt6 fixed-font
 	(cd bundle; $(CHIMERAX)/bin/ChimeraX --nogui --cmd "devel install . ; exit")
 
-bundle-install-win: clean doc qt5_to_qt6
+bundle-install-win: clean doc qt5_to_qt6 fixed-font
 	(cd bundle; $(CHIMERAX)/bin/ChimeraX-console.exe --nogui --cmd "devel install . ; exit")
 
 bundle-setup: tmpdirs
@@ -48,6 +48,9 @@ sed_version: env
 	sed -e "s/@@VERSION@@/${VER}/g" <./sphinx/install_guide.rst.in >./sphinx/install_guide.rst
 	sed -e "s/@@VERSION@@/${VER}/g" <./bundle/bundle_info.xml.in >./bundle/bundle_info.xml
 	sed -e "s/@@VERSION@@/${VER}/g" <./README.md.in >./README.md
+
+fixed-font:
+	sed -i "s/self.tabWidget = QtWidgets.QTabWidget(qtStarMapWidget)/self.tabWidget = QtWidgets.QTabWidget(qtStarMapWidget);\n        self.tabWidget.setFont(QtGui.QFont(\"Sans Serif\", 9))/g" bundle/src/qtstarmapwidget.py
 
 qt5_to_qt6:
 	./qt5_to_qt6.sh
