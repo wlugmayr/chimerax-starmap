@@ -1,21 +1,24 @@
 #
-# starmap-medic deepaccnet/pyrosetta conda & development environment
+# starmap medic conda environment
 #
 
-ENV=medic
+miniconda_install() {
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh -b -p /cssbsw/miniconda
+}
 
 conda_init_env() {
-    source /cssbsw/anaconda3/etc/profile.d/conda.sh
+    source /cssbsw/miniconda/etc/profile.d/conda.sh
 }
 
 medic_create_env() {
     conda_init_env
-    conda create -n ${ENV} -y pyrosetta
+    conda create -n medic -y python=3.9 pyrosetta==2022.47+release.d2aee95
 }
 
 medic_install() {
     conda_init_env
-    conda activate ${ENV}
+    conda activate medic
     cd ${CONDA_PREFIX}
     if [ ! -d MEDIC ]; then
         git clone --recursive https://github.com/gabriellareggiano/MEDIC.git
