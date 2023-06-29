@@ -8,8 +8,8 @@ Welcome to StarMap!
 
 
 *StarMap* is an easy-to-be-used mediator between the popular structural display program *ChimeraX* and the refinement program *Rosetta*.
-*StarMap* provides a graphical interface within *ChimeraX* to control and execute *Rosetta*-based refinements. It includes options for symmetry,
-local refinements, as well as independent map validation.
+*StarMap* provides a graphical interface within *ChimeraX* to control and execute *Rosetta*-based refinements.
+It includes options for symmetry, local refinements, as well as independent map validation.
 A series of analytical outputs, including precise magnification calibration (pixel size calibration) and Fourier shell correlations (FSC)
 to assess the overall quality of the refinement and resolution (map versus model FSC) are being calculated.
 Furthermore, per-residue Z-scores provide a fast guide to evaluate and improve local refinements as well as to identify flexible and
@@ -18,6 +18,9 @@ potentially functional sites in large macromolecular complexes.
 In *StarMap v1.2* we have integrated support for *MEDIC (Model Error Detection in Cryo-EM)*,
 a robust statistical model that identifies local backbone errors in protein structures built into cryo-EM maps
 by combining local fit-to-density with deep-learning-derived structural information.
+
+The *MEDIC* integration is based on *PyRosetta*, can be used in addition or independent of the *StarMap v1.1* workflow
+and integrates a *ChimeraX MEDIC* result viewer to easily inspect problematic areas.
 
 - *ChimeraX*: `https://www.rbvi.ucsf.edu/chimerax/ <https://www.rbvi.ucsf.edu/chimerax/>`_
 - *Rosetta*: `https://www.rosettacommons.org/ <https://www.rosettacommons.org/>`_

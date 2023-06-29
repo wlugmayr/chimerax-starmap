@@ -6,7 +6,9 @@
 Analysis with MEDIC
 ===================
 
-An improved version of the *Z-scores* is the external *MEDIC*.
+An improved and extended version of the *Z-scores* is the external *MEDIC* software.
+A beginners help for setting up the *miniconda* environment for *MEDIC* can be found on (:ref:`medic_conda_howto`).
+On Windows 10+ *MEDIC* must be installed in the *WSL2* subsystem.
 
 The *MEDIC* interface comes in three subtabs.
 
@@ -26,7 +28,7 @@ Parameters
   It is checked by default to ensure a successful run.
 
 * **Skip Rosetta relax step**:
-  Only check this if your PDB is from a previous *Rosetta/MEDIC* run.
+  Only check this if your PDB is from a previous *Rosetta/MEDIC* run if you want to speed up.
   You can choose the **_refined.pdb** in the *Input* tab.
   But be aware that this changes the name of the output file and the *MEDIC* template must also be changed.
 
@@ -34,8 +36,10 @@ Parameters
 Run locally
 ^^^^^^^^^^^
 
-* **Use local cores**: 
-  Default is **4**, change this for more parallel tasks but do not use more cores than your local node has.
+* **Use local cores**:
+  This value depends if you have installed *PyTorch* inside the *MEDIC* conda environment for GPUs or CPUs.
+  Default is **4**, change this for more parallel tasks but do not use more cores than your local node has (if you use CPU computing).
+  *Note:* On GPUs *4* works on a *RTX 1080Ti* GPU with 12GB, for a *RTX 3060* with 6GB use *2* if you process locally.
 
 
 Use SLURM cluster
@@ -43,8 +47,9 @@ Use SLURM cluster
 
 * **Run DAN step on HPC**:
   Check this if you have a SLURM cluster and want to parallelize parts of the analysis on GPU compute nodes.
-  Only *SLURM* is supported at this time. If you have longer waiting times in the queuing system it might be faster to
-  run this tep locally.
+  Only *SLURM* is supported at this time. MEDIC creates lots of small, short-time jobs. So if you have longer
+  waiting times in the queuing system it might be faster to run this step locally.
+  The *Run locally* values are ignored if this section is *checked*. 
 
 * **Queue name(s)**:
   Choose a queue/partition name where you have access to. For more queues add a '**,**' and no space like *cssbgpu,allgpu*.

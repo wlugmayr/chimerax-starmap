@@ -216,11 +216,30 @@ Follow the steps in *Enable NVIDIA CUDA on WSL* (:ref:`references`).
   This was tested with the *CUDA on WSL User Guide* (:ref:`references`) section 4.2.6 *Option 1: Using the WSL-Ubuntu Package*.
 
   
+
+.. _medic_conda_howto:
+
+MEDIC Linux CONDA HOWTO
+=======================
+
+For *MEDIC* you will need a so called *conda* environment. The easiest is to create one like::
+
+  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+  bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda
+
+To use this environment you can call from the commandline or add the following line your login profile
+like *.profile*, *.bash_profile* or *.zlogin*:: 
+
+  source $HOME/miniconda/etc/profile.d/conda.sh
   
+Now install *MEDIC* as described on its install instructions.
 
+To modify the *StarMap* *MEDIC* script template, type **stmconfig** in the *ChimeraX* command line and 
+look for the **MEDIC_SCRIPT_TEMPLATE** entry to your local file location and edit the lines like::
+  
+  source $HOME/miniconda/etc/profile.d/conda.sh
+  conda activate medic
 
-
-
-
-
+Of course you can edit the generated script inside the *StarMap* user interface, but putting it into
+the script template makes it easier.
 

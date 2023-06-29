@@ -7,10 +7,12 @@ Installation Guide
 .. index:: Installation
 
 This plugin software has been developed and tested on *CentOS 7* and all features are available on Unix-based platforms.
+Support for native *ChimeraX* for *Windows 10+* is integrated if the *Windows Subsystem for Linux* contains a *Rosetta*
+and/or *MEDIC* installation.
 
 Technically *StarMap* is pure Python-based and executed inside *ChimeraX*.
 
-*Rosetta* is only available on Unix-based platforms like Linux and MacOSX.
+*Rosetta* is only available on Unix-based platforms like *Linux* and *MacOSX*.
 
 On platforms where *Rosetta* is not available or installed only the execution scripts can be generated.
 These must be copied to the execution platform, edited to the dedicated environment setup and can be called directly
@@ -31,9 +33,9 @@ Requirements
 
 2. Install the **Rosetta 3.8** or newer software for your operating system (:ref:`references`).
    The plugin has been re-tested with **Rosetta 3.13**.
-   The section  :ref:`rosetta_install_help` helps in setting the correct environment for *Rosetta*.
+   The section :ref:`rosetta_install_help` helps in setting the correct environment for *Rosetta*.
 
-.. index:: Perl (Optional)
+.. index:: Perl
 
 3. Check if the **Perl** package of the operating system distribution is installed.
    If not use the official package installer to do it.
@@ -48,7 +50,9 @@ Requirements
 5. The third-party **PyQtGraph** library is used to generate and plot the result analysis graphs.
    This library is automatically installed by ChimeraX via *pip* as a dependency when you install *StarMap*.
 
+.. index:: MEDIC
 
+6. The additional *MEDIC* is based on external *Python* packages so look at the quickstart notes in :ref:`medic_conda_howto`. 
 
 .. _toolshed_install:
 

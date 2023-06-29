@@ -15,6 +15,9 @@ In *StarMap v1.2* we have integrated support for *MEDIC (Model Error Detection i
 a robust statistical model that identifies local backbone errors in protein structures built into cryo-EM maps
 by combining local fit-to-density with deep-learning-derived structural information.
 
+The *MEDIC* integration is based on *PyRosetta*, can be used in addition or independent of the *StarMap v1.1* workflow
+and integrates a *ChimeraX MEDIC* result viewer to easily inspect problematic areas.
+
 # Manuscript
 
 If you use *StarMap* please **read** and **cite**:
