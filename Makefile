@@ -15,7 +15,7 @@ env:
 wheeldist-qt5: clean doc fixed-font
 	cp templates/starmap_medic_cssb.tmpl.sh ./bundle/src/templates/starmap_medic.tmpl.sh
 	(cd bundle; $(CHIMERAX)/bin/ChimeraX --nogui --cmd "devel build . ; exit")
-	cp ./bundle/dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl ./dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl
+	cp ./bundle/dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl ./dist/qt5/ChimeraX_StarMap-$(VER)-py3-none-any.whl
 
 wheeldist-qt6: clean doc qt5_to_qt6 fixed-font
 	(cd bundle; $(CHIMERAX)/bin/ChimeraX --nogui --cmd "devel build . ; exit")

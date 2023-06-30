@@ -1,3 +1,7 @@
+Version 1.2.15
+- new release number for the ChimeraX toolshed depostition
+- added medic_requirements.txt with our exact package version numbers
+
 Version 1.2.14
 - changed MEDIC template to check if the MEDIC result pdb exists
 - improved the MEDIC help text

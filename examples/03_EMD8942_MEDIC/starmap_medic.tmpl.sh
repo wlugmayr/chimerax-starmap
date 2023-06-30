@@ -2,14 +2,8 @@
 
 echo "using local script template from examples folder"
 echo "loading specific environment"
-# conda version
-#source /cssbsw/anaconda3/etc/profile.d/conda.sh
-#conda activate medic-1.0.0
-# modules version
-source /gpfs/cssb/software/spack/share/spack/setup-env.sh
-source $(spack location -i environment-modules)/init/profile.sh
-module purge
-module load medic/2022.12
+source /cssbsw/anaconda3/etc/profile.d/conda.sh
+conda activate medic-1.0.0
 
 echo "running MEDIC"
 echo "using $(which detect_errors.py)"

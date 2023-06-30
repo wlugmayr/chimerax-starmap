@@ -4,7 +4,7 @@ echo "loading specific environment"
 source /gpfs/cssb/software/spack/share/spack/setup-env.sh
 source $(spack location -i environment-modules)/init/profile.sh
 module purge
-module load medic
+module load medic/2022.12
 
 echo "running MEDIC"
 echo "using $(which detect_errors.py)"
@@ -34,9 +34,5 @@ echo "color byattribute bfactor palette 0.78,red:0.6,orange:0,blue" >>${SUMMARY_
 echo "stmset medsum=MEDIC_summary_@@MEDIC_INPUT@@.txt" >>${SUMMARY_CXC}
 echo "stmopenmedsum" >>${SUMMARY_CXC}
 echo
-
-echo "cleaning up"
-rm -rf slurm-*.out
-rm -rf dask-worker-space
 
 echo --- StarMap: end of log ---

@@ -21,10 +21,13 @@ medic_install() {
     conda activate medic
     cd ${CONDA_PREFIX}
     if [ ! -d MEDIC ]; then
-        git clone --recursive https://github.com/gabriellareggiano/MEDIC.git
-        cd MEDIC
+	    git clone --recursive https://github.com/gabriellareggiano/MEDIC.git
+    	cd MEDIC
+    	# if you have MEDIC runtime problems copy the medic_requirements.txt
+    	# from this site over the requirements.txt from this directory
+    	# and continue with 'pip install -e .'
     else
-        cd MEDIC; git pull
+    	cd MEDIC; git pull
     fi
     pip install -e .
     conda deactivate
