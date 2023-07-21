@@ -1,17 +1,25 @@
+StarMap is an easy-to-be-used mediator between the popular structural display program ChimeraX
+and the refinement program Rosetta. StarMap provides a graphical interface within ChimeraX to
+control and execute Rosetta-based refinements. It includes options for symmetry, local refinements,
+as well as independent map validation.
 
-StarMap is an easy-to-be-used mediator between the popular structural display program ChimeraX and the refinement program Rosetta.
-StarMap provides a graphical interface within ChimeraX to control and execute Rosetta-based refinements. It includes options for symmetry,
-local refinements, as well as independent map validation.
+A series of analytical outputs, including precise magnification calibration (pixel size calibration)
+and Fourier shell correlations (FSC) to assess the overall quality of the refinement and resolution
+(map versus model FSC) are being calculated. Furthermore, per-residue Z-scores provide a fast guide
+to evaluate and improve local refinements as well as to identify flexible and potentially functional
+sites in large macromolecular complexes.
 
-A series of analytical outputs, including precise magnification calibration (pixel size calibration) and Fourier shell correlations (FSC)
-to assess the overall quality of the refinement and resolution (map versus model FSC) are being calculated.
-Furthermore, per-residue Z-scores provide a fast guide to evaluate and improve local refinements as well as to identify flexible and
-potentially functional sites in large macromolecular complexes.
+In StarMap v1.2 we have integrated support for MEDIC (Model Error Detection in Cryo-EM),
+a robust statistical model that identifies local backbone errors in protein structures built
+into cryo-EM maps by combining local fit-to-density with deep-learning-derived structural information.
 
-This plugin needs the external Rosetta software suite to work properly.
+This plugin needs the external Rosetta software suite to work properly. The additional or
+as standalone usable model error detection functionality needs the external MEDIC software installation
+on the local node. For ChimeraX Windows 10+ users StarMap supports to run Rosetta and/or MEDIC in the
+local Windows Subsystem for Linux (WSL2).
 
-Once installed type 'stmhelp show' in the ChimeraX commandline to see the manual 
-and a short guide on how to integrate the Rosetta binary distribution.
+Once installed type stmhelp show in the ChimeraX commandline to see the manual and a short guide on
+how to integrate the Rosetta binary distribution and/or how to install the MEDIC conda envronment.
 
 If you use StarMap please read and cite:
 - Lugmayr, Kotov et al. StarMap: A user-friendly workflow for Rosetta-driven molecular structure refinement. 
