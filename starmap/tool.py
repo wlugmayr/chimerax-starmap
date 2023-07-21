@@ -130,7 +130,8 @@ class StarMap(ToolInstance):
         if not ROSETTA_FOUND:
             msg = "Rosetta executables not found!\n"
             msg += "Scripts can only be generated with default Rosetta executable names."
-            msg += " Executing them directly from ChimeraX will therefore fail!"
+            msg += " Executing them directly from ChimeraX will therefore fail!\n\n"
+            msg += "MEDIC does not need these Rosetta excutables and comes with its own PyRosetta installation."
             #QtWidgets.QMessageBox.warning(self.starMapGui.tabWidget, "StarMap Warning", msg, QtWidgets.QMessageBox.Ok)
             self.logger.warning(msg)
 
