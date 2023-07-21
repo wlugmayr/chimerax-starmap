@@ -132,10 +132,24 @@ Windows Subsystem for Linux HOWTO
 
 The *Windows Subsystem for Linux* can run a full Linux distribution like *Ubuntu* on *Windows 10+*.
 
+*StarMap* will check for the default *WLS2* installation e.g. *Ubuntu*.
+
+In case of troubles you can open the *Windows PowerShell* and enter the
+check command used by *StarMap*::
+
+  wsl.exe --status
+
+This should print you the name of the default distribution used by WLS2.
+You can ignore all messages about WSL1 in this output.
+
+
 Simple WSL install
 ------------------
 
-To install it choose a Linux distribution like *Ubuntu* from the *Microsoft* store and open it after the installation process.
+To install it call::
+
+  wsl.exe --install
+
 Follow the steps and close it.
 
 Now download the *Rosetta* binary distribution from their website.
@@ -242,4 +256,9 @@ look for the **MEDIC_SCRIPT_TEMPLATE** entry to your local file location and edi
 
 Of course you can edit the generated script inside the *StarMap* user interface, but putting it into
 the script template makes it easier.
+
+Please keep the filename **starmap_medic.tmpl.sh** if you put it in a new
+location. The *StarMap* MEDIC script template search order is: local working
+directory, *$STARMAP_TEMPLATES_DIR* directory and finally installation directory.
+
 
