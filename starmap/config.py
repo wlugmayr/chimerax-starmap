@@ -35,6 +35,7 @@ STARMAP_CONFIG_CHECK = False
 
 WSL = 'C:/Windows/system32/wsl.exe'
 WSL_ROSETTA_DIR = ''
+WSL_AVAIL = False
 
 # -----------------------------------------------------------------------------
 def cmd_exists(name):
@@ -58,7 +59,11 @@ def install_path(pkg):
 
 # -----------------------------------------------------------------------------
 def wsl_find_location(findstr):
-    """Returns the full path to the executable in WSL"""
+    """Returns the full path to the executable in WSL"""    
+    global WSL_AVAIL
+    if not WSL_AVAIL:
+        return ""
+    
     #print(findstr)
     findstr = WSL + ' ' + findstr
     # hide WSL empty popup window when executing
@@ -67,6 +72,8 @@ def wsl_find_location(findstr):
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
     win_kwargs['startupinfo'] = startupinfo
     output = subprocess.run(findstr.split(), capture_output=True, text=True, **win_kwargs).stdout
+    if not output:
+        return ""
     return str(output.strip())
 
 # -----------------------------------------------------------------------------
@@ -75,15 +82,33 @@ def wsl_check_distribution():
     if not platform.system() == "Windows":
         return ""
 
-    diststr = wsl_find_location(' --status')
+    cmdstr = 'wsl.exe --status'    
+    win_kwargs = {}
+    startupinfo = subprocess.STARTUPINFO()
+    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    win_kwargs['startupinfo'] = startupinfo
+    diststr = subprocess.run(cmdstr.split(), capture_output=True, text=True, **win_kwargs).stdout
+    
+    global WSL_AVAIL
+    print("starmap> checking WSL2 installation by calling:")
+    print("starmap> wsl.exe --status")
     if diststr:
+        for line in diststr.splitlines():
+            if len(line.strip()) > 1:
+                print("wsl> " + str(line))
+                WSL_AVAIL = True
         return diststr
+    else:
+        print("wsl> ")
+        print("starmap> ERROR using the default Windows Subsystem for Linux (WSL2)!!!\nstarmap> Is WSL properly installed?")
     return ""
 
 # -----------------------------------------------------------------------------
 def wsl_rosetta_cmd_location(rosettacmd, grepdir):
     """Returns the full path to the executable in WSL. Search specific dirs for faster startup."""
-    if platform.system() == "Windows" and wsl_check_distribution():
+    
+    global WSL_AVAIL
+    if platform.system() == "Windows" and WSL_AVAIL:
         global WSL_ROSETTA_DIR
         finddir = '/usr/local/rosetta'
         if WSL_ROSETTA_DIR:
@@ -108,7 +133,8 @@ def wsl_rosetta_cmd_location(rosettacmd, grepdir):
 # -----------------------------------------------------------------------------
 def rosetta_cmd_location(cmd):
     """Returns the full path to the executable"""
-    if platform.system() == "Windows" and not wsl_check_distribution():
+    global WSL_AVAIL
+    if platform.system() == "Windows" and not WSL_AVAIL:
         return None
 
     buildtype = []
@@ -281,6 +307,7 @@ def check_config():
     """Return the configuration for printing"""
     global ROSETTA_FOUND, STARMAP_CONFIG_CHECK
     if not STARMAP_CONFIG_CHECK:
+        wsl_check_distribution()
         if not ROSETTA_FOUND:
             check_rosetta_cmd()
         get_user_env()
