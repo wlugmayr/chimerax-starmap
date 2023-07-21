@@ -34,7 +34,7 @@ echo "stmopenmedsum" >>${SUMMARY_CXC}
 echo
 
 echo "cleaning up"
-rm -rf slurm-*.out
+rm -f slurm-*.out
 rm -rf dask-worker-space
 
 echo --- StarMap: end of log ---
