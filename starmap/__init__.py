@@ -8,8 +8,8 @@ using the external Rosetta modeling software.
 """
 
 # -----------------------------------------------------------------------------
-__version__ = "1.2.15"
-__versionTime__ = "30 June 2023 11:23"
+__version__ = "1.2.16"
+__versionTime__ = "20 July 2023 10:03"
 __author__ = "Wolfgang Lugmayr <w.lugmayr@uke.de>"
 __copyright__ = "Copyright (c) 2013-2023 by the Universitätsklinikum Hamburg-Eppendorf (UKE)"
 
