@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2013-2022 by the Universitätsklinikum Hamburg-Eppendorf (UKE)
+# Copyright (c) 2013-2023 by the Universitätsklinikum Hamburg-Eppendorf (UKE)
 # Written by Wolfgang Lugmayr <w.lugmayr@uke.de>
 #
 """
@@ -59,11 +59,11 @@ def install_path(pkg):
 
 # -----------------------------------------------------------------------------
 def wsl_find_location(findstr):
-    """Returns the full path to the executable in WSL"""    
+    """Returns the full path to the executable in WSL"""
     global WSL_AVAIL
     if not WSL_AVAIL:
         return ""
-    
+
     #print(findstr)
     findstr = WSL + ' ' + findstr
     # hide WSL empty popup window when executing
@@ -82,13 +82,13 @@ def wsl_check_distribution():
     if not platform.system() == "Windows":
         return ""
 
-    cmdstr = 'wsl.exe --status'    
+    cmdstr = 'wsl.exe --status'
     win_kwargs = {}
     startupinfo = subprocess.STARTUPINFO()
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
     win_kwargs['startupinfo'] = startupinfo
     diststr = subprocess.run(cmdstr.split(), capture_output=True, text=True, **win_kwargs).stdout
-    
+
     global WSL_AVAIL
     print("starmap> checking WSL2 installation by calling:")
     print("starmap> wsl.exe --status")
@@ -106,7 +106,7 @@ def wsl_check_distribution():
 # -----------------------------------------------------------------------------
 def wsl_rosetta_cmd_location(rosettacmd, grepdir):
     """Returns the full path to the executable in WSL. Search specific dirs for faster startup."""
-    
+
     global WSL_AVAIL
     if platform.system() == "Windows" and WSL_AVAIL:
         global WSL_ROSETTA_DIR
