@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017-2022 by the Universitätsklinikum Hamburg-Eppendorf (UKE)
+# Copyright (c) 2017-2023 by the Universitätsklinikum Hamburg-Eppendorf (UKE)
 # Written by Wolfgang Lugmayr <w.lugmayr@uke.de>
 #
 """
@@ -346,9 +346,9 @@ class StarMap(ToolInstance):
         self.starMapGui.apixHelpButton.clicked.connect(self._help_apix_execute)
         self.starMapGui.logHelpButton.clicked.connect(self._help_log)
         self.starMapGui.howtoCiteButton.clicked.connect(self._help_cite)
-             
+
         self.starMapGui.medicInputPdbHelpButton.clicked.connect(self._help_analysis_medic_params)
-        self.starMapGui.medicLocalCoresHelpButton.clicked.connect(self._help_analysis_medic_cores)        
+        self.starMapGui.medicLocalCoresHelpButton.clicked.connect(self._help_analysis_medic_cores)
         self.starMapGui.medicRunClusterHelpButton.clicked.connect(self._help_analysis_medic_cluster)
         self.starMapGui.medicSaveHelpButton.clicked.connect(self._help_analysis_medic_script)
         self.starMapGui.medicLoadResultHelpButton.clicked.connect(self._help_analysis_medic_results)
@@ -583,7 +583,7 @@ class StarMap(ToolInstance):
             self.starMapGui.medicEditButton.setText(_translate("qtStarMapWidget", "Edit"))
             self.starMapGui.medicEditButton.setStyleSheet("background-color: rgb(255, 255, 255); color: rgb(0, 0, 0)")
             if self.stmBashMedicFile:
-                target = open(self.stmBashMedicFile, 'w', newline='\n')
+                target = open(self.stmBashMedicFile, 'w', encoding='utf-8', newline='\n')
                 target.write(self.starMapGui.medicTextEdit.toPlainText())
                 target.close()
                 return
@@ -595,11 +595,11 @@ class StarMap(ToolInstance):
             from .config import data_location
             MEDIC_SCRIPT_TEMPLATE = data_location('templates', MEDIC_SCRIPT_TEMPLATE) or MEDIC_SCRIPT_TEMPLATE
         if os.path.isfile(MEDIC_SCRIPT_TEMPLATE):
-            file = open(MEDIC_SCRIPT_TEMPLATE, 'r')
+            file = open(MEDIC_SCRIPT_TEMPLATE, 'r', encoding='utf-8')
             templateScriptString = file.read()
             templateScriptString = self._replace_script_tags(templateScriptString)
             if self.stmBashMedicFile:
-                target = open(self.stmBashMedicFile, 'w', newline='\n')
+                target = open(self.stmBashMedicFile, 'w', encoding='utf-8', newline='\n')
                 target.write(templateScriptString)
                 target.close()
                 os.chmod(self.stmBashMedicFile, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH)
@@ -855,7 +855,7 @@ class StarMap(ToolInstance):
         self.starMapGui.medicTextEdit.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
 
         if os.path.exists(filename):
-            text = open(filename).read()
+            text = open(filename, encoding='utf-8').read()
             self.starMapGui.medicTextEdit.setPlainText(text)
         return
 
@@ -1613,7 +1613,7 @@ class StarMap(ToolInstance):
         """Run StarMap help with section"""
         self._help("analysis_medic_subtab#results")
         return
-         
+
     # -------------------------------------------------------------------------
     def _help_analysis_medic_params(self):
         """Run StarMap help with section"""
@@ -1866,7 +1866,7 @@ class StarMap(ToolInstance):
             if os.path.exists(qval):
                 self.starMapGui.analysisResultPdbFileLabel.setText(self._short_path(qval))
         if qname == "medsum":
-            if os.path.exists(qval):    
+            if os.path.exists(qval):
                 global MEDIC_SUMMARY
                 MEDIC_SUMMARY = qval
                 self.stmMedicSummaryFile = qval
@@ -2235,16 +2235,16 @@ class StarMap(ToolInstance):
         if self.starMapGui.medicRosettaRelaxCheckBox.isChecked():
             s = s.replace("@@MEDIC_SKIP_RELAX@@", self.stmMedicSkipRelaxFlag)
         else:
-            s = s.replace("@@MEDIC_SKIP_RELAX@@", "")            
+            s = s.replace("@@MEDIC_SKIP_RELAX@@", "")
             #suffix = "_refine" + suffix
         if self.starMapGui.medicCleanCheckBox.isChecked():
-            s = s.replace("@@MEDIC_CLEAN_PDB@@", self.stmMedicCleanFlag)           
+            s = s.replace("@@MEDIC_CLEAN_PDB@@", self.stmMedicCleanFlag)
             #suffix = "_clean" + suffix
         else:
-            s = s.replace("@@MEDIC_CLEAN_PDB@@", "") 
+            s = s.replace("@@MEDIC_CLEAN_PDB@@", "")
         self.stmMedicResultFile = self.rosettaResultPdbFile.rsplit(".", 1)[0]  + suffix
         s = s.replace("@@MEDIC_RESULT_PDB@@", os.path.basename(self.stmMedicResultFile))
-        
+
         # MEDIC result
         medRes = os.path.basename(self.starMapGui.analysisResultPdbFileLabel.text())
         medRes = medRes.rsplit(".", 1)[0]
@@ -2257,7 +2257,7 @@ class StarMap(ToolInstance):
         self.stmMedicResultCxc = "MEDIC_summary_" + medRes + ".cxc"
         self.starMapGui.medicSummaryTxtLabel.setText(self._short_path(MEDIC_SUMMARY))
         self.starMapGui.medicResultCxcLabel.setText(self._short_path(self.stmMedicResultCxc))
-        
+
         if not self.starMapGui.medicRunClusterCheckBox.isChecked():
             s = s.replace("@@MEDIC_RUN_PARAMS@@", "-j " + self.starMapGui.medicLocalCoresEdit.text())
         else:

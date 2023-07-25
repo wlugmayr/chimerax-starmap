@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2022 by the Universitätsklinikum Hamburg-Eppendorf (UKE)
+# Copyright (c) 2022-2023 by the Universitätsklinikum Hamburg-Eppendorf (UKE)
 # Written by Wolfgang Lugmayr <w.lugmayr@uke.de>
 #
 """
@@ -34,16 +34,16 @@ class MedicSummaryPopupWindow(QMainWindow):
     def init_gui(self, summaryFile):
         """Initializes the user interface"""
         self.buttonDict = {}
-        
+
         self.scrollArea = QScrollArea()
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaContent = QWidget()
         self.verticalLayoutWidget = QWidget(self.scrollAreaContent)
-        self.medicWindowContent = QVBoxLayout(self.verticalLayoutWidget)       
+        self.medicWindowContent = QVBoxLayout(self.verticalLayoutWidget)
         self.scrollAreaContent.setLayout(self.medicWindowContent)
-        
+
         # chimerax zone row
         self.chimeraxBox = QGroupBox(self.verticalLayoutWidget)
         self.chimeraxBox.setTitle("ChimeraX")
@@ -52,7 +52,7 @@ class MedicSummaryPopupWindow(QMainWindow):
         self.zoneCheckBox = QCheckBox(self.chimeraxBox)
         self.zoneCheckBox.setChecked(True)
         self.zoneCheckBox.setText("Zone")
-        self.zoneRow.addWidget(self.zoneCheckBox)        
+        self.zoneRow.addWidget(self.zoneCheckBox)
         models = self.tool.get_models_string()
         self.mapValueBox = QComboBox(self.chimeraxBox)
         for m in models:
@@ -83,8 +83,8 @@ class MedicSummaryPopupWindow(QMainWindow):
             msg += "Maybe your MEDIC job failed or is not finished yet!"
             QMessageBox.warning(self, "StarMap Warning", msg, QMessageBox.Ok)
             return False
-            
-        with open(summaryFile, 'r') as read:
+
+        with open(summaryFile, 'r', encoding='utf-8') as read:
             medicRowGrid = QGridLayout(self.verticalLayoutWidget)
             medicRowGrid.setHorizontalSpacing(50)
             medicRow = QWidget()
@@ -178,4 +178,3 @@ class MedicSummaryPopupWindow(QMainWindow):
             self.tool._run_cmd("volume zone " + map_id + " near sel range 3")
         self.tool._run_cmd("clip off")
         self.tool._run_cmd("zoom 0.4")
-
