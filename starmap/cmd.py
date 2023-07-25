@@ -46,7 +46,7 @@ def print_init_warning(session):
     session.logger.warning("starmap> open StarMap in Tools->More Tools... first or add")
     session.logger.warning("starmap> ui tool show StarMap")
     session.logger.warning("starmap> as first line in your CXC script!")
-   
+
 # -----------------------------------------------------------------------------
 def starmap_cmd_handler(session, stmconfig=None, stmhelp=None, stmset=None, stmrunfsc=None, stmrunlcc=None, stmrunzsc=None, stmopenmedsum=None):
     """StarMap command handler"""
