@@ -4,11 +4,11 @@
 
 miniconda_install() {
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    bash Miniconda3-latest-Linux-x86_64.sh -b -p /cssbsw/miniconda
+    bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda
 }
 
 conda_init_env() {
-    source /cssbsw/miniconda/etc/profile.d/conda.sh
+    source $HOME/miniconda/etc/profile.d/conda.sh
 }
 
 medic_create_env() {
