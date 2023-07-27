@@ -1,5 +1,6 @@
 Version 1.2.17
 - added UTF-8 encoding to all file open statements
+- warning popup if the MEDIC script cannot be saved due permission errors in the actual working directory
 
 Version 1.2.16
 - better ChimeraX log messages if WSL2 is not fully installed on Windows 10+

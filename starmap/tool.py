@@ -129,9 +129,9 @@ class StarMap(ToolInstance):
         from .config import ROSETTA_FOUND
         if not ROSETTA_FOUND:
             msg = "Rosetta executables not found!\n"
-            msg += "Scripts can only be generated with default Rosetta executable names."
-            msg += " Executing them directly from ChimeraX will therefore fail!\n\n"
-            msg += "MEDIC does not need these Rosetta excutables and comes with its own PyRosetta installation."
+            msg += "Scripts can only be generated with default Rosetta executable names.\n"
+            msg += "Executing them directly from ChimeraX will therefore fail!\n\n"
+            msg += "MEDIC does not need these Rosetta excutables, so MEDIC-only users can ignore this message."
             #QtWidgets.QMessageBox.warning(self.starMapGui.tabWidget, "StarMap Warning", msg, QtWidgets.QMessageBox.Ok)
             self.logger.warning(msg)
 
@@ -599,10 +599,16 @@ class StarMap(ToolInstance):
             templateScriptString = file.read()
             templateScriptString = self._replace_script_tags(templateScriptString)
             if self.stmBashMedicFile:
-                target = open(self.stmBashMedicFile, 'w', encoding='utf-8', newline='\n')
-                target.write(templateScriptString)
-                target.close()
-                os.chmod(self.stmBashMedicFile, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH)
+                try:
+                    target = open(self.stmBashMedicFile, 'w', encoding='utf-8', newline='\n')
+                    target.write(templateScriptString)
+                    target.close()
+                    os.chmod(self.stmBashMedicFile, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH)
+                except PermissionError:
+                    dir = os.getcwd()
+                    QtWidgets.QMessageBox.warning(self.starMapGui.tabWidget, "StarMap warning",
+                    "Permission error!!!\nDirectory: " + dir + "\nCannot write file: " + self.stmBashMedicFile + ' to this working directory.',
+                    QtWidgets.QMessageBox.Ok)
                 self._view_medic_file(self.stmBashMedicFile)
             self.starMapGui.medicEditButton.setEnabled(True)
             self.starMapGui.medicExecuteButton.setEnabled(True)
