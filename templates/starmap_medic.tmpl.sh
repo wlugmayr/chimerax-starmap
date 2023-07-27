@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 echo "loading specific environment"
-source /cssbsw/anaconda3/etc/profile.d/conda.sh
+source ~/miniconda/etc/profile.d/conda.sh
 conda activate medic
 
 echo "running MEDIC"
