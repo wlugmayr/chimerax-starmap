@@ -39,13 +39,13 @@ If you are interested in the history and background of *StarMap* please read:
 
 # Software releases
 
-The actual GitHub code release is: **StarMap 1.2.17** (see CHANGELOG.txt for changes).
+The actual GitHub code release is: **StarMap 1.2.23** (see CHANGELOG.txt for changes).
 
 The official *ChimeraX 1.4+ (Qt6)* version of the plugin is available via the **ChimeraX Toolshed** (*Tools->More Tools...*).
 
 Installations using *ChimeraX 1.3 (Qt5)* are available in the **dist** folder of this site.
 ```
-  chimerax -m pip install --user ChimeraX_StarMap-1.2.17-py3-none-any.whl
+  chimerax -m pip install --user ChimeraX_StarMap-1.2.23-py3-none-any.whl
 ```
 
 # Development notes
@@ -55,7 +55,7 @@ Here are some starting notes on how this tool is developed.
 First have a look at the file *dev_functions.source* for example development environment settings. 
 These functions are compatible with *BASH* and *ZSH*.
 
-The user interface is done with the *QtCreator* of Qt5 and the script **qt5_to_qt6.sh** will replace some code statements.
+The user interface is done with the *Qt Designer* of Qt5 and the script **qt5_to_qt6.sh** will replace some code statements.
 
 ## Create a development environment
 
@@ -96,10 +96,10 @@ will generate the documentation and make a installable Python wheel file for *Ch
 ### Change the user interface
 
 ```
-  make qtcreator
+  make designer
   make test_gui
 ```
-will open *QtCreator* if you want to change the user interface.
+will open *Qt Designer* if you want to change the user interface.
 The second test target will show the user interface as pop-up window as it would appear in *ChimeraX*.
 
 

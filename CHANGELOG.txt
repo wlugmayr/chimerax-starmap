@@ -1,3 +1,23 @@
+Version 1.2.23
+- fixed GitHub issue #1 (chmod +x make_NCS.pl) in check_symmetry.sh
+
+Version 1.2.22
+- switch from QtCreator to Qt Designer
+- removed CentOS7 support and updated development conda creation
+
+Version 1.2.21
+- added button to submit the MEDIC script to HPC
+
+Version 1.2.20
+- build support for ChimeraX 1.8
+- fixed bug in canceled MEDIC file selection
+
+Version 1.2.19
+- load MEDIC template from STARMAP_TEMPLATES_DIR if it exists there
+
+Version 1.2.18
+- print warning if there are no local rosetta templates
+
 Version 1.2.17
 - added UTF-8 encoding to all file open statements
 - warning popup if the MEDIC script cannot be saved due permission errors in the actual working directory
