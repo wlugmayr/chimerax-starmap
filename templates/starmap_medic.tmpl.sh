@@ -17,7 +17,7 @@ if [ ! -f @@MEDIC_RESULT_PDB@@ ]; then
     echo --- StarMap: MEDIC run failed! ---
     echo --- StarMap: no output file: @@MEDIC_RESULT_PDB@@ ---
     echo --- StarMap: end of log ---
-    exit 4
+    exit 1
 fi
 
 SUMMARY_CXC=MEDIC_summary_@@MEDIC_INPUT@@.cxc
