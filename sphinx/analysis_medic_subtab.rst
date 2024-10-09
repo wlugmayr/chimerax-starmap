@@ -82,6 +82,11 @@ Prepare runtime script
   The editing mode will end when you press the *Save* button again.
   Pressing the *Cancel* button disables editing in the widget, *reloads* the script from the file system and toggles the name to *Edit* again.
 
+* **Submit**:
+  The generated and/or edited script will be sent to the compute cluster.
+  This can be useful if the GPUs on the loginnode do not support MEDIC.
+  The submission command from the *Save/Run -> Submit Job* tab (default: SLURM *sbatch*) is used.
+
 * **Execute**:
   The generated and/or edited script will be executed as a local thread on the node where *ChimeraX* is running.
   Estimated runtime is 15-45 minutes.
