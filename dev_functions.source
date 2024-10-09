@@ -6,9 +6,7 @@
 ENV=pyqt5-dev
 
 starmap_create_env() {
-    # qtcreator on centos7 needs pyqt 5.9 otherwise it crashes
-    conda create -n ${ENV} -y python=3.9 sphinx pylint pyqt=5.9
-    conda install -n ${ENV} -c qttesting -y qtcreator
+    conda create -n ${ENV} -y python=3.11 sphinx pylint pyqt=5
 }
 
 starmap_remove_env() {
@@ -36,20 +34,30 @@ starmap_dev_chimerax_wsl2_win11() {
 # -----------------------------------------------------------------------------
 starmap_dev_chimerax_centos9() {
     conda activate ${ENV}
-    module load rosetta/3.13
-    export CHIMERAX=/usr/libexec/UCSF-ChimeraX/
+    module load rosetta
+    export CHIMERAX=/usr/libexec/UCSF-ChimeraX
     export CHIMERAX_PYTHON=${CHIMERAX}/bin/python3.9
     export PYTHONPATH=${CHIMERAX}/lib/python3.9/site-packages:${PYTHONPATH}
 }
 
 # -----------------------------------------------------------------------------
-starmap_build_chimerax13_maxwell_centos7() {
+starmap_dev_chimerax_maxwell_rhel9() {
     module load cssb/conda
     conda activate ${ENV}
-    module load rosetta/3.13
-    export CHIMERAX=/beegfs/cssb/software/em/chimerax/rpm-1.3/usr/libexec/UCSF-ChimeraX
-    export CHIMERAX_PYTHON=${CHIMERAX}/bin/python3.9
-    export PYTHONPATH=${CHIMERAX}/lib/python3.9/site-packages:${PYTHONPATH}
+    module load rosetta
+    #export CHIMERAX=/gpfs/cssb/software/rhel9/x86_64/chimerax/1.7.1/usr/libexec/UCSF-ChimeraX
+    export CHIMERAX=/gpfs/cssb/software/rhel9/x86_64/chimerax/1.8.0/usr/libexec/UCSF-ChimeraX
+    export CHIMERAX_PYTHON=${CHIMERAX}/bin/python3.11
+    export PYTHONPATH=${CHIMERAX}/lib/python3.11/site-packages:${PYTHONPATH}
+}
+
+# -----------------------------------------------------------------------------
+starmap_build_chimerax_wsl2_win11() {
+    conda activate ${ENV}
+    export CHIMERAX='/mnt/c/Program\ Files/ChimeraX'
+    alias chimerax-win='/mnt/c/Program\ Files/ChimeraX/bin/ChimeraX.exe'
+    export CHIMERAX_PYTHON=${CHIMERAX}/bin/python.exe
+    export PYTHONPATH=${CHIMERAX}/Lib/site-packages:${PYTHONPATH}
 }
 
 # -----------------------------------------------------------------------------
@@ -57,8 +65,10 @@ starmap_build_chimerax_darwin_bigsur() {
     # uses homebrew tools
     conda activate ${ENV}
     # Rosetta is in ~/.zshrc
+    #export CHIMERAX=/Applications/ChimeraX-1.3.app/Contents
     export CHIMERAX=/Applications/ChimeraX-1.4.app/Contents
     export CHIMERAX_PYTHON=${CHIMERAX}/bin/python3.9
+    #export PYTHONPATH="/Users/$LOGNAME/Library/Application Support/ChimeraX/1.3":${PYTHONPATH}
     export PYTHONPATH="${CHIMERAX}/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9":${PYTHONPATH}
 }
 
