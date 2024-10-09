@@ -21,6 +21,10 @@ wheeldist-qt6: clean doc qt5_to_qt6 fixed-font
 	(cd bundle; $(CHIMERAX)/bin/ChimeraX --nogui --cmd "devel build . ; exit")
 	cp ./bundle/dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl ./dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl
 
+wheeldist-qt6-win: clean doc qt5_to_qt6 fixed-font
+	(cd bundle; $(CHIMERAX)/bin/ChimeraX-console.exe --nogui --cmd "devel build . ; exit")
+	cp ./bundle/dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl ./dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl
+
 bundle-install: clean doc qt5_to_qt6 fixed-font
 	(cd bundle; $(CHIMERAX)/bin/ChimeraX --nogui --cmd "devel install . ; exit")
 
@@ -31,6 +35,8 @@ bundle-setup: tmpdirs
 	mkdir -p ./bundle/src
 	cp -r ./templates ./bundle/src
 	cp -r ./contrib ./bundle/src
+	chmod +x ./bundle/src/contrib/check_symmetry.sh
+	chmod +x ./bundle/src/contrib/make_NCS.pl
 	cp starmap/*.py bundle/src
 	cp LICENSE bundle/license.txt
 
@@ -58,13 +64,14 @@ qt5_to_qt6:
 pylint:
 	pylint -r n '--msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}' --disable=E0401,C0103,C0301,W0603,R1711,I1101,E0611,W0602,W0108,C0302,R0911 starmap/*.py | grep -v qtstarmapwidget
 
-qtcreator:
-	(cd qtstarmap; qtcreator qtstarmapwidget.ui)
+designer:
+	(cd qtstarmap; designer qtstarmapwidget.ui)
 	pyuic5 qtstarmap/qtstarmapwidget.ui -o qtstarmap/qtstarmapwidget.py
 	pyuic5 qtstarmap/qtstarmapwidget.ui -o starmap/qtstarmapwidget.py
 
 test_gui:
-	(cd qtstarmap; $(CHIMERAX_PYTHON) test_gui.py)
+	(cd qtstarmap; python test_gui.py)
+	#(cd qtstarmap; $(CHIMERAX_PYTHON) test_gui.py)
 
 test_config:
 	$(CHIMERAX)/bin/ChimeraX -m chimerax.starmap.config
@@ -77,6 +84,9 @@ uninstall:
 
 deploy-pip-qt5: wheeldist-qt5 uninstall
 	$(CHIMERAX)/bin/ChimeraX -m pip install ./dist/qt5/ChimeraX_StarMap-$(VER)-py3-none-any.whl
+
+deploy-pip-qt6: wheeldist-qt6 uninstall
+	$(CHIMERAX)/bin/ChimeraX -m pip install ./dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl
 
 deploy-pip-user: wheeldist-qt6 uninstall
 	$(CHIMERAX)/bin/ChimeraX -m pip install --user ./dist/ChimeraX_StarMap-$(VER)-py3-none-any.whl
