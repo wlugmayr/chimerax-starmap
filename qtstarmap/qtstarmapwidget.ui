@@ -2302,7 +2302,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="InputTab">
        <attribute name="title">
@@ -2846,6 +2846,22 @@
           </property>
           <property name="text">
            <string>Execute</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="medicSubmitButton">
+          <property name="geometry">
+           <rect>
+            <x>290</x>
+            <y>350</y>
+            <width>82</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="toolTip">
+           <string>Run MEDIC</string>
+          </property>
+          <property name="text">
+           <string>Submit</string>
           </property>
          </widget>
         </widget>

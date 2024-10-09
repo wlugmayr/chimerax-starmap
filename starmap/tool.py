@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017-2023 by the Universitätsklinikum Hamburg-Eppendorf (UKE)
+# Copyright (c) 2017-2024 by the Universitätsklinikum Hamburg-Eppendorf (UKE)
 # Written by Wolfgang Lugmayr <w.lugmayr@uke.de>
 #
 """
@@ -234,6 +234,7 @@ class StarMap(ToolInstance):
         self.starMapGui.medicTextEdit.setReadOnly(True);
         self.starMapGui.medicSaveButton.clicked.connect(self._save_bash_medic_script)
         self.starMapGui.medicEditButton.clicked.connect(self._edit_bash_medic_script)
+        self.starMapGui.medicSubmitButton.clicked.connect(self._submit_bash_medic_script)
         self.starMapGui.medicExecuteButton.clicked.connect(self._exec_local_bash_medic_script)
         self.starMapGui.medicLoadResultButton.clicked.connect(self._load_medic_result)
         self.starMapGui.medicLoadSummaryButton.clicked.connect(self._show_medic_summary_window)
@@ -551,7 +552,11 @@ class StarMap(ToolInstance):
                 return
 
         # generate file from template
-        template = self.localShellTemplates[self.starMapGui.executionLocalTemplateComboBox.currentText()]
+        template = None
+        try:
+            template = self.localShellTemplates[self.starMapGui.executionLocalTemplateComboBox.currentText()]
+        except KeyError:
+            self.logger.warning("StarMap: no local templates list!")
         if self.starMapGui.executionTabWidget.currentIndex() == 2:
             template = self.remoteShellTemplates[self.starMapGui.executionRemoteTemplateComboBox.currentText()]
 
@@ -590,10 +595,18 @@ class StarMap(ToolInstance):
 
         # generate file from template
         global MEDIC_SCRIPT_TEMPLATE
+        # look for local template file
         if not os.path.isfile(MEDIC_SCRIPT_TEMPLATE):
-            # TODO stmconfig has full path but not here?
-            from .config import data_location
-            MEDIC_SCRIPT_TEMPLATE = data_location('templates', MEDIC_SCRIPT_TEMPLATE) or MEDIC_SCRIPT_TEMPLATE
+            # look for file in templates directory
+            global STARMAP_TEMPLATES_DIR
+            if STARMAP_TEMPLATES_DIR:
+                templateDirFile = STARMAP_TEMPLATES_DIR + os.path.sep + MEDIC_SCRIPT_TEMPLATE
+                if os.path.isfile(templateDirFile):
+                    MEDIC_SCRIPT_TEMPLATE = templateDirFile
+            # use default template
+            if not os.path.isfile(MEDIC_SCRIPT_TEMPLATE):
+                from .config import data_location
+                MEDIC_SCRIPT_TEMPLATE = data_location('templates', MEDIC_SCRIPT_TEMPLATE) or MEDIC_SCRIPT_TEMPLATE
         if os.path.isfile(MEDIC_SCRIPT_TEMPLATE):
             file = open(MEDIC_SCRIPT_TEMPLATE, 'r', encoding='utf-8')
             templateScriptString = file.read()
@@ -990,6 +1003,12 @@ class StarMap(ToolInstance):
         return
 
     # -------------------------------------------------------------------------
+    def _submit_bash_medic_script(self):
+        """Submits the bash script for HPC MEDIC calls"""
+        self._exec_external_script_thread(self.stmBashMedicFile, 'sbatch')
+        return
+
+    # -------------------------------------------------------------------------
     def _exec_local_bash_apix_script(self):
         """Executes the bash script for local Rosetta calls"""
         self._exec_external_script_thread(self.stmBashApixFile)
@@ -1012,7 +1031,8 @@ class StarMap(ToolInstance):
         else:
             filter = "PDB files (*.pdb);;CXC files (*.cxc)"
             sel = self._select_file(filter)
-            self._run_cmd('open ' + sel)
+            if sel:
+                self._run_cmd('open ' + sel)
         return
 
     # -------------------------------------------------------------------------
